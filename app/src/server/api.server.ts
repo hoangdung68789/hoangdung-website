@@ -478,19 +478,19 @@ async function adminStats(req: Request) {
   await requireAdmin(req);
   const d = db(), t = now();
   const q = async (sql: string, ...v: unknown[]) => ((await d.prepare(sql).bind(...v).first<{ n: number }>())?.n ?? 0);
-  return json({
-    users: await q("SELECT COUNT(*) AS n FROM users"),
-    users7: await q("SELECT COUNT(*) AS n FROM users WHERE created_at > ?", t - 7 * DAY),
-    leads: await q("SELECT COUNT(*) AS n FROM leads"),
-    leadsNew: await q("SELECT COUNT(*) AS n FROM leads WHERE status = 'new'"),
-    leads7: await q("SELECT COUNT(*) AS n FROM leads WHERE created_at > ?", t - 7 * DAY),
-    resets: await q("SELECT COUNT(*) AS n FROM reset_requests WHERE status = 'pending'"),
-    active30: await q("SELECT COUNT(*) AS n FROM users WHERE last_login > ?", t - 30 * DAY),
-    mail: mailReady(),
-    daily: (await d.prepare(
+  const [users, users7, leads, leadsNew, leads7, resets, active30, daily] = await Promise.all([
+    q("SELECT COUNT(*) AS n FROM users"),
+    q("SELECT COUNT(*) AS n FROM users WHERE created_at > ?", t - 7 * DAY),
+    q("SELECT COUNT(*) AS n FROM leads"),
+    q("SELECT COUNT(*) AS n FROM leads WHERE status = 'new'"),
+    q("SELECT COUNT(*) AS n FROM leads WHERE created_at > ?", t - 7 * DAY),
+    q("SELECT COUNT(*) AS n FROM reset_requests WHERE status = 'pending'"),
+    q("SELECT COUNT(*) AS n FROM users WHERE last_login > ?", t - 30 * DAY),
+    d.prepare(
       "SELECT strftime('%Y-%m-%d', created_at / 1000, 'unixepoch', '+7 hours') AS day, COUNT(*) AS n FROM leads WHERE created_at > ? GROUP BY day ORDER BY day",
-    ).bind(t - 14 * DAY).all<{ day: string; n: number }>()).results,
-  });
+    ).bind(t - 14 * DAY).all<{ day: string; n: number }>(),
+  ]);
+  return json({ users, users7, leads, leadsNew, leads7, resets, active30, mail: mailReady(), daily: daily.results });
 }
 const likeQ = (q: string) => `%${q.replace(/[%_\\]/g, (c) => "\\" + c)}%`;
 async function adminUsers(req: Request) {
