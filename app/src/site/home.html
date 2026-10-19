@@ -466,7 +466,41 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .auth-tabs button[aria-selected="true"]{color:#fff}
 .auth-pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--ink);transition:transform .55s cubic-bezier(.3,1.3,.5,1)}
 .auth-tabs[data-v="register"] .auth-pill{transform:translateX(100%)}
-.auth-tabs[data-v="forgot"]{display:none}
+.auth-tabs:not([data-v="login"]):not([data-v="register"]){display:none}
+/* số điện thoại quốc tế: chọn mã quốc gia + số */
+.phone2{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px}
+.cc{position:relative;display:flex;align-items:center;gap:6px;min-width:96px;height:100%;min-height:54px;padding:0 30px 0 12px;border-radius:14px;background:var(--paper);border:1.5px solid transparent;font-size:15px;color:var(--ink);cursor:pointer;transition:border-color .3s,background .3s}
+.cc::after{content:"";position:absolute;right:12px;top:50%;width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-70%) rotate(45deg);opacity:.6}
+.cc select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:16px}
+.cc:focus-within{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(233,162,122,.25)}
+.ccv{white-space:nowrap;font-variant-numeric:tabular-nums}
+.idsw{display:inline-grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:999px;background:var(--paper);justify-self:start}
+.idsw button{padding:7px 14px;border-radius:999px;font-size:13px;color:var(--ink-2);transition:background .25s,color .25s}
+.idsw button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 2px 8px -2px rgba(0,0,0,.15)}
+.auth-code{width:100%;justify-content:center}
+/* mã xác minh 6 số */
+.chans{display:grid;gap:8px}
+.chan{display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;background:var(--paper);border:1.5px solid transparent;cursor:pointer;transition:border-color .25s,background .25s}
+.chan:has(input:checked){border-color:var(--ink);background:#fff}
+.chan input{accent-color:var(--ink);width:18px;height:18px;flex:none}
+.chan b{display:block;font-weight:600;font-size:14.5px}
+.chan small{color:var(--ink-2);font-size:13px}
+.otp{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;max-width:360px}
+.otp input{width:100%;height:56px;text-align:center;font:600 22px/1 var(--display);border-radius:12px;border:1.5px solid transparent;background:var(--paper);color:var(--ink);outline:none;transition:border-color .2s,background .2s,box-shadow .2s;padding:0}
+.otp input:focus{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(233,162,122,.25)}
+.otp input.f{background:#fff;border-color:rgba(18,20,23,.25)}
+.otp-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
+.otp-meta button:disabled{opacity:.5;cursor:default;background:none}
+.trust{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:var(--paper);font-size:13.5px;color:var(--ink-2);cursor:pointer}
+.trust input{accent-color:var(--ink);width:18px;height:18px;margin-top:1px;flex:none}
+.trust b{color:var(--ink);font-weight:600}
+.dev-list{display:grid;gap:8px;margin:6px 0 14px}
+.dev{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:12px;background:var(--paper)}
+.dev b{display:block;font-weight:600;font-size:14px}
+.dev small{color:var(--ink-2);font-size:12.5px}
+.dev .cur{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:#e7f6ee;color:#23744e;font-size:11px;font-weight:600}
+.dev button{flex:none;height:34px;padding:0 14px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);font-size:13px}
+@media (max-width:420px){.otp{gap:6px}.otp input{height:50px;font-size:20px}.cc{min-width:88px;padding:0 26px 0 10px}}
 .auth h3{font-size:clamp(24px,3vw,32px);margin:0 0 6px}
 .auth .lead{margin-bottom:18px}
 .auth-view{animation:viewIn .6s var(--ease) both}
@@ -1831,13 +1865,13 @@ $('#totop').onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
    - Chưa có → tài khoản lưu trên thiết bị này (mật khẩu được băm SHA-256, không lưu dạng chữ).
    ========================================================= */
 if (CAU_HINH.api) document.documentElement.classList.add('hosted');
-const ACC = { user: null, mode: CAU_HINH.api ? 'server' : CAU_HINH.firebase ? 'firebase' : 'local', fb: null };
+const ACC = { user: null, mode: CAU_HINH.api ? 'server' : CAU_HINH.firebase ? 'firebase' : 'local', fb: null, cfg: { sms: false, mail: false }, otp: null };
 async function api(path, body) {
   let r, j = {};
   try { r = await fetch(CAU_HINH.api + path, { method: body ? 'POST' : 'GET', headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined, credentials: 'same-origin', cache: 'no-store' }); }
   catch (e) { throw { msg: 'Không kết nối được máy chủ. Vui lòng kiểm tra mạng và thử lại.' }; }
   try { j = await r.json(); } catch (e) { }
-  if (!r.ok) throw { msg: j.error || 'Hệ thống đang bận, vui lòng thử lại sau ít phút.', status: r.status };
+  if (!r.ok) throw { msg: j.error || 'Hệ thống đang bận, vui lòng thử lại sau ít phút.', status: r.status, wait: j.wait };
   return j;
 }
 const ROLES = ['Khách mua / thuê nhà', 'Chủ nhà cần bán / cho thuê', 'Môi giới / đối tác'];
@@ -1896,7 +1930,181 @@ function setUser(u, remember = true) {
 }
 const EYE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
 const fld = (name, label, type = 'text', extra = '') => `<label class="fl"><input name="${name}" type="${type}" placeholder=" " ${extra}><span class="lb">${label}</span>${type === 'password' ? `<button type="button" class="eye" aria-label="Hiện mật khẩu">${EYE}</button>` : '<span class="ok">✓</span>'}</label>`;
-function authView(v) {
+/* Mã vùng điện thoại các quốc gia: [mã ISO, tên, đầu số] */
+const COUNTRIES = [["VN","Việt Nam","84"],["US","Hoa Kỳ","1"],["KR","Hàn Quốc","82"],["JP","Nhật Bản","81"],["CN","Trung Quốc","86"],["TW","Đài Loan","886"],["SG","Singapore","65"],["AU","Australia","61"],["CA","Canada","1"],["GB","Vương quốc Anh","44"],["DE","Đức","49"],["FR","Pháp","33"],["TH","Thái Lan","66"],["MY","Malaysia","60"],["KH","Campuchia","855"],["LA","Lào","856"],["AF","Afghanistan","93"],["EG","Ai Cập","20"],["AL","Albania","355"],["DZ","Algeria","213"],["AD","Andorra","376"],["AO","Angola","244"],["AI","Anguilla","1264"],["AG","Antigua và Barbuda","1268"],["AR","Argentina","54"],["AM","Armenia","374"],["AW","Aruba","297"],["AZ","Azerbaijan","994"],["PL","Ba Lan","48"],["BS","Bahamas","1242"],["BH","Bahrain","973"],["BD","Bangladesh","880"],["BB","Barbados","1246"],["BY","Belarus","375"],["BZ","Belize","501"],["BJ","Benin","229"],["BM","Bermuda","1441"],["BT","Bhutan","975"],["BO","Bolivia","591"],["BA","Bosnia và Herzegovina","387"],["BW","Botswana","267"],["BR","Brazil","55"],["BN","Brunei","673"],["BG","Bulgaria","359"],["BF","Burkina Faso","226"],["BI","Burundi","257"],["MK","Bắc Macedonia","389"],["BE","Bỉ","32"],["PT","Bồ Đào Nha","351"],["CM","Cameroon","237"],["CV","Cape Verde","238"],["TD","Chad","235"],["CL","Chile","56"],["CO","Colombia","57"],["KM","Comoros","269"],["CG","Congo - Brazzaville","242"],["CD","Congo - Kinshasa","243"],["CR","Costa Rica","506"],["HR","Croatia","385"],["CU","Cuba","53"],["CW","Curaçao","599"],["AE","Các Tiểu Vương quốc Ả Rập Thống nhất","971"],["CI","Côte d’Ivoire","225"],["DO","Cộng hòa Dominica","1809"],["CF","Cộng hòa Trung Phi","236"],["DJ","Djibouti","253"],["DM","Dominica","1767"],["EC","Ecuador","593"],["SV","El Salvador","503"],["ER","Eritrea","291"],["EE","Estonia","372"],["SZ","Eswatini","268"],["ET","Ethiopia","251"],["FJ","Fiji","679"],["GA","Gabon","241"],["GM","Gambia","220"],["GE","Georgia","995"],["GH","Ghana","233"],["GI","Gibraltar","350"],["GL","Greenland","299"],["GD","Grenada","1473"],["GP","Guadeloupe","590"],["GU","Guam","1671"],["GT","Guatemala","502"],["GG","Guernsey","44"],["GF","Guiana thuộc Pháp","594"],["GN","Guinea","224"],["GQ","Guinea Xích Đạo","240"],["GW","Guinea-Bissau","245"],["GY","Guyana","592"],["HT","Haiti","509"],["HN","Honduras","504"],["HU","Hungary","36"],["GR","Hy Lạp","30"],["NL","Hà Lan","31"],["IS","Iceland","354"],["ID","Indonesia","62"],["IR","Iran","98"],["IQ","Iraq","964"],["IE","Ireland","353"],["IL","Israel","972"],["IT","Italy","39"],["JM","Jamaica","1876"],["JE","Jersey","44"],["JO","Jordan","962"],["KZ","Kazakhstan","7"],["KE","Kenya","254"],["KI","Kiribati","686"],["XK","Kosovo","383"],["KW","Kuwait","965"],["KG","Kyrgyzstan","996"],["LV","Latvia","371"],["LS","Lesotho","266"],["LB","Li-băng","961"],["LR","Liberia","231"],["LY","Libya","218"],["LI","Liechtenstein","423"],["LT","Litva","370"],["LU","Luxembourg","352"],["PS","Lãnh thổ Palestine","970"],["IO","Lãnh thổ Ấn Độ Dương thuộc Anh","246"],["MA","Ma-rốc","212"],["MG","Madagascar","261"],["MW","Malawi","265"],["MV","Maldives","960"],["ML","Mali","223"],["MT","Malta","356"],["MQ","Martinique","596"],["MR","Mauritania","222"],["MU","Mauritius","230"],["YT","Mayotte","262"],["MX","Mexico","52"],["FM","Micronesia","691"],["MD","Moldova","373"],["MC","Monaco","377"],["ME","Montenegro","382"],["MS","Montserrat","1664"],["MZ","Mozambique","258"],["MM","Myanmar (Miến Điện)","95"],["MN","Mông Cổ","976"],["NO","Na Uy","47"],["ZA","Nam Phi","27"],["SS","Nam Sudan","211"],["NA","Namibia","264"],["NR","Nauru","674"],["NP","Nepal","977"],["NC","New Caledonia","687"],["NZ","New Zealand","64"],["RU","Nga","7"],["NI","Nicaragua","505"],["NE","Niger","227"],["NG","Nigeria","234"],["NU","Niue","683"],["OM","Oman","968"],["PK","Pakistan","92"],["PW","Palau","680"],["PA","Panama","507"],["PG","Papua New Guinea","675"],["PY","Paraguay","595"],["PE","Peru","51"],["PH","Philippines","63"],["FI","Phần Lan","358"],["PF","Polynesia thuộc Pháp","689"],["PR","Puerto Rico","1787"],["QA","Qatar","974"],["MP","Quần đảo Bắc Mariana","1670"],["KY","Quần đảo Cayman","1345"],["CK","Quần đảo Cook","682"],["FK","Quần đảo Falkland","500"],["FO","Quần đảo Faroe","298"],["MH","Quần đảo Marshall","692"],["SB","Quần đảo Solomon","677"],["TC","Quần đảo Turks và Caicos","1649"],["VG","Quần đảo Virgin thuộc Anh","1284"],["VI","Quần đảo Virgin thuộc Hoa Kỳ","1340"],["RO","Romania","40"],["RW","Rwanda","250"],["RE","Réunion","262"],["PM","Saint Pierre và Miquelon","508"],["WS","Samoa","685"],["AS","Samoa thuộc Mỹ","1684"],["SM","San Marino","378"],["SN","Senegal","221"],["RS","Serbia","381"],["SC","Seychelles","248"],["SL","Sierra Leone","232"],["SX","Sint Maarten","1721"],["SK","Slovakia","421"],["SI","Slovenia","386"],["SO","Somalia","252"],["LK","Sri Lanka","94"],["BL","St. Barthélemy","590"],["SH","St. Helena","290"],["KN","St. Kitts và Nevis","1869"],["LC","St. Lucia","1758"],["MF","St. Martin","590"],["VC","St. Vincent và Grenadines","1784"],["SD","Sudan","249"],["SR","Suriname","597"],["SY","Syria","963"],["ST","São Tomé và Príncipe","239"],["CZ","Séc","420"],["CY","Síp","357"],["TJ","Tajikistan","992"],["TZ","Tanzania","255"],["VA","Thành Vatican","39"],["TR","Thổ Nhĩ Kỳ","90"],["CH","Thụy Sĩ","41"],["SE","Thụy Điển","46"],["TL","Timor-Leste","670"],["TG","Togo","228"],["TK","Tokelau","690"],["TO","Tonga","676"],["TT","Trinidad và Tobago","1868"],["KP","Triều Tiên","850"],["TN","Tunisia","216"],["TM","Turkmenistan","993"],["TV","Tuvalu","688"],["ES","Tây Ban Nha","34"],["UG","Uganda","256"],["UA","Ukraina","380"],["UY","Uruguay","598"],["UZ","Uzbekistan","998"],["VU","Vanuatu","678"],["VE","Venezuela","58"],["WF","Wallis và Futuna","681"],["YE","Yemen","967"],["ZM","Zambia","260"],["ZW","Zimbabwe","263"],["AT","Áo","43"],["DK","Đan Mạch","45"],["IM","Đảo Man","44"],["HK","Đặc khu Hành chính Hồng Kông, Trung Quốc","852"],["MO","Đặc khu Hành chính Macao, Trung Quốc","853"],["SA","Ả Rập Xê-út","966"],["IN","Ấn Độ","91"]];
+const flagOf = iso => String.fromCodePoint(...[...iso].map(c => 127397 + c.charCodeAt(0)));
+const ccDial = iso => (COUNTRIES.find(c => c[0] === iso) || COUNTRIES[0])[2];
+function phoneField(name = 'phone', label = 'Số điện thoại') {
+  const iso = store.get('hd_cc', 'VN');
+  return `<div class="phone2"><label class="cc" title="Mã quốc gia"><span class="ccv">${flagOf(iso)} +${ccDial(iso)}</span><select name="ccIso" aria-label="Mã quốc gia">${COUNTRIES.map(([i, n, d]) => `<option value="${i}"${i === iso ? ' selected' : ''}>${flagOf(i)} ${esc(n)} (+${d})</option>`).join('')}</select></label>${fld(name, label, 'tel', 'autocomplete="tel-national" inputmode="tel" required')}</div>`;
+}
+function idField(purpose) {
+  const m = store.get('hd_idm', 'email');
+  return `<div class="idsw" role="tablist" aria-label="Đăng nhập bằng"><button type="button" role="tab" data-idm="email" aria-selected="${m === 'email'}">Email</button><button type="button" role="tab" data-idm="phone" aria-selected="${m === 'phone'}">Số điện thoại</button></div><div class="idbox">${m === 'email' ? fld('email', 'Địa chỉ email', 'email', `autocomplete="${purpose === 'login' ? 'username' : 'email'}" required`) : phoneField('phone', 'Số điện thoại')}</div>`;
+}
+const idOf = d => d.email !== undefined ? { id: d.email } : { id: d.phone || '', cc: ccDial(d.ccIso || 'VN') };
+document.addEventListener('change', e => { const s = e.target.closest('.cc select'); if (!s) return; s.parentElement.querySelector('.ccv').textContent = `${flagOf(s.value)} +${ccDial(s.value)}`; store.set('hd_cc', s.value); });
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-idm]'); if (!b) return;
+  store.set('hd_idm', b.dataset.idm); const f = b.closest('form');
+  $$('[data-idm]', f).forEach(x => x.setAttribute('aria-selected', x === b));
+  f.querySelector('.idbox').innerHTML = b.dataset.idm === 'email' ? fld('email', 'Địa chỉ email', 'email', 'autocomplete="username" required') : phoneField('phone', 'Số điện thoại');
+  const i = f.querySelector('.idbox input'); i && i.focus();
+});
+/* ----- giao diện đăng nhập có máy chủ: mật khẩu + mã xác minh, thiết bị tin cậy ----- */
+const PURPOSE_T = { login: 'Xác minh đăng nhập', register: 'Xác minh tài khoản', reset: 'Khôi phục tài khoản' };
+function otpView() {
+  const o = ACC.otp; if (!o) return authViewS('login');
+  const title = `<h3>${PURPOSE_T[o.purpose] || 'Xác minh'}</h3>`;
+  if (!o.sent) {
+    const pref = o.channel || (o.channels.find(c => c.type === 'sms') ? 'sms' : 'email');
+    return `<div class="auth-view" data-v="otp">${title}<p class="lead">Chọn nơi nhận mã xác minh 6 số.</p><form class="auth-form" data-auth="otp" novalidate>
+      <div class="chans">${o.channels.map(c => `<label class="chan"><input type="radio" name="channel" value="${c.type}"${c.type === pref ? ' checked' : ''}><span><b>${c.type === 'sms' ? 'Tin nhắn SMS' : 'Email'}</b><small>${esc(c.masked)}</small></span></label>`).join('')}</div>
+      <div class="err"></div><button class="btn auth-submit" type="submit"><span class="t">Gửi mã xác minh</span><span class="sp"></span></button>
+      <div class="auth-row" style="justify-content:center"><button type="button" class="linkbtn" data-goto="login">← Quay lại đăng nhập</button></div></form></div>`;
+  }
+  return `<div class="auth-view" data-v="otp">${title}<p class="lead">Nhập mã 6 số vừa gửi tới <b>${esc(o.masked)}</b>. Mã có hiệu lực 10 phút.</p><form class="auth-form" data-auth="otp" novalidate>
+    <div class="otp" role="group" aria-label="Mã xác minh">${[0, 1, 2, 3, 4, 5].map(i => `<input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Số thứ ${i + 1}"${i === 0 ? ' autocomplete="one-time-code"' : ' autocomplete="off"'}>`).join('')}</div>
+    <div class="otp-meta"><button type="button" class="linkbtn" data-otp-resend disabled>Gửi lại mã</button><button type="button" class="linkbtn" data-otp-change>Đổi cách nhận mã</button></div>
+    ${o.purpose !== 'reset' ? `<label class="trust"><input type="checkbox" name="trust"${o.trust !== false ? ' checked' : ''}><span><b>Tin cậy thiết bị này</b><br>Lần sau đăng nhập trên thiết bị này không cần nhập mã (180 ngày). Không chọn nếu đây là máy dùng chung.</span></label>` : ''}
+    <div class="err"></div><button class="btn auth-submit" type="submit"><span class="t">Xác nhận</span><span class="sp"></span></button></form></div>`;
+}
+function authViewS(v) {
+  const any = ACC.cfg.sms || ACC.cfg.mail;
+  const note = '<p class="auth-note">Mật khẩu được mã hoá một chiều; mã xác minh chỉ dùng một lần.</p>';
+  if (v === 'otp') return otpView();
+  if (v === 'login') return `<div class="auth-view" data-v="login"><h3>Chào mừng trở lại</h3><p class="lead">Đăng nhập để lưu tin, theo dõi giỏ hàng và nhận tư vấn nhanh hơn.</p>
+    <form class="auth-form" data-auth="login" novalidate>${idField('login')}${fld('pass', 'Mật khẩu', 'password', 'autocomplete="current-password" required')}
+    <div class="err"></div>
+    <div class="auth-row"><label><input type="checkbox" name="remember" checked> Ghi nhớ đăng nhập</label><button type="button" class="linkbtn" data-goto="forgot">Quên mật khẩu?</button></div>
+    <button class="btn auth-submit" type="submit"><span class="t">Đăng nhập</span><span class="sp"></span></button>
+    ${any ? '<button type="button" class="btn ghost auth-code" data-goto="code">Đăng nhập bằng mã xác minh</button>' : ''}
+    <div class="auth-or">hoặc</div>
+    <div class="auth-alt"><a href="https://zalo.me/0877781796" target="_blank" rel="noopener">Hỗ trợ qua Zalo</a><button type="button" data-goto="register">Tạo tài khoản</button></div>${note}</form></div>`;
+  if (v === 'register') return `<div class="auth-view" data-v="register"><h3>Tạo tài khoản miễn phí</h3><p class="lead">Dành cho khách mua, chủ nhà và môi giới. ${any ? 'Chúng tôi sẽ gửi mã xác minh để bảo vệ tài khoản của bạn.' : 'Chỉ mất 30 giây.'}</p>
+    <form class="auth-form" data-auth="register" novalidate>
+    <label class="fl"><select name="role">${ROLES.map(r => `<option>${r}</option>`).join('')}</select><span class="lb">Bạn là</span></label>
+    ${fld('name', 'Họ và tên', 'text', 'autocomplete="name" required')}
+    ${phoneField('phone', 'Số điện thoại')}
+    ${fld('email', 'Địa chỉ email', 'email', 'autocomplete="email" required')}
+    ${fld('pass', 'Mật khẩu (ít nhất 8 ký tự)', 'password', 'autocomplete="new-password" required')}
+    <div class="meter"><i></i></div><div class="meter-t" id="meterT">Độ mạnh mật khẩu</div>
+    ${fld('pass2', 'Nhập lại mật khẩu', 'password', 'autocomplete="new-password" required')}
+    <label class="auth-row" style="justify-content:flex-start"><input type="checkbox" name="agree" checked> <span style="color:var(--ink-2)">Tôi đồng ý nhận tư vấn từ Hoàng Dũng Real Estate</span></label>
+    <div class="err"></div>
+    <button class="btn auth-submit" type="submit"><span class="t">Tạo tài khoản</span><span class="sp"></span></button>
+    <div class="auth-row" style="justify-content:center">Đã có tài khoản? <button type="button" class="linkbtn" data-goto="login">Đăng nhập</button></div>${note}</form></div>`;
+  if (v === 'forgot' || v === 'code') return `<div class="auth-view" data-v="${v}"><h3>${v === 'code' ? 'Đăng nhập bằng mã' : 'Khôi phục tài khoản'}</h3><p class="lead">${v === 'code' ? 'Nhập email hoặc số điện thoại đã đăng ký, chúng tôi sẽ gửi mã đăng nhập 6 số.' : any ? 'Nhập email hoặc số điện thoại đã đăng ký. Chúng tôi gửi mã xác minh để bạn đặt mật khẩu mới.' : 'Nhập email hoặc số điện thoại đã đăng ký. Yêu cầu sẽ được chuyển tới quản trị viên để xác minh.'}</p>
+    <form class="auth-form" data-auth="${v === 'code' ? 'codelogin' : 'forgot'}" novalidate>${idField('reset')}
+    <div class="err"></div><button class="btn auth-submit" type="submit"><span class="t">${any ? 'Nhận mã xác minh' : 'Gửi yêu cầu'}</span><span class="sp"></span></button>
+    <div class="auth-row" style="justify-content:center"><button type="button" class="linkbtn" data-goto="login">← Quay lại đăng nhập</button></div>
+    <p class="auth-note">Cần hỗ trợ? Gọi <a href="tel:0877781796" style="text-decoration:underline">087.778.1796</a> (Dũng).</p></form></div>`;
+  return authView(v, true);
+}
+let otpT;
+function otpTimer(sec) {
+  clearInterval(otpT); const b = $('[data-otp-resend]'); if (!b) return; let s = sec;
+  const tick = () => { const btn = $('[data-otp-resend]'); if (!btn) return clearInterval(otpT); if (s <= 0) { btn.disabled = false; btn.textContent = 'Gửi lại mã'; clearInterval(otpT); } else { btn.disabled = true; btn.textContent = `Gửi lại mã sau ${s}s`; s--; } };
+  tick(); otpT = setInterval(tick, 1000);
+}
+function startOtp(r, purpose, remember = true) {
+  ACC.otp = { challenge: r.challenge, purpose, channels: r.channels || [], sent: false, remember };
+  if (!ACC.otp.channels.length) throw { msg: 'Chưa có cách nhận mã cho tài khoản này. Vui lòng liên hệ 087.778.1796.' };
+  gotoAuth('otp');
+}
+async function otpSendNow(f) {
+  const o = ACC.otp, ch = (f && f.querySelector('[name=channel]:checked') || {}).value || o.channel;
+  const r = await api('/auth/otp/send', { challenge: o.challenge, channel: ch });
+  Object.assign(o, { sent: true, channel: r.channel, masked: r.masked }); gotoAuth('otp'); otpTimer(r.wait || 45);
+  setTimeout(() => { const i = $('.otp input'); i && i.focus(); }, 50);
+}
+document.addEventListener('input', e => {
+  const i = e.target.closest('.otp input'); if (!i) return;
+  const box = [...i.parentElement.children], d = i.value.replace(/\D/g, '');
+  if (d.length > 1) { d.slice(0, 6).split('').forEach((c, k) => { const t = box[box.indexOf(i) + k] || box[k]; if (t) { t.value = c; t.classList.add('f'); } }); }
+  else i.value = d;
+  i.classList.toggle('f', !!i.value);
+  if (i.value && d.length <= 1) { const n = box[box.indexOf(i) + 1]; n && n.focus(); }
+  const code = box.map(x => x.value).join('');
+  if (code.length === 6) { const f = i.closest('form'); f.requestSubmit ? f.requestSubmit() : f.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
+});
+document.addEventListener('keydown', e => {
+  const i = e.target.closest && e.target.closest('.otp input'); if (!i) return;
+  if (e.key === 'Backspace' && !i.value) { const p = i.previousElementSibling; if (p) { p.value = ''; p.classList.remove('f'); p.focus(); } }
+});
+document.addEventListener('paste', e => {
+  const i = e.target.closest && e.target.closest('.otp input'); if (!i) return;
+  const d = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6); if (!d) return;
+  e.preventDefault(); const box = [...i.parentElement.children]; d.split('').forEach((c, k) => { if (box[k]) { box[k].value = c; box[k].classList.add('f'); } });
+  (box[d.length] || box[5]).focus(); if (d.length === 6) { const f = i.closest('form'); f.requestSubmit ? f.requestSubmit() : f.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); }
+});
+document.addEventListener('click', async e => {
+  const rs = e.target.closest('[data-otp-resend]'), ch = e.target.closest('[data-otp-change]'); if (!rs && !ch) return;
+  const f = e.target.closest('form');
+  if (ch) { ACC.otp.sent = false; gotoAuth('otp'); return; }
+  rs.disabled = true; try { await otpSendNow(null); toast('Đã gửi lại mã.'); } catch (err) { authErr(f, err); otpTimer(err.wait || 5); }
+});
+/* xử lý các form tài khoản khi có máy chủ (chạy trước bộ xử lý chung) */
+document.addEventListener('submit', async e => {
+  const f = e.target.closest('[data-auth]'); if (!f || ACC.mode !== 'server') return;
+  const kind = f.dataset.auth; if (!['login', 'register', 'forgot', 'codelogin', 'otp'].includes(kind)) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  const d = Object.fromEntries(new FormData(f)); Object.keys(d).forEach(k => d[k] = String(d[k]).trim());
+  const bad = m => authErr(f, { msg: m });
+  const btn = f.querySelector('.auth-submit'); const go = () => { btn && btn.classList.add('busy'); f.querySelector('.err').textContent = ''; };
+  const idOk = () => d.email !== undefined ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email) : (d.phone || '').replace(/\D/g, '').length >= 7;
+  try {
+    if (kind === 'login') {
+      if (!idOk()) return bad(d.email !== undefined ? 'Vui lòng nhập email hợp lệ, ví dụ ten@gmail.com.' : 'Vui lòng nhập số điện thoại hợp lệ.');
+      if (!d.pass) return bad('Vui lòng nhập mật khẩu.');
+      go(); const r = await api('/auth/login', { ...idOf(d), pass: d.pass, remember: !!d.remember });
+      if (r.need === 'otp') startOtp(r, 'login', !!d.remember); else authDone(r.user, 'Đăng nhập thành công', !!d.remember, r.trusted ? 'Thiết bị đáng tin cậy, không cần nhập mã.' : '');
+    } else if (kind === 'register') {
+      if ((d.name || '').length < 2) return bad('Vui lòng nhập họ và tên.');
+      if ((d.phone || '').replace(/\D/g, '').length < 7) return bad('Vui lòng nhập số điện thoại hợp lệ.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email || '')) return bad('Vui lòng nhập địa chỉ email hợp lệ, ví dụ ten@gmail.com.');
+      if ((d.pass || '').length < 8) return bad('Mật khẩu cần ít nhất 8 ký tự.');
+      if (d.pass !== d.pass2) return bad('Hai mật khẩu chưa khớp nhau.');
+      go(); const r = await api('/auth/register', { name: d.name, email: d.email, phone: d.phone, cc: ccDial(d.ccIso), ccIso: d.ccIso, pass: d.pass, role: d.role, agree: !!d.agree });
+      if (r.need === 'otp') startOtp(r, 'register'); else authDone(r.user, 'Tạo tài khoản thành công');
+    } else if (kind === 'forgot' || kind === 'codelogin') {
+      if (!idOk()) return bad('Vui lòng nhập email hoặc số điện thoại hợp lệ.');
+      go(); const r = await api('/auth/code/start', { ...idOf(d), purpose: kind === 'forgot' ? 'reset' : 'login' });
+      if (r.mode === 'admin') { $('#authBody').innerHTML = doneHTML('Đã gửi yêu cầu', 'Yêu cầu khôi phục đã chuyển tới quản trị viên. Dũng sẽ liên hệ qua số điện thoại hoặc email đã đăng ký để xác minh và cấp mật khẩu mới.') + '<p style="text-align:center"><button type="button" class="btn" data-goto="login">Quay lại đăng nhập</button></p>'; return; }
+      startOtp(r, kind === 'forgot' ? 'reset' : 'login');
+    } else if (kind === 'otp') {
+      const o = ACC.otp; if (!o) return gotoAuth('login');
+      if (!o.sent) { go(); await otpSendNow(f); return; }
+      const code = $$('.otp input', f).map(x => x.value).join('');
+      if (code.length !== 6) return bad('Vui lòng nhập đủ 6 số.');
+      if (f.dataset.busy) return; f.dataset.busy = 1; go();
+      try {
+        const r = await api('/auth/otp/verify', { challenge: o.challenge, code, trust: !!d.trust });
+        if (r.resetToken) { ACC.resetToken = r.resetToken; ACC.otp = null; gotoAuth('reset'); return; }
+        ACC.otp = null; authDone(r.user, o.purpose === 'register' ? 'Tạo tài khoản thành công' : 'Đăng nhập thành công', o.remember !== false, d.trust ? 'Đã ghi nhớ thiết bị này.' : '');
+      } finally { delete f.dataset.busy; }
+    }
+  } catch (err) {
+    authErr(f, err);
+    if (kind === 'otp' && ACC.otp && ACC.otp.sent) { $$('.otp input', f).forEach(x => { x.value = ''; x.classList.remove('f'); }); const i = $('.otp input', f); i && i.focus(); }
+    if (err.status === 410 && kind === 'otp') setTimeout(() => gotoAuth('login'), 1800);
+  }
+}, true);
+function openDevices() {
+  openModal(`<h3>Thiết bị đáng tin cậy</h3><p class="lead">Trên các thiết bị này, bạn đăng nhập bằng mật khẩu mà không cần nhập mã xác minh.</p><div class="dev-list" id="devList"><div class="auth-note">Đang tải…</div></div><div class="send-row" id="devAct"></div>`);
+  const load = async () => {
+    let rows = []; try { rows = (await api('/auth/devices')).rows; } catch (err) { $('#devList').innerHTML = `<div class="auth-note">${esc(err.msg)}</div>`; return; }
+    const cur = rows.some(r => r.current), fmtD = ms => new Date(ms).toLocaleDateString('vi-VN');
+    $('#devList').innerHTML = rows.length ? rows.map(r => `<div class="dev"><span><b>${esc(r.label)}${r.current ? '<span class="cur">Thiết bị này</span>' : ''}</b><small>Thêm ngày ${fmtD(r.created_at)} · dùng gần nhất ${fmtD(r.last_used)}</small></span><button type="button" data-dev="${r.id}">Gỡ</button></div>`).join('') : '<div class="auth-note">Chưa có thiết bị nào. Mỗi lần đăng nhập bạn sẽ nhập mã xác minh.</div>';
+    $('#devAct').innerHTML = (cur ? '' : '<button type="button" class="btn" id="devTrust">Tin cậy thiết bị này</button>') + (rows.length ? '<button type="button" class="btn ghost" id="devAll">Gỡ tất cả</button>' : '');
+    const t = $('#devTrust'); if (t) t.onclick = async () => { try { await api('/auth/devices/trust', {}); toast('Đã tin cậy thiết bị này.'); load(); } catch (err) { toast(err.msg); } };
+    const a = $('#devAll'); if (a) a.onclick = async () => { try { await api('/auth/devices', { id: 'all' }); toast('Đã gỡ tất cả thiết bị.'); load(); } catch (err) { toast(err.msg); } };
+    $$('[data-dev]').forEach(b => b.onclick = async () => { try { await api('/auth/devices', { id: +b.dataset.dev }); toast('Đã gỡ thiết bị.'); load(); } catch (err) { toast(err.msg); } });
+  };
+  load();
+}
+function authView(v, inner) {
+  if (ACC.mode === 'server' && !inner) return authViewS(v);
   const note = ACC.mode === 'local' ? '<p class="auth-note">Tài khoản đang được lưu trên thiết bị này.</p>' : ACC.mode === 'server' ? '<p class="auth-note">Mật khẩu được mã hoá một chiều, không ai (kể cả quản trị viên) xem được.</p>' : '';
   if (v === 'reset') return `<div class="auth-view" data-v="reset"><h3>Đặt mật khẩu mới</h3><p class="lead">Tạo mật khẩu mới cho tài khoản của bạn.</p>
     <form class="auth-form" data-auth="reset" novalidate>${fld('pass', 'Mật khẩu mới (ít nhất 8 ký tự)', 'password', 'autocomplete="new-password" required')}${fld('pass2', 'Nhập lại mật khẩu mới', 'password', 'autocomplete="new-password" required')}
@@ -1945,9 +2153,10 @@ function gotoAuth(v) {
 }
 function openAccount() {
   const u = ACC.user, prof = ACC.mode === 'server' ? u : (store.get('hd_profile_' + (u.uid || ''), null) || accounts()[u.email] || {});
-  openModal(`<div class="auth-done" style="padding:6px 0 0"><span class="acct-ic in" style="width:64px;height:64px;font-size:26px">${esc((u.name || '?').trim().split(/\s+/).pop()[0].toUpperCase())}</span><h3 style="margin:6px 0 0">${esc(u.name)}</h3><p class="lead" style="margin:0">${esc(u.email)}${prof.role ? ' · ' + esc(prof.role) : ''}</p></div>
-  <div class="acct-menu"><button type="button" id="accSaved">Tin đã lưu (${favs.size}) <span>→</span></button><button type="button" data-contact="Bán nhà">Ký gửi nhà cần bán <span>→</span></button><button type="button" data-contact="Mua nhà">Nhờ Dũng tìm nhà <span>→</span></button><a href="tel:0877781796">Gọi 087.778.1796 <span>→</span></a>${ACC.mode === 'server' ? '<button type="button" id="accPw">Đổi mật khẩu <span>→</span></button>' : ''}<button type="button" id="accOut" style="color:#b8423a">Đăng xuất <span>→</span></button></div>`);
+  openModal(`<div class="auth-done" style="padding:6px 0 0"><span class="acct-ic in" style="width:64px;height:64px;font-size:26px">${esc((u.name || '?').trim().split(/\s+/).pop()[0].toUpperCase())}</span><h3 style="margin:6px 0 0">${esc(u.name)}</h3><p class="lead" style="margin:0">${esc(u.email)}${u.phone ? ' · ' + esc(u.phone) : ''}${prof.role ? '<br>' + esc(prof.role) : ''}</p></div>
+  <div class="acct-menu"><button type="button" id="accSaved">Tin đã lưu (${favs.size}) <span>→</span></button><button type="button" data-contact="Bán nhà">Ký gửi nhà cần bán <span>→</span></button><button type="button" data-contact="Mua nhà">Nhờ Dũng tìm nhà <span>→</span></button><a href="tel:0877781796">Gọi 087.778.1796 <span>→</span></a>${ACC.mode === 'server' ? '<button type="button" id="accDev">Thiết bị đáng tin cậy <span>→</span></button><button type="button" id="accPw">Đổi mật khẩu <span>→</span></button>' : ''}<button type="button" id="accOut" style="color:#b8423a">Đăng xuất <span>→</span></button></div>`);
   const pw = $('#accPw'); if (pw) pw.onclick = () => openModal(`<h3>Đổi mật khẩu</h3><p class="lead">Mật khẩu mới cần ít nhất 8 ký tự.</p><form class="auth-form" data-auth="changepw" novalidate>${fld('old', 'Mật khẩu hiện tại', 'password', 'autocomplete="current-password" required')}${fld('pass', 'Mật khẩu mới', 'password', 'autocomplete="new-password" required')}${fld('pass2', 'Nhập lại mật khẩu mới', 'password', 'autocomplete="new-password" required')}<div class="err"></div><button class="btn auth-submit" type="submit"><span class="t">Lưu mật khẩu</span><span class="sp"></span></button></form>`);
+  const dv = $('#accDev'); if (dv) dv.onclick = openDevices;
   $('#accSaved').onclick = () => openSaved();
   $('#accOut').onclick = async () => { await AUTH.logout(); closeModal(); toast('Đã đăng xuất.'); };
 }
@@ -1956,7 +2165,7 @@ function pwScore(p) { let s = 0; if (p.length >= 6) s++; if (p.length >= 10) s++
 document.addEventListener('input', e => {
   const f = e.target.closest('.auth-form'); if (!f) return;
   const fl = e.target.closest('.fl'), v = e.target.value.trim(), n = e.target.name;
-  if (fl) fl.classList.toggle('good', n === 'email' ? (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || (f.dataset.auth === 'login' && /^(0|\+84)\d{9,10}$/.test(v.replace(/[\s.]/g, '')))) : n === 'phone' ? /^(0|\+84)\d{9,10}$/.test(v.replace(/[\s.]/g, '')) : n === 'name' ? v.length > 1 : false);
+  if (fl) fl.classList.toggle('good', n === 'email' ? (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || (f.dataset.auth === 'login' && /^(0|\+84)\d{9,10}$/.test(v.replace(/[\s.]/g, '')))) : n === 'phone' ? (f.querySelector('[name=ccIso]') ? v.replace(/\D/g, '').length >= 7 : /^(0|\+84)\d{9,10}$/.test(v.replace(/[\s.]/g, ''))) : n === 'name' ? v.length > 1 : false);
   if (n === 'pass' && f.dataset.auth === 'register') { const sc = pwScore(e.target.value), c = ['#d9534f', '#e9a27a', '#e3c35a', '#5bb37f', '#2f9e6b'][sc]; const m = f.querySelector('.meter i'); m.style.width = (e.target.value ? (sc + 1) * 20 : 0) + '%'; m.style.background = c; $('#meterT').textContent = e.target.value ? ['Rất yếu', 'Yếu', 'Trung bình', 'Mạnh', 'Rất mạnh'][sc] : 'Độ mạnh mật khẩu'; }
   if (n === 'pass2' || (n === 'pass' && f.pass2)) { const p2 = f.querySelector('[name=pass2]'); if (p2) p2.closest('.fl').classList.toggle('good', !!p2.value && p2.value === f.querySelector('[name=pass]').value); }
 });
@@ -2014,6 +2223,7 @@ function initAccount() {
   $('#acctBtn').onclick = () => openAuth('login');
   if (ACC.mode === 'server') {
     api('/auth/me').then(j => j.user && setUser(j.user)).catch(() => { });
+    api('/auth/config').then(j => { ACC.cfg = j; }).catch(() => { });
     const h = location.hash;
     if (h.startsWith('#reset=')) { ACC.resetToken = decodeURIComponent(h.slice(7)); setTimeout(() => { openAuth('login', true); gotoAuth('reset'); }, 600); }
     else if (h === '#verified') { history.replaceState(null, '', location.pathname); setTimeout(() => toast('Email của bạn đã được xác minh. Cảm ơn bạn!'), 800); }

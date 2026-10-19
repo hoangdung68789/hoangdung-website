@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Hoàng Dũng Real Estate — website + máy chủ trên Cloudflare Workers (gói miễn phí)
+  "name": "hoangdung-realestate",
+  "main": "cloudflare/src/worker.ts",
+  "compatibility_date": "2025-10-01",
+  "assets": {
+    "directory": "cloudflare/public",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*", "/"]
+  },
+  // Cơ sở dữ liệu D1: tự tạo khi triển khai lần đầu (Wrangler ≥ 4.45), bảng tự tạo khi Worker chạy
+  "d1_databases": [{ "binding": "DB", "database_name": "hoangdung-db" }],
+  // Số vòng băm mật khẩu (giảm nếu gói miễn phí báo vượt giới hạn CPU)
+  "vars": { "PW_ITER": "100000" },
+  "observability": { "enabled": true }
+}
