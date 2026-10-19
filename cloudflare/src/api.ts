@@ -411,8 +411,10 @@ async function login(req: Request) {
     await db().prepare("UPDATE users SET pass_hash = ?, pass_salt = ?, pass_iter = ? WHERE id = ?").bind(h.hash, h.salt, h.iter, u.id).run();
   }
   const remember = b.remember !== false;
-  if (channelsOf(u).length && !(await trustedFor(req, u.id))) return json(await newChallenge(u, "login", remember));
-  return json({ user: publicUser(u), trusted: true }, 200, await loginCookies(req, u, remember, false));
+  const needCode = channelsOf(u).length > 0;
+  const trusted = needCode ? await trustedFor(req, u.id) : null;
+  if (needCode && !trusted) return json(await newChallenge(u, "login", remember));
+  return json({ user: publicUser(u), trusted: !!trusted }, 200, await loginCookies(req, u, remember, false));
 }
 
 /* Đăng nhập bằng mã / khôi phục tài khoản: bắt đầu bằng email hoặc số điện thoại */
