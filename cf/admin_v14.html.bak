@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0c0d0f">
+<title>Quản trị · Hoàng Dũng Real Estate</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23121417'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='700' font-size='26' fill='%23e9a27a' text-anchor='middle'%3EHD%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#f3f4f6;--card:#fff;--ink:#121417;--ink2:#4a5059;--mut:#8a9099;--line:#e6e8eb;--night:#0c0d0f;--night2:#16181b;--gold:#e9a27a;--gold2:#c97a52;--ok:#2f9e6b;--warn:#c98a1b;--bad:#c2463d;--blue:#3b6fd8;
+  --font:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 16px;border-radius:999px;background:var(--ink);color:#fff;font-weight:500;font-size:13.5px;white-space:nowrap;transition:transform .2s,opacity .2s}
+.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.5;transform:none;cursor:default}
+.btn.gold{background:linear-gradient(90deg,#f3c9a3,var(--gold));color:#1a120c}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.sm{height:32px;padding:0 12px;font-size:12.5px}
+.btn.danger{background:var(--bad)}
+input.in,select.in,textarea.in{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;outline:none;transition:border-color .2s,box-shadow .2s}
+input.in:focus,select.in:focus,textarea.in:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(233,162,122,.2)}
+label.f{display:grid;gap:6px;font-size:12.5px;color:var(--ink2);font-weight:500}
+.err{color:var(--bad);font-size:13px;min-height:18px}
+
+/* ---- màn đăng nhập ---- */
+.gate{min-height:100vh;min-height:100dvh;box-sizing:border-box;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(60% 50% at 20% 10%,rgba(233,162,122,.18),transparent 70%),radial-gradient(50% 40% at 90% 90%,rgba(120,160,230,.12),transparent 70%),var(--night)}
+.gate-card{width:100%;max-width:400px;background:#fff;border-radius:20px;padding:30px 26px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7)}
+.brand{font-weight:800;font-size:19px;letter-spacing:-.03em;display:flex;align-items:baseline;gap:7px}
+.brand small{font-size:10px;letter-spacing:.18em;font-weight:600;color:var(--gold2)}
+.gate h1{font-size:22px;margin:18px 0 4px;letter-spacing:-.02em}
+.gate p.lead{margin:0 0 18px;color:var(--ink2)}
+.gate form{display:grid;gap:14px}
+.gate .btn{height:44px;width:100%}
+.gate .foot{margin-top:16px;font-size:12px;color:var(--mut);text-align:center}
+
+/* ---- khung ứng dụng ---- */
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100%}
+.side{background:var(--night);color:#e9eaec;padding:22px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:22px}
+.side .brand{color:#fff;padding:0 8px;flex-direction:column;align-items:flex-start;gap:3px;line-height:1.1}
+.nav{display:grid;gap:3px}
+.nav button{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;color:#b9bec5;text-align:left;font-size:13.5px;transition:background .2s,color .2s}
+.nav button:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav button.on{background:rgba(233,162,122,.14);color:#fff}
+.nav button.on svg{color:var(--gold)}
+.nav svg{width:18px;height:18px;flex:none}
+.nav .bd{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--gold);color:#1a120c;font-size:11px;font-weight:700;display:grid;place-items:center}
+.side .me{margin-top:auto;padding:12px;border-radius:12px;background:var(--night2);font-size:12.5px;color:#b9bec5}
+.side .me b{display:block;color:#fff;font-weight:600}
+.side .me .row{display:flex;gap:8px;margin-top:10px}
+.side .me button,.side .me a{flex:1;height:32px;border-radius:8px;background:rgba(255,255,255,.07);color:#e9eaec;font-size:12px;display:grid;place-items:center;text-decoration:none}
+.main{padding:28px clamp(16px,3vw,40px) 60px;min-width:0}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.top h2{margin:0;font-size:24px;letter-spacing:-.02em}
+.top p{margin:4px 0 0;color:var(--ink2)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tools .in{width:auto;min-width:220px;height:38px;padding:0 14px;border-radius:999px}
+.card{background:var(--card);border-radius:16px;box-shadow:0 1px 0 var(--line),0 10px 30px -22px rgba(18,20,23,.3)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:18px}
+.kpi{padding:18px}
+.kpi span{font-size:12.5px;color:var(--ink2)}
+.kpi b{display:block;font-size:30px;letter-spacing:-.03em;margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi i{font-style:normal;font-size:12px;color:var(--mut)}
+.kpi.hot b{color:var(--gold2)}
+.chart{padding:18px 18px 12px}
+.chart h3{margin:0 0 14px;font-size:15px}
+.bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;align-items:end;height:140px}
+.bar{position:relative;background:linear-gradient(180deg,#f3c9a3,var(--gold));border-radius:6px 6px 2px 2px;min-height:3px}
+.bar em{position:absolute;top:-18px;left:0;right:0;text-align:center;font-style:normal;font-size:11px;color:var(--ink2)}
+.blabels{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;margin-top:6px;font-size:10.5px;color:var(--mut);text-align:center}
+.note{padding:14px 16px;border-radius:12px;background:#fff7f0;color:#7a4a2b;font-size:13px;line-height:1.6;margin-top:18px}
+.note.ok{background:#eef8f2;color:#245c40}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{height:34px;padding:0 14px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);font-size:13px;color:var(--ink2)}
+.chip.on{background:var(--ink);color:#fff;box-shadow:none}
+table{width:100%;border-collapse:collapse}
+th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);font-weight:600;text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.tw{overflow-x:auto}
+.who b{display:block;font-weight:600}
+.who span{color:var(--mut);font-size:12.5px}
+.tag{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.t-new{background:#fff1e6;color:#b4572a}.t-contacted{background:#e9f0ff;color:#2f57b0}.t-deal{background:#fdf4d8;color:#8a6510}.t-closed{background:#e7f6ee;color:#23744e}.t-spam{background:#f1f1f1;color:#777}
+.t-active{background:#e7f6ee;color:#23744e}.t-disabled{background:#fdeceb;color:#a3352d}.t-ver{background:#e9f0ff;color:#2f57b0}
+.msg{max-width:420px;white-space:pre-wrap;color:var(--ink2);font-size:13px;max-height:66px;overflow:hidden;position:relative;cursor:pointer}
+.msg.open{max-height:none}
+.msg:not(.open)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:24px;background:linear-gradient(transparent,#fff)}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.empty{padding:40px 16px;text-align:center;color:var(--mut)}
+.more{display:flex;justify-content:center;padding:14px}
+.lead-note{margin-top:8px;display:flex;gap:6px}
+.lead-note .in{min-height:36px;padding:7px 10px;font-size:13px;resize:vertical}
+select.st{border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:#fff;font-size:12.5px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px}
+.pad{padding:20px}
+.pad h3{margin:0 0 4px;font-size:16px}
+.pad p.d{margin:0 0 16px;color:var(--ink2);font-size:13px}
+.pad form{display:grid;gap:12px}
+code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-size:12.5px}
+
+/* hộp thoại */
+.dlg{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(10,12,15,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.dlg-in{width:100%;max-width:420px;background:#fff;border-radius:18px;padding:24px;box-shadow:0 30px 80px -30px rgba(0,0,0,.6);animation:pop .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{transform:translateY(10px) scale(.98);opacity:0}}
+.dlg h3{margin:0 0 6px;font-size:18px}
+.dlg p{margin:0 0 16px;color:var(--ink2)}
+.dlg .row{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.temp{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-radius:12px;background:#121417;color:#fff;font-size:22px;letter-spacing:.06em;font-family:ui-monospace,Menlo,Consolas,monospace;margin-bottom:16px}
+.toast{position:fixed;left:50%;bottom:24px;translate:-50% 0;z-index:60;background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:13.5px;box-shadow:0 14px 40px -12px rgba(0,0,0,.5);animation:pop .25s}
+
+/* điện thoại */
+.mbar{display:none}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:sticky;top:0;z-index:20;height:auto;padding:10px 12px;gap:10px;flex-direction:column;min-width:0}
+  .side>.brand{display:none}
+  .mbar .brand{flex-direction:row;align-items:baseline;padding:0}
+  .mbar{display:flex;align-items:center;justify-content:space-between;color:#fff}
+  .nav{grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto;gap:4px;padding-bottom:2px;scrollbar-width:none}
+  .nav::-webkit-scrollbar{display:none}
+  .nav button{padding:8px 12px;white-space:nowrap}
+  .nav svg{display:none}
+  .side .me{display:none}
+  .main{padding-top:20px}
+  .tools .in{min-width:0;flex:1 1 180px}
+  /* bảng → thẻ */
+  table.rsp thead{display:none}
+  table.rsp tr{display:block;padding:12px 14px;border-bottom:1px solid var(--line)}
+  table.rsp td{display:grid;grid-template-columns:92px minmax(0,1fr);column-gap:10px;padding:5px 0;border:0}
+  table.rsp td>*{grid-column:2}
+  table.rsp td::before{content:attr(data-l);grid-column:1;grid-row:1/span 6;font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;padding-top:2px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .kpi{padding:14px}.kpi b{font-size:26px}
+  .msg{max-width:none}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+'use strict';
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = ms => ms ? new Intl.DateTimeFormat('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(ms)) : '—';
+const ago = ms => { if (!ms) return '—'; const m = Math.round((Date.now() - ms) / 60000); if (m < 1) return 'vừa xong'; if (m < 60) return m + ' phút trước'; const h = Math.round(m / 60); if (h < 24) return h + ' giờ trước'; const d = Math.round(h / 24); return d < 30 ? d + ' ngày trước' : fmt(ms); };
+const telOf = p => String(p || '').replace(/\D/g, '');
+async function api(path, body) {
+  let r, j = {};
+  try { r = await fetch('/api/admin/' + path, { method: body ? 'POST' : 'GET', headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined, credentials: 'same-origin', cache: 'no-store' }); }
+  catch (e) { throw new Error('Không kết nối được máy chủ.'); }
+  try { j = await r.json(); } catch (e) { }
+  if (r.status === 401 && path !== 'login') { S.admin = null; render(); }
+  if (!r.ok) throw new Error(j.error || 'Có lỗi xảy ra.');
+  return j;
+}
+function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
+function dialog(html) { const d = document.createElement('div'); d.className = 'dlg'; d.innerHTML = `<div class="dlg-in" role="dialog" aria-modal="true">${html}</div>`; document.body.appendChild(d); d.addEventListener('click', e => { if (e.target === d || e.target.closest('[data-x]')) d.remove(); }); const f = d.querySelector('button:not([data-x]),input'); f && f.focus(); return d; }
+function confirmBox(title, text, okLabel = 'Đồng ý', danger = false) {
+  return new Promise(res => { const d = dialog(`<h3>${esc(title)}</h3><p>${esc(text)}</p><div class="row"><button class="btn ghost" data-x>Huỷ</button><button class="btn ${danger ? 'danger' : ''}" id="dlgOk">${esc(okLabel)}</button></div>`); d.addEventListener('click', e => { if (e.target.closest('[data-x]') || e.target === d) res(false); }); $('#dlgOk', d).onclick = () => { d.remove(); res(true); }; });
+}
+function copy(t) { try { navigator.clipboard.writeText(t).then(() => toast('Đã sao chép.')); } catch (e) { } }
+
+const S = { admin: null, setup: false, mail: false, sms: false, view: 'home', stats: null };
+const LEAD_ST = { new: 'Mới', contacted: 'Đã liên hệ', deal: 'Đang thương lượng', closed: 'Đã chốt', spam: 'Rác' };
+const IC = {
+  home: '<path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/>',
+  leads: '<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
+  users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.6.8 2.6 2.6 3 5.2"/>',
+  resets: '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/>',
+  admins: '<path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/>'
+};
+const VIEWS = [['home', 'Tổng quan'], ['leads', 'Yêu cầu tư vấn'], ['users', 'Khách hàng'], ['resets', 'Quên mật khẩu'], ['admins', 'Quản trị viên'], ['settings', 'Cài đặt']];
+const BRAND = '<span class="brand">Hoàng Dũng <small>REAL ESTATE</small></span>';
+
+/* ---------- đăng nhập / khởi tạo ---------- */
+function gate() {
+  const setup = S.setup;
+  $('#root').innerHTML = `<div class="gate"><div class="gate-card">${BRAND}
+    <h1>${setup ? 'Khởi tạo quản trị viên' : 'Đăng nhập quản trị'}</h1>
+    <p class="lead">${setup ? 'Tạo tài khoản quản trị đầu tiên bằng mã khởi tạo.' : 'Khu vực dành riêng cho quản trị viên website.'}</p>
+    <form id="gf" novalidate>
+      ${setup ? '<label class="f">Mã khởi tạo<input class="in" name="code" autocomplete="off" required></label><label class="f">Họ và tên<input class="in" name="name" autocomplete="name" required></label>' : ''}
+      <label class="f">Email quản trị<input class="in" name="email" type="email" autocomplete="username" required></label>
+      <label class="f">Mật khẩu${setup ? ' (tối thiểu 10 ký tự)' : ''}<input class="in" name="pass" type="password" autocomplete="${setup ? 'new-password' : 'current-password'}" required></label>
+      <div class="err" id="ge"></div>
+      <button class="btn gold" type="submit">${setup ? 'Tạo tài khoản quản trị' : 'Đăng nhập'}</button>
+    </form>
+    <div class="foot"><a href="/">← Về trang chủ</a></div></div></div>`;
+  $('#gf').onsubmit = async e => {
+    e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); const b = $('#gf button'); b.disabled = true; $('#ge').textContent = '';
+    try {
+      if (setup) { await api('setup', d); S.setup = false; }
+      const j = await api('login', { email: d.email, pass: d.pass }); S.admin = j.admin; S.view = 'home'; render();
+    } catch (err) { $('#ge').textContent = err.message; b.disabled = false; }
+  };
+  setTimeout(() => { const i = $('#gf input'); i && i.focus(); }, 30);
+}
+
+/* ---------- khung ---------- */
+function shell() {
+  const st = S.stats || {};
+  const badge = { leads: st.leadsNew, resets: st.resets };
+  $('#root').innerHTML = `<div class="app"><aside class="side">${BRAND}
+    <div class="mbar">${BRAND}<button class="btn sm ghost" style="color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)" id="out2">Đăng xuất</button></div>
+    <nav class="nav">${VIEWS.map(([k, t]) => `<button data-v="${k}" class="${S.view === k ? 'on' : ''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>${t}${badge[k] ? `<span class="bd">${badge[k]}</span>` : ''}</button>`).join('')}</nav>
+    <div class="me"><b>${esc(S.admin.name)}</b>${esc(S.admin.email)}<div class="row"><a href="/" target="_blank" rel="noopener">Xem website</a><button id="out">Đăng xuất</button></div></div>
+  </aside><main class="main" id="main"></main></div>`;
+  $$('.nav button').forEach(b => b.onclick = () => { S.view = b.dataset.v; shell(); });
+  const out = async () => { await api('logout', {}).catch(() => { }); S.admin = null; render(); };
+  $('#out').onclick = out; $('#out2').onclick = out;
+  ({ home, leads, users, resets, admins, settings })[S.view]();
+}
+async function refreshStats() { try { S.stats = await api('stats'); } catch (e) { } }
+
+/* ---------- tổng quan ---------- */
+async function home() {
+  const m = $('#main'); m.innerHTML = '<div class="empty">Đang tải…</div>';
+  await refreshStats(); const s = S.stats; if (!s) return;
+  if (S.view === 'home') { const nb = $$('.nav .bd'); if (!nb.length && (s.leadsNew || s.resets)) return shell(); }
+  const days = []; for (let i = 13; i >= 0; i--) { const d = new Date(Date.now() + 7 * 3600e3 - i * 864e5).toISOString().slice(0, 10); days.push(d); }
+  const map = Object.fromEntries((s.daily || []).map(r => [r.day, r.n])), mx = Math.max(1, ...days.map(d => map[d] || 0));
+  m.innerHTML = `<div class="top"><div><h2>Xin chào, ${esc(S.admin.name.split(' ').pop())}</h2><p>Tình hình website hôm nay.</p></div><div class="tools"><button class="btn ghost" data-go="leads">Xem yêu cầu mới</button></div></div>
+  <div class="kpis">
+    <div class="card kpi hot"><span>Yêu cầu tư vấn mới</span><b>${s.leadsNew}</b><i>${s.leads7} yêu cầu trong 7 ngày</i></div>
+    <div class="card kpi"><span>Tổng yêu cầu</span><b>${s.leads}</b><i>từ các form trên website</i></div>
+    <div class="card kpi"><span>Khách hàng có tài khoản</span><b>${s.users}</b><i>+${s.users7} trong 7 ngày</i></div>
+    <div class="card kpi"><span>Hoạt động 30 ngày</span><b>${s.active30}</b><i>khách đã đăng nhập</i></div>
+    <div class="card kpi ${s.resets ? 'hot' : ''}"><span>Chờ cấp lại mật khẩu</span><b>${s.resets}</b><i>${s.resets ? 'cần xử lý' : 'không có yêu cầu'}</i></div>
+    <div class="card kpi"><span>Thiết bị đáng tin cậy</span><b>${s.trusted ?? 0}</b><i>khách đã xác nhận</i></div>
+  </div>
+  <div class="card chart"><h3>Yêu cầu tư vấn 14 ngày qua</h3>
+    <div class="bars">${days.map(d => { const n = map[d] || 0; return `<div class="bar" style="height:${Math.max(2, n / mx * 100)}%" title="${d}: ${n}">${n ? `<em>${n}</em>` : ''}</div>`; }).join('')}</div>
+    <div class="blabels">${days.map(d => `<span>${d.slice(8)}/${d.slice(5, 7)}</span>`).join('')}</div></div>
+  ${(s.mail || s.sms) ? `<div class="note ok">Mã xác minh tự động đang bật qua: ${[s.sms ? '<b>SMS</b>' : '', s.mail ? '<b>Email</b>' : ''].filter(Boolean).join(' và ')}. Khách nhận mã mỗi lần đăng nhập (trừ thiết bị đáng tin cậy) và tự khôi phục tài khoản.</div>` : '<div class="note">Gửi mã xác minh chưa bật. Khách đăng nhập bằng mật khẩu; khi quên mật khẩu, yêu cầu hiện ở mục <b>Quên mật khẩu</b> để bạn xác minh và cấp mật khẩu tạm. Xem cách bật ở mục <b>Cài đặt</b>.</div>'}`;
+  $$('[data-go]').forEach(b => b.onclick = () => { S.view = b.dataset.go; shell(); });
+}
+
+/* ---------- yêu cầu tư vấn ---------- */
+const LQ = { status: 'new', q: '', rows: [], total: 0 };
+async function leads(append = false) {
+  const m = $('#main');
+  if (!append) {
+    m.innerHTML = `<div class="top"><div><h2>Yêu cầu tư vấn</h2><p>Mọi form khách gửi trên website: tư vấn, đặt lịch xem nhà, ký gửi, ứng tuyển.</p></div>
+    <div class="tools"><input class="in" id="lq" type="search" placeholder="Tìm tên, số điện thoại, nội dung…" value="${esc(LQ.q)}"><a class="btn ghost" href="/api/admin/export?what=leads">Tải Excel (CSV)</a></div></div>
+    <div class="chips" style="margin-bottom:14px">${[['', 'Tất cả'], ...Object.entries(LEAD_ST)].map(([k, t]) => `<button class="chip ${LQ.status === k ? 'on' : ''}" data-s="${k}">${t}</button>`).join('')}</div>
+    <div class="card"><div class="tw" id="lt"><div class="empty">Đang tải…</div></div></div>`;
+    $$('.chip').forEach(c => c.onclick = () => { LQ.status = c.dataset.s; leads(); });
+    let t; $('#lq').oninput = e => { clearTimeout(t); t = setTimeout(() => { LQ.q = e.target.value.trim(); leadsLoad(); }, 300); };
+  }
+  leadsLoad(append);
+}
+async function leadsLoad(append = false) {
+  try {
+    const j = await api(`leads?status=${encodeURIComponent(LQ.status)}&q=${encodeURIComponent(LQ.q)}&offset=${append ? LQ.rows.length : 0}`);
+    LQ.rows = append ? LQ.rows.concat(j.rows) : j.rows; LQ.total = j.total;
+  } catch (e) { $('#lt').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
+  const el = $('#lt'); if (!el) return;
+  if (!LQ.rows.length) { el.innerHTML = '<div class="empty">Chưa có yêu cầu nào ở mục này.</div>'; return; }
+  el.innerHTML = `<table class="rsp"><thead><tr><th>Thời gian</th><th>Khách</th><th>Loại</th><th>Nội dung</th><th>Trạng thái</th></tr></thead><tbody>${LQ.rows.map(r => `<tr data-id="${r.id}">
+    <td data-l="Thời gian"><span title="${fmt(r.created_at)}">${ago(r.created_at)}</span></td>
+    <td data-l="Khách" class="who"><b>${esc(r.name)}</b><span><a href="tel:${telOf(r.phone)}">${esc(r.phone)}</a> · <a href="https://zalo.me/${telOf(r.phone).replace(/^84/, '0')}" target="_blank" rel="noopener">Zalo</a></span></td>
+    <td data-l="Loại">${esc(r.kind)}</td>
+    <td data-l="Nội dung"><div class="msg" title="Bấm để xem đầy đủ">${esc(r.text)}</div>
+      <div class="lead-note"><textarea class="in" rows="1" placeholder="Ghi chú nội bộ…">${esc(r.note)}</textarea><button class="btn sm ghost" data-note>Lưu</button></div></td>
+    <td data-l="Trạng thái"><select class="st" aria-label="Trạng thái">${Object.entries(LEAD_ST).map(([k, t]) => `<option value="${k}" ${r.status === k ? 'selected' : ''}>${t}</option>`).join('')}</select><div style="margin-top:6px"><span class="tag t-${esc(r.status)}">${LEAD_ST[r.status] || esc(r.status)}</span></div></td></tr>`).join('')}</tbody></table>
+    ${LQ.rows.length < LQ.total ? `<div class="more"><button class="btn ghost" id="lmore">Xem thêm (${LQ.total - LQ.rows.length})</button></div>` : ''}`;
+  $$('.msg', el).forEach(x => x.onclick = () => x.classList.toggle('open'));
+  $$('select.st', el).forEach(s => s.onchange = async () => { const id = +s.closest('tr').dataset.id; try { await api('lead', { id, status: s.value }); const tg = s.parentElement.querySelector('.tag'); tg.className = 'tag t-' + s.value; tg.textContent = LEAD_ST[s.value]; toast('Đã cập nhật trạng thái.'); refreshStats(); } catch (e) { toast(e.message); } });
+  $$('[data-note]', el).forEach(b => b.onclick = async () => { const tr = b.closest('tr'); try { await api('lead', { id: +tr.dataset.id, note: tr.querySelector('textarea').value }); toast('Đã lưu ghi chú.'); } catch (e) { toast(e.message); } });
+  const mo = $('#lmore'); if (mo) mo.onclick = () => leadsLoad(true);
+}
+
+/* ---------- khách hàng ---------- */
+const UQ = { q: '', rows: [], total: 0 };
+async function users(append = false) {
+  const m = $('#main');
+  if (!append) {
+    m.innerHTML = `<div class="top"><div><h2>Khách hàng</h2><p>Tài khoản khách đăng ký trên website. Mật khẩu được mã hoá, không ai xem được.</p></div>
+    <div class="tools"><input class="in" id="uq" type="search" placeholder="Tìm tên, email, số điện thoại…" value="${esc(UQ.q)}"><a class="btn ghost" href="/api/admin/export?what=users">Tải Excel (CSV)</a></div></div>
+    <div class="card"><div class="tw" id="ut"><div class="empty">Đang tải…</div></div></div>`;
+    let t; $('#uq').oninput = e => { clearTimeout(t); t = setTimeout(() => { UQ.q = e.target.value.trim(); usersLoad(); }, 300); };
+  }
+  usersLoad(append);
+}
+async function usersLoad(append = false) {
+  try { const j = await api(`users?q=${encodeURIComponent(UQ.q)}&offset=${append ? UQ.rows.length : 0}`); UQ.rows = append ? UQ.rows.concat(j.rows) : j.rows; UQ.total = j.total; }
+  catch (e) { $('#ut').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
+  const el = $('#ut'); if (!el) return;
+  if (!UQ.rows.length) { el.innerHTML = `<div class="empty">${UQ.q ? 'Không tìm thấy khách hàng phù hợp.' : 'Chưa có khách hàng nào đăng ký.'}</div>`; return; }
+  el.innerHTML = `<table class="rsp"><thead><tr><th>Khách hàng</th><th>Điện thoại</th><th>Vai trò</th><th>Ngày tạo</th><th>Đăng nhập gần nhất</th><th>Trạng thái</th><th></th></tr></thead><tbody>${UQ.rows.map(u => `<tr data-id="${u.id}">
+    <td data-l="Khách" class="who"><b>${esc(u.name)}</b><span>${esc(u.email)} ${u.email_verified ? '<span class="tag t-ver">Email ✓</span>' : ''}</span></td>
+    <td data-l="Điện thoại"><a href="tel:${esc(u.phone)}">${esc(u.phone)}</a> ${u.phone_verified ? '<span class="tag t-ver">SĐT ✓</span>' : ''}${u.devices ? `<div style="font-size:12px;color:var(--mut)">${u.devices} thiết bị tin cậy</div>` : ''}</td>
+    <td data-l="Vai trò">${esc(u.role || '—')}</td>
+    <td data-l="Ngày tạo">${fmt(u.created_at)}</td>
+    <td data-l="Gần nhất">${ago(u.last_login)}</td>
+    <td data-l="Trạng thái"><span class="tag t-${u.status === 'active' ? 'active' : 'disabled'}">${u.status === 'active' ? 'Hoạt động' : 'Tạm khoá'}</span></td>
+    <td data-l="Thao tác"><div class="acts"><button class="btn sm ghost" data-a="temp-password">Cấp mật khẩu tạm</button>${u.email_verified ? '' : '<button class="btn sm ghost" data-a="verify">Xác minh email</button>'}${u.devices ? '<button class="btn sm ghost" data-a="revoke-devices">Gỡ thiết bị tin cậy</button>' : ''}<button class="btn sm ghost" data-a="${u.status === 'active' ? 'disable' : 'enable'}">${u.status === 'active' ? 'Khoá' : 'Mở khoá'}</button></div></td></tr>`).join('')}</tbody></table>
+    ${UQ.rows.length < UQ.total ? `<div class="more"><button class="btn ghost" id="umore">Xem thêm (${UQ.total - UQ.rows.length})</button></div>` : ''}`;
+  $$('[data-a]', el).forEach(b => b.onclick = () => userAction(+b.closest('tr').dataset.id, b.dataset.a));
+  const mo = $('#umore'); if (mo) mo.onclick = () => usersLoad(true);
+}
+async function userAction(id, a) {
+  const u = UQ.rows.find(x => x.id === id) || { name: '', email: '', phone: '' };
+  const Q = { 'temp-password': ['Cấp mật khẩu tạm?', `Mật khẩu hiện tại của ${u.name} sẽ bị thay bằng mật khẩu tạm. Hãy chỉ cấp sau khi đã xác minh đúng chủ tài khoản (gọi số đã đăng ký).`, 'Cấp mật khẩu tạm', false],
+    disable: ['Khoá tài khoản?', `${u.name} sẽ bị đăng xuất và không thể đăng nhập cho tới khi được mở khoá.`, 'Khoá tài khoản', true],
+    enable: ['Mở khoá tài khoản?', `${u.name} có thể đăng nhập lại bình thường.`, 'Mở khoá', false],
+    verify: ['Đánh dấu đã xác minh email?', `Xác nhận email ${u.email} thuộc về khách hàng này.`, 'Xác nhận', false],
+    'revoke-devices': ['Gỡ toàn bộ thiết bị tin cậy?', `Lần đăng nhập sau, ${u.name} sẽ phải nhập mã xác minh trên mọi thiết bị.`, 'Gỡ thiết bị', false] }[a];
+  if (!(await confirmBox(...Q))) return;
+  try {
+    const j = await api('user', { id, action: a });
+    if (j.temp) showTemp(u, j.temp); else toast('Đã cập nhật.');
+    if (S.view === 'users') usersLoad(); else if (S.view === 'resets') resets(); refreshStats();
+  } catch (e) { toast(e.message); }
+}
+function showTemp(u, temp) {
+  const d = dialog(`<h3>Mật khẩu tạm của ${esc(u.name || u.user_name || '')}</h3><p>Gửi mật khẩu này cho khách qua điện thoại/Zalo. Khách nên đổi mật khẩu ngay sau khi đăng nhập (mục Tài khoản → Đổi mật khẩu).</p>
+  <div class="temp"><span>${esc(temp)}</span><button class="btn sm gold" id="cpt">Sao chép</button></div><div class="row"><button class="btn" data-x>Xong</button></div>`);
+  $('#cpt', d).onclick = () => copy(temp);
+}
+
+/* ---------- quên mật khẩu ---------- */
+let RS = 'pending';
+async function resets() {
+  const m = $('#main');
+  m.innerHTML = `<div class="top"><div><h2>Yêu cầu quên mật khẩu</h2><p>${S.mail ? 'Email tự động đang bật — khách tự đặt lại qua email. Danh sách này chỉ còn yêu cầu cũ.' : 'Gọi khách theo số đã đăng ký để xác minh, sau đó cấp mật khẩu tạm.'}</p></div></div>
+  <div class="chips" style="margin-bottom:14px"><button class="chip ${RS === 'pending' ? 'on' : ''}" data-s="pending">Chờ xử lý</button><button class="chip ${RS === 'done' ? 'on' : ''}" data-s="done">Đã xử lý</button></div>
+  <div class="card"><div class="tw" id="rt"><div class="empty">Đang tải…</div></div></div>`;
+  $$('.chip').forEach(c => c.onclick = () => { RS = c.dataset.s; resets(); });
+  let rows; try { rows = (await api('resets?status=' + RS)).rows; } catch (e) { $('#rt').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
+  if (!rows.length) { $('#rt').innerHTML = `<div class="empty">${RS === 'pending' ? 'Không có yêu cầu nào đang chờ.' : 'Chưa có yêu cầu đã xử lý.'}</div>`; return; }
+  $('#rt').innerHTML = `<table class="rsp"><thead><tr><th>Thời gian</th><th>Khách</th><th>Liên hệ xác minh</th><th>${RS === 'pending' ? '' : 'Ghi chú'}</th></tr></thead><tbody>${rows.map(r => `<tr data-id="${r.id}" data-uid="${r.user_id}">
+    <td data-l="Thời gian">${ago(r.created_at)}</td>
+    <td data-l="Khách" class="who"><b>${esc(r.user_name || '—')}</b><span>${esc(r.email)}</span></td>
+    <td data-l="Liên hệ"><a href="tel:${telOf(r.phone || r.user_phone)}">${esc(r.phone || r.user_phone || '—')}</a>${r.phone && r.user_phone && telOf(r.phone) !== telOf(r.user_phone) ? `<div style="color:var(--bad);font-size:12px">Khác số đã đăng ký (${esc(r.user_phone)})</div>` : ''}</td>
+    <td data-l="${RS === 'pending' ? 'Thao tác' : 'Ghi chú'}">${RS === 'pending' ? '<div class="acts"><button class="btn sm gold" data-t>Cấp mật khẩu tạm</button><button class="btn sm ghost" data-c>Đóng yêu cầu</button></div>' : esc(r.note)}</td></tr>`).join('')}</tbody></table>`;
+  $$('[data-t]').forEach(b => b.onclick = async () => { const tr = b.closest('tr'), r = rows.find(x => x.id === +tr.dataset.id); UQ.rows = [{ id: r.user_id, name: r.user_name, email: r.email }]; await userAction(r.user_id, 'temp-password'); });
+  $$('[data-c]').forEach(b => b.onclick = async () => { if (!(await confirmBox('Đóng yêu cầu?', 'Yêu cầu sẽ chuyển sang mục đã xử lý.', 'Đóng yêu cầu'))) return; try { await api('reset', { id: +b.closest('tr').dataset.id }); toast('Đã đóng yêu cầu.'); refreshStats(); resets(); } catch (e) { toast(e.message); } });
+}
+
+/* ---------- quản trị viên ---------- */
+async function admins() {
+  const m = $('#main');
+  m.innerHTML = `<div class="top"><div><h2>Quản trị viên</h2><p>Tài khoản quản trị tách riêng hoàn toàn với tài khoản khách hàng.</p></div></div>
+  <div class="grid2"><div class="card"><div class="tw" id="at"><div class="empty">Đang tải…</div></div></div>
+  <div class="card pad"><h3>Thêm quản trị viên</h3><p class="d">Người được thêm có toàn quyền xem khách hàng và yêu cầu tư vấn.</p>
+    <form id="af" novalidate><label class="f">Họ và tên<input class="in" name="name" required></label><label class="f">Email<input class="in" name="email" type="email" required></label><label class="f">Mật khẩu ban đầu (tối thiểu 10 ký tự)<input class="in" name="pass" type="password" autocomplete="new-password" required></label><div class="err" id="ae"></div><button class="btn" type="submit">Thêm quản trị viên</button></form></div></div>`;
+  try { const rows = (await api('admins')).rows; $('#at').innerHTML = `<table class="rsp"><thead><tr><th>Quản trị viên</th><th>Ngày tạo</th><th>Đăng nhập gần nhất</th></tr></thead><tbody>${rows.map(a => `<tr><td data-l="Tên" class="who"><b>${esc(a.name)}${a.id === S.admin.id ? ' (bạn)' : ''}</b><span>${esc(a.email)}</span></td><td data-l="Ngày tạo">${fmt(a.created_at)}</td><td data-l="Gần nhất">${ago(a.last_login)}</td></tr>`).join('')}</tbody></table>`; }
+  catch (e) { $('#at').innerHTML = `<div class="empty">${esc(e.message)}</div>`; }
+  $('#af').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); try { await api('admins', d); toast('Đã thêm quản trị viên.'); admins(); } catch (err) { $('#ae').textContent = err.message; } };
+}
+
+/* ---------- cài đặt ---------- */
+function settings() {
+  const m = $('#main');
+  m.innerHTML = `<div class="top"><div><h2>Cài đặt</h2><p>Bảo mật tài khoản quản trị và gửi email tự động.</p></div></div>
+  <div class="grid2"><div class="card pad"><h3>Đổi mật khẩu quản trị</h3><p class="d">Các phiên đăng nhập quản trị khác sẽ bị đăng xuất.</p>
+    <form id="pf" novalidate><label class="f">Mật khẩu hiện tại<input class="in" name="old" type="password" autocomplete="current-password" required></label><label class="f">Mật khẩu mới (tối thiểu 10 ký tự)<input class="in" name="pass" type="password" autocomplete="new-password" required></label><label class="f">Nhập lại mật khẩu mới<input class="in" name="pass2" type="password" autocomplete="new-password" required></label><div class="err" id="pe"></div><button class="btn" type="submit">Lưu mật khẩu mới</button></form></div>
+  <div class="card pad"><h3>Mã xác minh tự động</h3>
+    <p class="d">SMS ${S.sms ? '<span class="tag t-active">Đang bật</span>' : '<span class="tag t-new">Chưa bật</span>'} · Email ${S.mail ? '<span class="tag t-active">Đang bật</span>' : '<span class="tag t-new">Chưa bật</span>'}</p>
+    <div style="font-size:13px;line-height:1.75;color:var(--ink2)">Các khoá được thêm trong <b>Cloudflare → Workers &amp; Pages → hoangdung-realestate → Settings → Variables and Secrets</b> (chọn loại <b>Secret</b>), rồi bấm <b>Deploy</b>:<br>
+    <b>SMS (Twilio Verify, hỗ trợ số quốc tế):</b><br>
+    &nbsp;&nbsp;• <code>TWILIO_ACCOUNT_SID</code>, <code>TWILIO_AUTH_TOKEN</code> — trong trang chủ tài khoản Twilio<br>
+    &nbsp;&nbsp;• <code>TWILIO_VERIFY_SID</code> — tạo dịch vụ ở Twilio → Verify → Services (bắt đầu bằng VA…)<br>
+    <b>Email (miễn phí 300 thư/ngày với Brevo):</b><br>
+    &nbsp;&nbsp;• <code>BREVO_API_KEY</code> — Brevo → SMTP &amp; API → API Keys<br>
+    &nbsp;&nbsp;• <code>MAIL_FROM</code> — ví dụ <code>Hoàng Dũng Real Estate &lt;email-da-xac-minh@...&gt;</code><br>
+    &nbsp;&nbsp;• <code>NOTIFY_EMAIL</code> — email nhận thông báo yêu cầu tư vấn mới (tuỳ chọn)</div></div></div>`;
+  $('#pf').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); if (d.pass !== d.pass2) { $('#pe').textContent = 'Hai mật khẩu mới chưa khớp.'; return; } try { await api('password', { old: d.old, pass: d.pass }); e.target.reset(); $('#pe').textContent = ''; toast('Đã đổi mật khẩu quản trị.'); } catch (err) { $('#pe').textContent = err.message; } };
+}
+
+/* ---------- khởi động ---------- */
+function render() { if (!S.admin) gate(); else { shell(); refreshStats().then(() => { if (S.view !== 'home' && S.stats) { const b = $$('.nav .bd'); if (!b.length && (S.stats.leadsNew || S.stats.resets)) shell(); } }); } }
+(async () => {
+  try { const j = await (await fetch('/api/admin/state', { cache: 'no-store', credentials: 'same-origin' })).json(); S.setup = j.setup; S.admin = j.admin; S.mail = j.mail; S.sms = j.sms; }
+  catch (e) { $('#root').innerHTML = '<div class="gate"><div class="gate-card"><h1>Không kết nối được máy chủ</h1><p class="lead">Vui lòng tải lại trang sau ít phút.</p></div></div>'; return; }
+  render();
+})();
+</script>
+</body>
+</html>

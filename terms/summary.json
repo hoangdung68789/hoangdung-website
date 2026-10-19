@@ -1,0 +1,39 @@
+{
+  "terms": {
+    "title": "Điều khoản dịch vụ",
+    "bullets": [
+      "Khi dùng website Hoàng Dũng Real Estate, bạn đồng ý với các điều khoản này. Bạn cần đủ 18 tuổi, hoặc có cha mẹ/người giám hộ đồng ý.",
+      "Giá, tình trạng nhà, kết quả tính khoản vay và thông tin pháp lý trên website chỉ để tham khảo. Điều khoản giao dịch cuối cùng là hợp đồng các bên ký kết.",
+      "Mỗi người một tài khoản, thông tin phải trung thực. Hãy tự giữ mật khẩu và mã xác thực – chúng tôi không bao giờ hỏi các thông tin này.",
+      "Nghiêm cấm đăng thông tin sai sự thật, mạo danh, lừa đảo tiền cọc, spam hoặc tấn công, thu thập dữ liệu trái phép từ website.",
+      "Creator phải dùng nội dung của chính mình và không quảng cáo bất động sản gây hiểu lầm. Chúng tôi có quyền duyệt hoặc thu hồi tư cách Creator.",
+      "Chúng tôi có thể tạm khóa tài khoản vi phạm. Tranh chấp được thương lượng trước; nếu không thành sẽ do Tòa án có thẩm quyền tại TP. Hồ Chí Minh giải quyết theo pháp luật Việt Nam.",
+      "Cần hỏi thêm? Gọi 087.778.1796 (Dũng) hoặc email hoangdung68789@gmail.com."
+    ]
+  },
+  "privacy": {
+    "title": "Chính sách bảo mật",
+    "bullets": [
+      "Chúng tôi chỉ thu thập thông tin cần cho việc tư vấn, quản lý tài khoản và giao dịch bất động sản – và không bao giờ bán dữ liệu của bạn.",
+      "Mật khẩu được băm một chiều, chúng tôi không thể xem. Đăng nhập có thể kèm mã một lần qua SMS hoặc email.",
+      "Số CCCD/Căn cước chỉ được lưu khi bạn đồng ý, hiển thị che bớt với bạn, chỉ quản trị viên được xem đầy đủ. Chúng tôi không thu ảnh giấy tờ.",
+      "Lịch sử đăng nhập (thời gian, IP, vị trí ước lượng, thiết bị) giúp bảo vệ tài khoản – bạn tự xem được và đăng xuất phiên lạ.",
+      "Thống kê truy cập là ẩn danh. Website chỉ dùng cookie cần thiết, không dùng cookie quảng cáo hay theo dõi.",
+      "Dữ liệu lưu trên hạ tầng Cloudflare; Twilio, Brevo, Google, Facebook chỉ nhận phần dữ liệu cần cho dịch vụ của họ.",
+      "Bạn có quyền xem, sửa, xóa, rút lại đồng ý, phản đối xử lý… qua trang tài khoản, hotline 087.778.1796 hoặc email."
+    ]
+  },
+  "listing": {
+    "title": "Cam kết bảo mật thông tin nguồn hàng",
+    "bullets": [
+      "Cam kết ràng buộc cả hai phía: khách hàng (tick đồng ý trước khi yêu cầu thông tin hoặc đặt lịch xem) và chủ nhà (khi ký gửi bất động sản hoặc nhận khách do Hoàng Dũng Real Estate giới thiệu).",
+      "Giữ bí mật thông tin nguồn hàng và thông tin khách (địa chỉ, chủ nhà, giá thương lượng, giấy tờ pháp lý, hình ảnh, lịch xem) – không chia sẻ cho bên thứ ba.",
+      "Dù ở bất kỳ trường hợp nào, khách hàng/chủ nhà tự ý bỏ qua môi giới để giao dịch riêng đều sẽ vi phạm hợp đồng. Không có ngoại lệ – kể cả khi giao dịch qua người thân, môi giới khác hay bất kỳ trung gian nào.",
+      "Thời hạn cam kết: 12 tháng kể từ lần đầu nhận thông tin bất động sản (khách hàng) hoặc lần đầu được giới thiệu khách (chủ nhà).",
+      "Vi phạm được xử lý theo pháp luật Việt Nam; bên vi phạm đền bù cho môi giới 5% tiền hoa hồng nhằm đền bù thiệt hại và tổn thất, và chúng tôi có thể ngừng phục vụ.",
+      "Chúng tôi cung cấp thông tin trung thực, bảo vệ dữ liệu cá nhân của bạn và hỗ trợ đến khi hoàn tất giao dịch.",
+      "Tick và gửi yêu cầu là xác nhận điện tử; website lưu thời điểm, tin đăng và thông tin kỹ thuật (IP, thiết bị) làm bằng chứng."
+    ],
+    "version": "1.1"
+  }
+}

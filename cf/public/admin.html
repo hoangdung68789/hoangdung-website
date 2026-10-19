@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0c0d0f">
+<title>Quản trị · Hoàng Dũng Real Estate</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23121417'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='700' font-size='26' fill='%23e9a27a' text-anchor='middle'%3EHD%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#f3f4f6;--card:#fff;--ink:#121417;--ink2:#434951;--mut:#6f7680;--line:#e6e8eb;--night:#0c0d0f;--night2:#16181b;--gold:#e9a27a;--gold2:#c97a52;--ok:#2f9e6b;--warn:#c98a1b;--bad:#c2463d;--blue:#3b6fd8;
+  --font:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 16px;border-radius:999px;background:var(--ink);color:#fff;font-weight:500;font-size:14.5px;white-space:nowrap;transition:transform .2s,opacity .2s}
+.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.5;transform:none;cursor:default}
+.btn.gold{background:linear-gradient(90deg,#f3c9a3,var(--gold));color:#1a120c}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.sm{height:32px;padding:0 12px;font-size:13.5px}
+.btn.danger{background:var(--bad)}
+input.in,select.in,textarea.in{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;outline:none;transition:border-color .2s,box-shadow .2s}
+input.in:focus,select.in:focus,textarea.in:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(233,162,122,.2)}
+label.f{display:grid;gap:6px;font-size:13.5px;color:var(--ink2);font-weight:500}
+.err{color:var(--bad);font-size:14px;min-height:18px}
+
+/* ---- màn đăng nhập ---- */
+.gate{min-height:100vh;min-height:100dvh;box-sizing:border-box;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(60% 50% at 20% 10%,rgba(233,162,122,.18),transparent 70%),radial-gradient(50% 40% at 90% 90%,rgba(120,160,230,.12),transparent 70%),var(--night)}
+.gate-card{width:100%;max-width:400px;background:#fff;border-radius:20px;padding:30px 26px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7)}
+.brand{font-weight:800;font-size:19px;letter-spacing:-.03em;display:flex;align-items:baseline;gap:7px}
+.brand small{font-size:10px;letter-spacing:.18em;font-weight:600;color:var(--gold2)}
+.gate h1{font-size:22px;margin:18px 0 4px;letter-spacing:-.02em}
+.gate p.lead{margin:0 0 18px;color:var(--ink2)}
+.gate form{display:grid;gap:14px}
+.gate .btn{height:44px;width:100%}
+.gate .foot{margin-top:16px;font-size:13px;color:var(--mut);text-align:center}
+
+/* ---- khung ứng dụng ---- */
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100%}
+.side{background:var(--night);color:#e9eaec;padding:22px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:22px}
+.side .brand{color:#fff;padding:0 8px;flex-direction:column;align-items:flex-start;gap:3px;line-height:1.1}
+.nav{display:grid;gap:3px}
+.nav button{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;color:#b9bec5;text-align:left;font-size:14.5px;transition:background .2s,color .2s}
+.nav button:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav button.on{background:rgba(233,162,122,.14);color:#fff}
+.nav button.on svg{color:var(--gold)}
+.nav svg{width:18px;height:18px;flex:none}
+.nav .bd{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--gold);color:#1a120c;font-size:12.5px;font-weight:700;display:grid;place-items:center}
+.side .me{margin-top:auto;padding:12px;border-radius:12px;background:var(--night2);font-size:13.5px;color:#b9bec5}
+.side .me b{display:block;color:#fff;font-weight:600}
+.side .me .row{display:flex;gap:8px;margin-top:10px}
+.side .me button,.side .me a{flex:1;height:32px;border-radius:8px;background:rgba(255,255,255,.07);color:#e9eaec;font-size:13px;display:grid;place-items:center;text-decoration:none}
+.main{padding:28px clamp(16px,3vw,40px) 60px;min-width:0}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.top h2{margin:0;font-size:24px;letter-spacing:-.02em}
+.top p{margin:4px 0 0;color:var(--ink2)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tools .in{width:auto;min-width:220px;height:38px;padding:0 14px;border-radius:999px}
+.card{background:var(--card);border-radius:16px;box-shadow:0 1px 0 var(--line),0 10px 30px -22px rgba(18,20,23,.3)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:18px}
+.kpi{padding:18px}
+.kpi span{font-size:13.5px;color:var(--ink2)}
+.kpi b{display:block;font-size:30px;letter-spacing:-.03em;margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi i{font-style:normal;font-size:13px;color:var(--mut)}
+.kpi.hot b{color:var(--gold2)}
+.chart{padding:18px 18px 12px}
+.chart h3{margin:0 0 14px;font-size:15px}
+.bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;align-items:end;height:140px}
+.bar{position:relative;background:linear-gradient(180deg,#f3c9a3,var(--gold));border-radius:6px 6px 2px 2px;min-height:3px}
+.bar em{position:absolute;top:-18px;left:0;right:0;text-align:center;font-style:normal;font-size:12.5px;color:var(--ink2)}
+.blabels{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;margin-top:6px;font-size:12px;color:var(--mut);text-align:center}
+.note{padding:14px 16px;border-radius:12px;background:#fff7f0;color:#7a4a2b;font-size:14px;line-height:1.6;margin-top:18px}
+.note.ok{background:#eef8f2;color:#245c40}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{height:34px;padding:0 14px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);font-size:14px;color:var(--ink2)}
+.chip.on{background:var(--ink);color:#fff;box-shadow:none}
+table{width:100%;border-collapse:collapse}
+th{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);font-weight:600;text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.tw{overflow-x:auto}
+.who b{display:block;font-weight:600}
+.who span{color:var(--mut);font-size:13.5px}
+.tag{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:999px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.t-new{background:#fff1e6;color:#b4572a}.t-contacted{background:#e9f0ff;color:#2f57b0}.t-deal{background:#fdf4d8;color:#8a6510}.t-closed{background:#e7f6ee;color:#23744e}.t-spam{background:#f1f1f1;color:#777}
+.t-active{background:#e7f6ee;color:#23744e}.t-disabled{background:#fdeceb;color:#a3352d}.t-ver{background:#e9f0ff;color:#2f57b0}
+.msg{max-width:420px;white-space:pre-wrap;color:var(--ink2);font-size:14px;max-height:66px;overflow:hidden;position:relative;cursor:pointer}
+.msg.open{max-height:none}
+.msg:not(.open)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:24px;background:linear-gradient(transparent,#fff)}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.empty{padding:40px 16px;text-align:center;color:var(--mut)}
+.more{display:flex;justify-content:center;padding:14px}
+.lead-note{margin-top:8px;display:flex;gap:6px}
+.lead-note .in{min-height:36px;padding:7px 10px;font-size:14px;resize:vertical}
+select.st{border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:#fff;font-size:13.5px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px}
+.pad{padding:20px}
+.pad h3{margin:0 0 4px;font-size:16px}
+.pad p.d{margin:0 0 16px;color:var(--ink2);font-size:14px}
+.pad form{display:grid;gap:12px}
+code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-size:13.5px}
+
+/* hộp thoại */
+.dlg{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(10,12,15,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.dlg-in{width:100%;max-width:420px;background:#fff;border-radius:18px;padding:24px;box-shadow:0 30px 80px -30px rgba(0,0,0,.6);animation:pop .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{transform:translateY(10px) scale(.98);opacity:0}}
+.dlg h3{margin:0 0 6px;font-size:18px}
+.dlg p{margin:0 0 16px;color:var(--ink2)}
+.dlg .row{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.temp{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-radius:12px;background:#121417;color:#fff;font-size:22px;letter-spacing:.06em;font-family:ui-monospace,Menlo,Consolas,monospace;margin-bottom:16px}
+.toast{position:fixed;left:50%;bottom:24px;translate:-50% 0;z-index:60;background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:14.5px;box-shadow:0 14px 40px -12px rgba(0,0,0,.5);animation:pop .25s}
+
+/* điện thoại */
+.mbar{display:none}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:sticky;top:0;z-index:20;height:auto;padding:10px 12px;gap:10px;flex-direction:column;min-width:0}
+  .side>.brand{display:none}
+  .mbar .brand{flex-direction:row;align-items:baseline;padding:0}
+  .mbar{display:flex;align-items:center;justify-content:space-between;color:#fff}
+  .nav{grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto;gap:4px;padding-bottom:2px;scrollbar-width:none}
+  .nav::-webkit-scrollbar{display:none}
+  .nav button{padding:8px 12px;white-space:nowrap}
+  .nav svg{display:none}
+  .side .me{display:none}
+  .main{padding-top:20px}
+  .tools .in{min-width:0;flex:1 1 180px}
+  /* bảng → thẻ */
+  table.rsp thead{display:none}
+  table.rsp tr{display:block;padding:12px 14px;border-bottom:1px solid var(--line)}
+  table.rsp td{display:grid;grid-template-columns:92px minmax(0,1fr);column-gap:10px;padding:5px 0;border:0}
+  table.rsp td>*{grid-column:2}
+  table.rsp td::before{content:attr(data-l);grid-column:1;grid-row:1/span 6;font-size:12.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;padding-top:2px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .kpi{padding:14px}.kpi b{font-size:26px}
+  .msg{max-width:none}
+}
+
+/* hồ sơ khách + yêu cầu cập nhật */
+.dlg-in.wide{max-width:780px;max-height:min(92vh,960px);overflow:auto}
+.dl{display:grid;grid-template-columns:minmax(120px,auto) minmax(0,1fr);gap:8px 16px;margin:0 0 16px;font-size:14.5px}
+.dl dt{color:var(--mut)}.dl dd{margin:0;font-weight:500;word-break:break-word}
+.sec-t{margin:18px 0 10px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:600}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fgrid .full{grid-column:1/-1}
+.ev{display:grid;gap:2px;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+.ev small{color:var(--mut)}
+.t-pending{background:#fff1e6;color:#b4572a}.t-done{background:#e7f6ee;color:#23744e}.t-rejected{background:#f1f1f1;color:#666}.t-lock{background:#efeaf9;color:#5b3fa3}
+.req-msg{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--ink);margin-top:6px;max-width:520px}
+@media (max-width:600px){.fgrid{grid-template-columns:1fr}.dl{grid-template-columns:1fr}.dl dt{margin-top:6px}}
+
+/* ===== v16: vai trò quản trị — chữ 3D có màu ===== */
+.rb{--a:#ffe2b8;--b:#e9a27a;--c:#c97a52;--d:#6a3518;--e:#2a160a;--g1:#3d2817;--g2:#1c120a;--bd:rgba(233,162,122,.55);display:inline-flex;align-items:center;gap:6px;height:27px;padding:0 12px 0 9px;border-radius:999px;background:radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.10),transparent 60%),linear-gradient(180deg,var(--g1),var(--g2));box-shadow:inset 0 0 0 1px var(--bd),inset 0 1px 0 rgba(255,255,255,.14),0 3px 8px -3px rgba(0,0,0,.45);vertical-align:middle;white-space:nowrap;line-height:1;flex:none}
+.rb-manager{--a:#cfe3ff;--b:#8fbfe4;--c:#3b6fd8;--d:#13306e;--e:#07142f;--g1:#1a2944;--g2:#0a1325;--bd:rgba(143,191,228,.55)}
+.rb-assistant{--a:#c9f2dc;--b:#5fcf97;--c:#2f9e6b;--d:#0f4a2f;--e:#052014;--g1:#163728;--g2:#0a1d14;--bd:rgba(95,207,151,.55)}
+.rb svg{width:14px;height:14px;flex:none;color:var(--b);filter:drop-shadow(0 1px 0 var(--d)) drop-shadow(0 1px 1px rgba(0,0,0,.5))}
+.rbt{display:inline-grid;font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.rbt>*{grid-area:1/1;font-style:normal;font-weight:inherit;white-space:nowrap}
+.rbt i{color:var(--d);text-shadow:0 1px 0 var(--d),0 2px 0 var(--e),0 3px 3px rgba(0,0,0,.55)}
+.rbt b{color:transparent;background:linear-gradient(180deg,var(--a) 8%,var(--b) 52%,var(--c) 96%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 -.5px 0 rgba(255,255,255,.18))}
+.rb.lg{height:31px;padding:0 14px 0 11px;gap:7px}.rb.lg .rbt{font-size:13.5px}.rb.lg svg{width:16px;height:16px}
+.side .me .rb{margin:7px 0 5px}
+.side .me .em{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hi{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mbar .r{display:flex;align-items:center;gap:8px}
+@media (max-width:420px){.mbar .brand small{display:none}.mbar .rb{height:25px;padding:0 9px 0 7px}.mbar .rb svg{display:none}}
+
+/* chung */
+.mut{color:var(--mut)}.sm{font-size:13px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.btn.dz{color:var(--bad);box-shadow:inset 0 0 0 1px #f0c9c5}
+.btn.on{background:linear-gradient(90deg,#f3c9a3,var(--gold));color:#1a120c;box-shadow:none}
+label.ck{display:flex;align-items:center;gap:10px;font-size:14.5px;color:var(--ink);font-weight:500;cursor:pointer}
+label.ck input{width:18px;height:18px;accent-color:var(--gold2)}
+label.f small{font-weight:400;color:var(--mut);font-size:12.5px}
+.kpi.link{cursor:pointer;text-align:left;width:100%;transition:transform .2s,box-shadow .2s}.kpi.link:hover{transform:translateY(-2px)}
+.perm{display:grid;gap:7px;margin:0;padding:0;list-style:none;font-size:14px}
+.perm li{display:flex;gap:9px;align-items:flex-start;line-height:1.45}
+.perm li::before{content:"✓";color:var(--ok);font-weight:800;width:14px;flex:none}
+.perm li.no{color:#9aa0a8}.perm li.no::before{content:"✕";color:#c5c9ce;font-weight:600}
+.rl{display:grid;gap:6px;padding:12px 0;border-top:1px solid var(--line)}.rl:first-of-type{border-top:0;padding-top:4px}
+.rl p{margin:0;font-size:14px;color:var(--ink2)}
+.pv{gap:5px;background:#f1f3f5;color:var(--ink2);margin:2px 4px 2px 0}
+.pv i{width:15px;height:15px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10.5px;font-weight:800;color:#fff;line-height:1}
+.pv-google i{background:conic-gradient(#ea4335 0 25%,#fbbc05 0 50%,#34a853 0 75%,#4285f4 0)}.pv-facebook i{background:#1877f2}
+.t-creator{background:linear-gradient(90deg,#fff0de,#ffe1c7);color:#94491d}.t-crp{background:#fff6dc;color:#8a6510}
+.t-published{background:#e7f6ee;color:#23744e}.t-draft{background:#eef0f2;color:#555b63}.t-hidden{background:#f1f1f1;color:#666}.t-sold{background:#efeaf9;color:#5b3fa3}
+.t-ban{background:#fff1e6;color:#a4501f}.t-thue{background:#e9f0ff;color:#2f57b0}
+.t-approved{background:#e7f6ee;color:#23744e}.t-feat{background:#fdf4d8;color:#8a6510}
+.okt{color:var(--ok);font-weight:600}.bad{color:var(--bad);font-weight:600}
+tr.fail td{background:#fff6f5}
+.st-role{max-width:100%}
+.cpy{display:flex;gap:8px;align-items:center;margin:8px 0}.cpy code{flex:1;min-width:0;overflow-wrap:anywhere;line-height:1.5;padding:6px 9px}
+.box-t{font-size:14px;line-height:1.75;color:var(--ink2)}
+
+/* tin đăng */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,272px),1fr));gap:16px}
+.lc{overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.lc .ph{position:relative;aspect-ratio:16/10;background:#e9ebee}
+.lc .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.lc .ph>.tag{position:absolute;left:10px;top:10px;box-shadow:0 2px 8px -2px rgba(0,0,0,.25)}
+.lc .ph .cnt{position:absolute;left:10px;bottom:10px;height:24px;padding:0 9px;border-radius:999px;background:rgba(12,13,15,.62);color:#fff;font-size:12.5px;display:grid;place-items:center}
+.fav{position:absolute;right:10px;top:10px;height:30px;padding:0 11px;border-radius:999px;background:rgba(12,13,15,.62);color:#fff;font-size:13px;font-weight:600;display:inline-flex;gap:5px;align-items:center;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .2s}
+.fav:hover{background:rgba(12,13,15,.8)}
+.fav.on{background:linear-gradient(90deg,#f8dcc0,var(--gold));color:#1a120c}
+.lc .lb{padding:14px 16px 16px;display:grid;gap:6px;flex:1;align-content:start}
+.lc h4{margin:0;font-size:15.5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc .pr{font-size:19px;font-weight:700;color:var(--gold2);letter-spacing:-.01em}
+.mt{font-size:13px;color:var(--mut);display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px}
+.lc .acts{padding-top:6px;align-self:end}
+.imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px;min-height:60px;border-radius:12px;transition:box-shadow .2s}
+.imgs.drop{box-shadow:0 0 0 2px var(--gold)}
+.imgs-empty{grid-column:1/-1;padding:22px 14px;border:1.5px dashed #d5d9de;border-radius:12px;text-align:center;color:var(--mut);font-size:14px}
+.im{position:relative;border-radius:12px;overflow:hidden;background:#eef0f2;aspect-ratio:4/3;cursor:grab;box-shadow:inset 0 0 0 1px var(--line)}
+.im img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.im .cv{position:absolute;left:6px;top:6px;height:22px;padding:0 8px;border-radius:999px;background:linear-gradient(90deg,#f8dcc0,var(--gold));color:#1a120c;font-size:12.5px;font-weight:700;display:grid;place-items:center}
+.im .ib{position:absolute;left:6px;right:6px;bottom:6px;display:flex;gap:4px;justify-content:flex-end}
+.im .ib button{width:30px;height:30px;border-radius:8px;background:rgba(12,13,15,.72);color:#fff;font-size:14px;display:grid;place-items:center}
+.im .ib button:disabled{opacity:.35;cursor:default}
+.im .ib button[data-rm]{background:rgba(194,70,61,.9)}
+.im.drag{opacity:.4}.im.over{box-shadow:0 0 0 3px var(--gold)}
+.prog{height:6px;border-radius:99px;background:#eef0f2;overflow:hidden;margin:10px 0 4px}.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f3c9a3,var(--gold2));transition:width .25s}
+.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px;margin-top:10px;padding:10px;border-radius:12px;background:var(--bg)}
+.pick button{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:4/3;box-shadow:inset 0 0 0 1px var(--line);background:#ddd}
+.pick button img{width:100%;height:100%;object-fit:cover;display:block}
+.pick button span{position:absolute;left:0;right:0;bottom:0;padding:3px 6px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff;font-size:12.5px;text-align:left}
+.pick button[aria-pressed=true]{box-shadow:0 0 0 3px var(--gold)}
+.pick button[aria-pressed=true]::after{content:"✓";position:absolute;right:6px;top:6px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#1a120c;font-weight:800;display:grid;place-items:center;font-size:13px}
+.hint{font-size:13px;color:var(--ok);font-weight:600;min-height:20px}
+.dlg .row.l{justify-content:flex-start;align-items:center}
+
+/* creator */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:16px}
+.cc{padding:18px;display:grid;gap:10px;align-content:start;min-width:0}
+.cc .hd{display:flex;gap:12px;align-items:center;min-width:0}
+.cc .hd .who{min-width:0;flex:1}.cc .hd .who b,.cc .hd .who span{overflow:hidden;text-overflow:ellipsis}
+.av{width:48px;height:48px;border-radius:50%;flex:none;object-fit:cover;background:linear-gradient(135deg,#f3c9a3,var(--gold2));color:#fff;display:grid;place-items:center;font-weight:700;font-size:19px}
+.cc .cov{width:100%;aspect-ratio:16/7;object-fit:cover;border-radius:12px;display:block}
+.links{display:flex;gap:6px;flex-wrap:wrap}
+.lk{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:var(--bg);font-size:13.5px;text-decoration:none;font-weight:500;color:var(--ink)}
+.lk:hover{background:#e6e8eb}
+.lk-tiktok::before,.lk-youtube::before,.lk-facebook::before,.lk-video::before{content:"";width:8px;height:8px;border-radius:50%;background:#121417}
+.lk-youtube::before{background:#e62117}.lk-facebook::before{background:#1877f2}.lk-video::before{background:var(--gold2)}
+.cc .intro{margin:0;font-size:14px;color:var(--ink2);white-space:pre-wrap;word-break:break-word}
+.cc .ctc{font-size:13.5px;color:var(--ink2);word-break:break-word}
+.cvp{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.cvp img{width:180px;max-width:100%;aspect-ratio:16/7;object-fit:cover;border-radius:10px;box-shadow:inset 0 0 0 1px var(--line);background:#eee}
+
+/* lượt truy cập */
+.ana{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:18px;margin-top:18px}
+.hb{display:grid;gap:12px}
+.hb .r{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 12px;font-size:14px}
+.hb .r span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb .r em{font-style:normal;color:var(--ink2);font-variant-numeric:tabular-nums}
+.hb .r .b{grid-column:1/-1;height:6px;border-radius:99px;background:#eef0f2;overflow:hidden}
+.hb .r .b i{display:block;height:100%;border-radius:99px;background:#c97a52}
+.lg{display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px;color:var(--ink2);margin:0 0 10px}
+.lg span{display:inline-flex;align-items:center;gap:7px}
+.lg .sw{width:12px;height:12px;border-radius:3px;background:#c97a52}.lg .ln{width:16px;height:3px;border-radius:2px;background:#3b6fd8}
+.chart-wrap{position:relative}
+.chart-wrap svg{display:block;width:100%;overflow:visible}
+.chart-wrap text{font-family:var(--font);font-size:12.5px;fill:#6f7680}
+.chart-wrap .hit{fill:transparent}.chart-wrap .hit:hover{fill:rgba(18,20,23,.05)}
+.chart-empty{position:absolute;inset:0 0 30px 40px;display:grid;place-items:center;color:var(--mut);font-size:14px;pointer-events:none}
+details.tbl{margin-top:10px;font-size:14px}details.tbl summary{cursor:pointer;color:var(--ink2);padding:4px 0}
+details.tbl .tw{max-height:300px;overflow:auto;margin-top:6px}
+details.tbl td,details.tbl th{padding:7px 10px}
+
+/* thiết bị đăng nhập */
+.sess .s{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:11px 0;border-top:1px solid var(--line);font-size:14px}
+.sess .s:first-child{border-top:0}
+.sess .s>div{min-width:0}.sess .s small{display:block;color:var(--mut);font-size:13px;word-break:break-word}
+.head-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+'use strict';
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = ms => ms ? new Intl.DateTimeFormat('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(ms)) : '—';
+const ago = ms => { if (!ms) return '—'; const m = Math.round((Date.now() - ms) / 60000); if (m < 1) return 'vừa xong'; if (m < 60) return m + ' phút trước'; const h = Math.round(m / 60); if (h < 24) return h + ' giờ trước'; const d = Math.round(h / 24); return d < 30 ? d + ' ngày trước' : fmt(ms); };
+const telOf = p => String(p || '').replace(/\D/g, '');
+async function api(path, body) {
+  let r, j = {};
+  try { r = await fetch('/api/admin/' + path, { method: body ? 'POST' : 'GET', headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined, credentials: 'same-origin', cache: 'no-store' }); }
+  catch (e) { throw new Error('Không kết nối được máy chủ.'); }
+  try { j = await r.json(); } catch (e) { }
+  if (r.status === 401 && path !== 'login') { S.admin = null; render(); }
+  if (!r.ok) throw new Error(j.error || 'Có lỗi xảy ra.');
+  return j;
+}
+function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.setAttribute('role', 'status'); d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
+/* opts.wide: hộp thoại rộng, cuộn bên trong · opts.keep: không đóng khi bấm ra ngoài (biểu mẫu dài) */
+function dialog(html, opts = {}) {
+  const d = document.createElement('div'); d.className = 'dlg'; d.innerHTML = `<div class="dlg-in${opts.wide ? ' wide' : ''}" role="dialog" aria-modal="true">${html}</div>`; document.body.appendChild(d);
+  d.addEventListener('click', e => { if ((e.target === d && !opts.keep) || e.target.closest('[data-x]')) d.remove(); });
+  d.addEventListener('keydown', e => { if (e.key === 'Escape') { e.stopPropagation(); const x = d.querySelector('[data-x]'); x ? x.click() : d.remove(); } });
+  const f = d.querySelector('button:not([data-x]),input'); f && f.focus(); return d;
+}
+function confirmBox(title, text, okLabel = 'Đồng ý', danger = false) {
+  return new Promise(res => { const d = dialog(`<h3>${esc(title)}</h3><p>${esc(text)}</p><div class="row"><button class="btn ghost" data-x>Huỷ</button><button class="btn ${danger ? 'danger' : ''}" id="dlgOk">${esc(okLabel)}</button></div>`); d.addEventListener('click', e => { if (e.target.closest('[data-x]') || e.target === d) res(false); }); $('#dlgOk', d).onclick = () => { d.remove(); res(true); }; });
+}
+function copy(t) { try { navigator.clipboard.writeText(t).then(() => toast('Đã sao chép.')); } catch (e) { } }
+
+const S = { admin: null, setup: false, mail: false, sms: false, google: false, facebook: false, view: 'home', stats: null };
+/* quyền: máy chủ gửi sẵn S.admin.can — giao diện chỉ ẩn/hiện, máy chủ vẫn chặn 403 */
+const can = k => !!(S.admin && S.admin.can && S.admin.can[k]);
+const ROLE_L = { director: 'Giám đốc', manager: 'Quản lý', assistant: 'Trợ lý' };
+const ROLE_ORDER = ['director', 'manager', 'assistant'];
+const ROLE_D = {
+  director: 'Toàn quyền: thêm, phân quyền và xoá quản trị viên; tải dữ liệu Excel; cài đặt hệ thống; xem lịch sử đăng nhập của mọi quản trị viên.',
+  manager: 'Toàn bộ quyền của Trợ lý, thêm: xoá tin, quản lý tài khoản khách, xem đủ số CCCD, xử lý yêu cầu và quên mật khẩu, duyệt Creator, xem lượt truy cập.',
+  assistant: 'Đăng và sửa tin, tải ảnh; xem khách hàng, yêu cầu tư vấn, yêu cầu cập nhật và đơn Creator. Số CCCD được che một phần.'
+};
+const ROLE_IC = {
+  director: '<path d="M3 8.5l4.6 3.6L12 5l4.4 7.1L21 8.5 19.2 18H4.8z"/><rect x="4.8" y="19.2" width="14.4" height="1.8" rx=".9"/>',
+  manager: '<path d="M12 2.8l8 3v6.1c0 4.6-3.4 8.4-8 9.3-4.6-.9-8-4.7-8-9.3V5.8z"/>',
+  assistant: '<path d="M12 2.8l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.6l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/>'
+};
+function roleBadge(role, lg) { const r = ROLE_L[role] ? role : 'assistant', t = ROLE_L[r]; return `<span class="rb rb-${r}${lg ? ' lg' : ''}" title="Vai trò: ${t}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${ROLE_IC[r]}</svg><span class="rbt"><i aria-hidden="true">${t}</i><b>${t}</b></span></span>`; }
+const PERM_L = [['stats', 'Xem tổng quan'], ['leads', 'Xem và xử lý yêu cầu tư vấn'], ['listings.edit', 'Đăng, sửa, ẩn tin đăng'], ['media', 'Tải ảnh lên'], ['users.view', 'Xem danh sách và hồ sơ khách hàng'], ['requests.view', 'Xem yêu cầu cập nhật thông tin'], ['creators.view', 'Xem đơn Creator'],
+  ['listings.delete', 'Xoá tin đăng'], ['users.manage', 'Sửa, khoá tài khoản khách, cấp mật khẩu tạm, đổi vai trò khách'], ['users.cccd', 'Xem đầy đủ số CCCD'], ['requests.handle', 'Xử lý yêu cầu cập nhật thông tin'], ['resets', 'Xử lý yêu cầu quên mật khẩu'], ['creators.manage', 'Duyệt, sửa, thu hồi Creator'], ['analytics', 'Xem lượt truy cập website'], ['logins.users', 'Xem lịch sử đăng nhập của khách'],
+  ['admins.manage', 'Thêm, phân quyền, xoá quản trị viên'], ['export', 'Tải dữ liệu Excel (CSV)'], ['settings', 'Xem cài đặt hệ thống'], ['logins.admins', 'Xem lịch sử đăng nhập của mọi quản trị viên']];
+const METHOD_L = { password: 'Mật khẩu', trusted: 'Thiết bị tin cậy', email: 'Mã email', sms: 'Mã SMS', register: 'Đăng ký', google: 'Google', facebook: 'Facebook' };
+const PV = { google: ['Google', 'G'], facebook: ['Facebook', 'f'] };
+const pvTag = p => PV[p] ? `<span class="tag pv pv-${p}"><i aria-hidden="true">${PV[p][1]}</i>${PV[p][0]}</span>` : '';
+const NEED = l => `Cần vai trò ${l} trở lên`;
+const numVi = n => (Number(n) || 0).toLocaleString('vi-VN', { maximumFractionDigits: 2 });
+const safeUrl = u => /^https:\/\/[^\s"'<>]+$/i.test(u || '') ? u : '';
+const imgSrc = u => (safeUrl(u) || /^\/(img|api\/media)\/[A-Za-z0-9_./-]+$/.test(u || '')) ? u : '';
+function avatarHtml(url, name) { const s = imgSrc(url); if (s) return `<img class="av" src="${esc(s)}" alt="" referrerpolicy="no-referrer" loading="lazy">`; const w = String(name || '?').trim().split(/\s+/).pop() || '?'; return `<span class="av" aria-hidden="true">${esc(w[0].toUpperCase())}</span>`; }
+/* bảng lịch sử đăng nhập dùng chung: của tôi, của khách, của mọi quản trị viên */
+function loginTable(events, withAdmin) {
+  if (!events || !events.length) return '<div class="empty">Chưa có lần đăng nhập nào được ghi lại.</div>';
+  return `<table class="rsp"><thead><tr><th>Thời gian</th>${withAdmin ? '<th>Quản trị viên</th>' : ''}<th>Kết quả</th><th>Cách đăng nhập</th><th>Thiết bị</th><th>IP</th><th>Vị trí</th></tr></thead><tbody>${events.map(e => `<tr class="${e.ok ? '' : 'fail'}">
+    <td data-l="Thời gian"><span title="${fmt(e.at)}">${fmt(e.at)}</span>${e.current ? ' <span class="tag t-active">Phiên này</span>' : ''}</td>
+    ${withAdmin ? `<td data-l="Quản trị" class="who"><b>${esc(e.name || '—')}</b><span>${esc(e.email || '')}</span></td>` : ''}
+    <td data-l="Kết quả">${e.ok ? '<span class="okt">Thành công</span>' : '<span class="bad">Sai mật khẩu</span>'}</td>
+    <td data-l="Cách">${esc(METHOD_L[e.method] || e.method || '—')}</td>
+    <td data-l="Thiết bị">${esc(e.label || '—')}</td>
+    <td data-l="IP"><code>${esc(e.ip || '—')}</code></td>
+    <td data-l="Vị trí">${esc(e.loc || '—')}</td></tr>`).join('')}</tbody></table>`;
+}
+function sessionList(sessions, mine) {
+  if (!sessions || !sessions.length) return '<div class="empty" style="padding:16px">Không có thiết bị nào đang đăng nhập.</div>';
+  return `<div class="sess">${sessions.map(s => `<div class="s"><div><b>${esc(s.label || 'Thiết bị không rõ')}</b> ${s.current ? '<span class="tag t-active">Thiết bị này</span>' : ''}<small>${esc([s.ip, s.loc].filter(Boolean).join(' · ') || '—')} · hoạt động ${ago(s.last_seen || s.created_at)} · đăng nhập ${fmt(s.created_at)}</small></div>${mine && !s.current ? `<button class="btn sm ghost" data-sid="${esc(s.sid)}">Đăng xuất</button>` : ''}</div>`).join('')}</div>`;
+}
+/* ảnh: nén trên trình duyệt (cạnh dài ≤1600px, WebP 0.82 → JPEG 0.85, giảm tiếp nếu >1,2MB) rồi gửi base64 */
+async function decodeImage(file) {
+  if (window.createImageBitmap) { try { return await createImageBitmap(file, { imageOrientation: 'from-image' }); } catch (e) { try { return await createImageBitmap(file); } catch (e2) { } } }
+  return await new Promise((res, rej) => { const u = URL.createObjectURL(file), im = new Image(); im.onload = () => { URL.revokeObjectURL(u); res(im); }; im.onerror = () => { URL.revokeObjectURL(u); rej(new Error('Không đọc được ảnh (hãy dùng JPG, PNG hoặc WebP).')); }; im.src = u; });
+}
+async function compressImage(file) {
+  if (!/^image\//.test(file.type || 'image/')) throw new Error('Tệp không phải ảnh.');
+  const src = await decodeImage(file), W0 = src.width || src.naturalWidth, H0 = src.height || src.naturalHeight;
+  if (!W0 || !H0) throw new Error('Không đọc được ảnh.');
+  let max = 1600, wq = 0.82, jq = 0.85;
+  for (let i = 0; i < 7; i++) {
+    const sc = Math.min(1, max / Math.max(W0, H0)), w = Math.max(1, Math.round(W0 * sc)), h = Math.max(1, Math.round(H0 * sc));
+    const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d');
+    x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.drawImage(src, 0, 0, w, h);
+    let blob = await new Promise(r => c.toBlob(r, 'image/webp', wq)), mime = 'image/webp';
+    if (!blob || blob.type !== 'image/webp') { blob = await new Promise(r => c.toBlob(r, 'image/jpeg', jq)); mime = 'image/jpeg'; }
+    if (blob && blob.size <= 1.2e6) { if (src.close) src.close(); return { blob, mime }; }
+    wq = Math.max(.5, wq - .1); jq = Math.max(.5, jq - .1); max = Math.round(max * .82);
+  }
+  throw new Error('Ảnh quá lớn, chưa nén được dưới 1,2 MB.');
+}
+const blobB64 = b => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = () => rej(new Error('Không đọc được ảnh.')); r.readAsDataURL(b); });
+async function uploadImage(file) { const { blob, mime } = await compressImage(file); return (await api('media', { mime, data: await blobB64(blob) })).url; }
+const BUILTIN = [['mansion', 'Biệt thự'], ['penthouse', 'Penthouse'], ['starry', 'Căn hộ trần sao'], ['ocean', 'Biệt thự biển'], ['mountain', 'Duplex'], ['mall', 'Mặt bằng TTTM'], ['atrium', 'Văn phòng'], ['fallmall', 'Khối đế'], ['villa', 'Villa sân vườn']].map(([k, t]) => ['/img/' + k + '.webp', t]);
+const LEAD_ST = { new: 'Mới', contacted: 'Đã liên hệ', deal: 'Đang thương lượng', closed: 'Đã chốt', spam: 'Rác' };
+const IC = {
+  home: '<path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/>',
+  leads: '<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
+  users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.6.8 2.6 2.6 3 5.2"/>',
+  resets: '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/>',
+  admins: '<path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  requests: '<path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M9 14l2 2 4-4"/>',
+  account: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+  listings: '<path d="M3 10.5L12 4l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1z"/><path d="M9 21v-6h6v6"/><circle cx="12" cy="10.5" r="1.4"/>',
+  creators: '<rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="M16 10.5l5-3v9l-5-3"/><path d="M8.2 9.6l.9 1.8 2 .3-1.4 1.4.3 2-1.8-.9-1.8.9.3-2-1.4-1.4 2-.3z"/>',
+  analytics: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/>'
+};
+/* [mã, tên, quyền cần có ('' = ai cũng xem)] */
+const VIEWS = [['home', 'Tổng quan', 'stats'], ['leads', 'Yêu cầu tư vấn', 'leads'], ['listings', 'Tin đăng', 'listings.edit'], ['users', 'Khách hàng', 'users.view'], ['creators', 'Creator', 'creators.view'], ['requests', 'Yêu cầu cập nhật', 'requests.view'], ['resets', 'Quên mật khẩu', 'resets'], ['analytics', 'Lượt truy cập', 'analytics'], ['admins', 'Quản trị viên', ''], ['account', 'Tài khoản của tôi', ''], ['settings', 'Cài đặt', 'settings']];
+const navViews = () => VIEWS.filter(v => !v[2] || can(v[2]));
+const badgeMap = () => { const st = S.stats || {}; return { leads: st.leadsNew, resets: st.resets, requests: st.requests, creators: st.creatorsPending }; };
+const badgeCount = () => { const b = badgeMap(); return navViews().filter(([k]) => b[k]).length; };
+const BRAND = '<span class="brand">Hoàng Dũng <small>REAL ESTATE</small></span>';
+
+/* ---------- đăng nhập / khởi tạo ---------- */
+function gate() {
+  const setup = S.setup;
+  $('#root').innerHTML = `<div class="gate"><div class="gate-card">${BRAND}
+    <h1>${setup ? 'Khởi tạo quản trị viên' : 'Đăng nhập quản trị'}</h1>
+    <p class="lead">${setup ? 'Tạo tài khoản quản trị đầu tiên bằng mã khởi tạo.' : 'Khu vực dành riêng cho quản trị viên website.'}</p>
+    <form id="gf" novalidate>
+      ${setup ? '<label class="f">Mã khởi tạo<input class="in" name="code" autocomplete="off" required></label><label class="f">Họ và tên<input class="in" name="name" autocomplete="name" required></label>' : ''}
+      <label class="f">Email quản trị<input class="in" name="email" type="email" autocomplete="username" required></label>
+      <label class="f">Mật khẩu${setup ? ' (tối thiểu 10 ký tự)' : ''}<input class="in" name="pass" type="password" autocomplete="${setup ? 'new-password' : 'current-password'}" required></label>
+      <div class="err" id="ge"></div>
+      <button class="btn gold" type="submit">${setup ? 'Tạo tài khoản quản trị' : 'Đăng nhập'}</button>
+    </form>
+    <div class="foot"><a href="/">← Về trang chủ</a></div></div></div>`;
+  $('#gf').onsubmit = async e => {
+    e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); const b = $('#gf button'); b.disabled = true; $('#ge').textContent = '';
+    try {
+      if (setup) { await api('setup', d); S.setup = false; }
+      const j = await api('login', { email: d.email, pass: d.pass }); S.admin = j.admin; S.view = 'home'; render();
+    } catch (err) { $('#ge').textContent = err.message; b.disabled = false; }
+  };
+  setTimeout(() => { const i = $('#gf input'); i && i.focus(); }, 30);
+}
+
+/* ---------- khung ---------- */
+function shell() {
+  const badge = badgeMap(), vs = navViews();
+  if (!vs.some(v => v[0] === S.view)) S.view = vs[0] ? vs[0][0] : 'account';
+  $('#root').innerHTML = `<div class="app"><aside class="side">${BRAND}
+    <div class="mbar">${BRAND}<div class="r">${roleBadge(S.admin.role)}<button class="btn sm ghost" style="color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)" id="out2">Đăng xuất</button></div></div>
+    <nav class="nav" aria-label="Mục quản trị">${vs.map(([k, t]) => `<button data-v="${k}" class="${S.view === k ? 'on' : ''}"${S.view === k ? ' aria-current="page"' : ''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>${t}${badge[k] ? `<span class="bd" aria-label="${badge[k]} mục chờ">${badge[k]}</span>` : ''}</button>`).join('')}</nav>
+    <div class="me"><b>${esc(S.admin.name)}</b>${roleBadge(S.admin.role)}<span class="em" title="${esc(S.admin.email)}">${esc(S.admin.email)}</span><div class="row"><a href="/" target="_blank" rel="noopener">Xem website</a><button id="out">Đăng xuất</button></div></div>
+  </aside><main class="main" id="main"></main></div>`;
+  $$('.nav button').forEach(b => b.onclick = () => { S.view = b.dataset.v; shell(); });
+  const out = async () => { await api('logout', {}).catch(() => { }); S.admin = null; render(); };
+  $('#out').onclick = out; $('#out2').onclick = out;
+  const on = $('.nav button.on'); if (on && on.scrollIntoView && matchMedia('(max-width:900px)').matches) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  ({ home, leads, listings, users, creators, requests, resets, analytics, admins, account, settings })[S.view]();
+}
+async function refreshStats() { try { S.stats = await api('stats'); } catch (e) { } }
+
+/* ---------- tổng quan ---------- */
+async function home() {
+  const m = $('#main'); m.innerHTML = '<div class="empty">Đang tải…</div>';
+  await refreshStats(); const s = S.stats; if (!s) return;
+  if (S.view === 'home') { const nb = $$('.nav .bd'); if (!nb.length && (s.leadsNew || s.resets || s.requests)) return shell(); }
+  const days = []; for (let i = 13; i >= 0; i--) { const d = new Date(Date.now() + 7 * 3600e3 - i * 864e5).toISOString().slice(0, 10); days.push(d); }
+  const map = Object.fromEntries((s.daily || []).map(r => [r.day, r.n])), mx = Math.max(1, ...days.map(d => map[d] || 0));
+  m.innerHTML = `<div class="top"><div><h2>Xin chào, ${esc(S.admin.name.split(' ').pop())}</h2><p>Tình hình website hôm nay.</p></div><div class="tools"><button class="btn ghost" data-go="leads">Xem yêu cầu mới</button></div></div>
+  <div class="kpis">
+    <div class="card kpi hot"><span>Yêu cầu tư vấn mới</span><b>${s.leadsNew}</b><i>${s.leads7} yêu cầu trong 7 ngày</i></div>
+    <div class="card kpi"><span>Tổng yêu cầu</span><b>${s.leads}</b><i>từ các form trên website</i></div>
+    <div class="card kpi"><span>Khách hàng có tài khoản</span><b>${s.users}</b><i>+${s.users7} trong 7 ngày</i></div>
+    <div class="card kpi"><span>Hoạt động 30 ngày</span><b>${s.active30}</b><i>khách đã đăng nhập</i></div>
+    <div class="card kpi ${s.resets ? 'hot' : ''}"><span>Chờ cấp lại mật khẩu</span><b>${s.resets}</b><i>${s.resets ? 'cần xử lý' : 'không có yêu cầu'}</i></div>
+    <div class="card kpi ${s.requests ? 'hot' : ''}"><span>Yêu cầu cập nhật thông tin</span><b>${s.requests ?? 0}</b><i>${s.requests ? 'cần xử lý' : 'không có yêu cầu'}</i></div>
+    <div class="card kpi"><span>Hồ sơ đã hoàn thiện</span><b>${s.profiles ?? 0}</b><i>khách đã lưu thông tin CCCD</i></div>
+    <div class="card kpi"><span>Thiết bị đáng tin cậy</span><b>${s.trusted ?? 0}</b><i>khách đã xác nhận</i></div>
+  </div>
+  <div class="card chart"><h3>Yêu cầu tư vấn 14 ngày qua</h3>
+    <div class="bars">${days.map(d => { const n = map[d] || 0; return `<div class="bar" style="height:${Math.max(2, n / mx * 100)}%" title="${d}: ${n}">${n ? `<em>${n}</em>` : ''}</div>`; }).join('')}</div>
+    <div class="blabels">${days.map(d => `<span>${d.slice(8)}/${d.slice(5, 7)}</span>`).join('')}</div></div>
+  ${(s.mail || s.sms) ? `<div class="note ok">Mã xác minh tự động đang bật qua: ${[s.sms ? '<b>SMS</b>' : '', s.mail ? '<b>Email</b>' : ''].filter(Boolean).join(' và ')}. Khách nhận mã mỗi lần đăng nhập (trừ thiết bị đáng tin cậy) và tự khôi phục tài khoản.</div>` : '<div class="note">Gửi mã xác minh chưa bật. Khách đăng nhập bằng mật khẩu; khi quên mật khẩu, yêu cầu hiện ở mục <b>Quên mật khẩu</b> để bạn xác minh và cấp mật khẩu tạm. Xem cách bật ở mục <b>Cài đặt</b>.</div>'}`;
+  $$('[data-go]').forEach(b => b.onclick = () => { S.view = b.dataset.go; shell(); });
+}
+
+/* ---------- yêu cầu tư vấn ---------- */
+const LQ = { status: 'new', q: '', rows: [], total: 0 };
+async function leads(append = false) {
+  const m = $('#main');
+  if (!append) {
+    m.innerHTML = `<div class="top"><div><h2>Yêu cầu tư vấn</h2><p>Mọi form khách gửi trên website: tư vấn, đặt lịch xem nhà, ký gửi, ứng tuyển.</p></div>
+    <div class="tools"><input class="in" id="lq" type="search" placeholder="Tìm tên, số điện thoại, nội dung…" value="${esc(LQ.q)}"><a class="btn ghost" href="/api/admin/export?what=leads">Tải Excel (CSV)</a></div></div>
+    <div class="chips" style="margin-bottom:14px">${[['', 'Tất cả'], ...Object.entries(LEAD_ST)].map(([k, t]) => `<button class="chip ${LQ.status === k ? 'on' : ''}" data-s="${k}">${t}</button>`).join('')}</div>
+    <div class="card"><div class="tw" id="lt"><div class="empty">Đang tải…</div></div></div>`;
+    $$('.chip').forEach(c => c.onclick = () => { LQ.status = c.dataset.s; leads(); });
+    let t; $('#lq').oninput = e => { clearTimeout(t); t = setTimeout(() => { LQ.q = e.target.value.trim(); leadsLoad(); }, 300); };
+  }
+  leadsLoad(append);
+}
+async function leadsLoad(append = false) {
+  try {
+    const j = await api(`leads?status=${encodeURIComponent(LQ.status)}&q=${encodeURIComponent(LQ.q)}&offset=${append ? LQ.rows.length : 0}`);
+    LQ.rows = append ? LQ.rows.concat(j.rows) : j.rows; LQ.total = j.total;
+  } catch (e) { $('#lt').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
+  const el = $('#lt'); if (!el) return;
+  if (!LQ.rows.length) { el.innerHTML = '<div class="empty">Chưa có yêu cầu nào ở mục này.</div>'; return; }
+  el.innerHTML = `<table class="rsp"><thead><tr><th>Thời gian</th><th>Khách</th><th>Loại</th><th>Nội dung</th><th>Trạng thái</th></tr></thead><tbody>${LQ.rows.map(r => `<tr data-id="${r.id}">
+    <td data-l="Thời gian"><span title="${fmt(r.created_at)}">${ago(r.created_at)}</span></td>
+    <td data-l="Khách" class="who"><b>${esc(r.name)}</b><span><a href="tel:${telOf(r.phone)}">${esc(r.phone)}</a> · <a href="https://zalo.me/${telOf(r.phone).replace(/^84/, '0')}" target="_blank" rel="noopener">Zalo</a></span></td>
+    <td data-l="Loại">${esc(r.kind)}</td>
+    <td data-l="Nội dung"><div class="msg" title="Bấm để xem đầy đủ">${esc(r.text)}</div>
+      <div class="lead-note"><textarea class="in" rows="1" placeholder="Ghi chú nội bộ…">${esc(r.note)}</textarea><button class="btn sm ghost" data-note>Lưu</button></div></td>
+    <td data-l="Trạng thái"><select class="st" aria-label="Trạng thái">${Object.entries(LEAD_ST).map(([k, t]) => `<option value="${k}" ${r.status === k ? 'selected' : ''}>${t}</option>`).join('')}</select><div style="margin-top:6px"><span class="tag t-${esc(r.status)}">${LEAD_ST[r.status] || esc(r.status)}</span></div></td></tr>`).join('')}</tbody></table>
+    ${LQ.rows.length < LQ.total ? `<div class="more"><button class="btn ghost" id="lmore">Xem thêm (${LQ.total - LQ.rows.length})</button></div>` : ''}`;
+  $$('.msg', el).forEach(x => x.onclick = () => x.classList.toggle('open'));
+  $$('select.st', el).forEach(s => s.onchange = async () => { const id = +s.closest('tr').dataset.id; try { await api('lead', { id, status: s.value }); const tg = s.parentElement.querySelector('.tag'); tg.className = 'tag t-' + s.value; tg.textContent = LEAD_ST[s.value]; toast('Đã cập nhật trạng thái.'); refreshStats(); } catch (e) { toast(e.message); } });
+  $$('[data-note]', el).forEach(b => b.onclick = async () => { const tr = b.closest('tr'); try { await api('lead', { id: +tr.dataset.id, note: tr.querySelector('textarea').value }); toast('Đã lưu ghi chú.'); } catch (e) { toast(e.message); } });
+  const mo = $('#lmore'); if (mo) mo.onclick = () => leadsLoad(true);
+}
+
+/* ---------- khách hàng ---------- */
+const UQ = { q: '', rows: [], total: 0 };
+async function users(append = false) {
+  const m = $('#main');
+  if (!append) {
+    m.innerHTML = `<div class="top"><div><h2>Khách hàng</h2><p>Tài khoản khách đăng ký trên website. Mật khẩu được mã hoá, không ai xem được.</p></div>
+    <div class="tools"><input class="in" id="uq" type="search" placeholder="Tìm tên, email, số điện thoại…" value="${esc(UQ.q)}"><a class="btn ghost" href="/api/admin/export?what=users">Tải Excel (CSV)</a></div></div>
+    <div class="card"><div class="tw" id="ut"><div class="empty">Đang tải…</div></div></div>`;
+    let t; $('#uq').oninput = e => { clearTimeout(t); t = setTimeout(() => { UQ.q = e.target.value.trim(); usersLoad(); }, 300); };
+  }
+  usersLoad(append);
+}
+async function usersLoad(append = false) {
+  try { const j = await api(`users?q=${encodeURIComponent(UQ.q)}&offset=${append ? UQ.rows.length : 0}`); UQ.rows = append ? UQ.rows.concat(j.rows) : j.rows; UQ.total = j.total; }
+  catch (e) { $('#ut').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
+  const el = $('#ut'); if (!el) return;
+  if (!UQ.rows.length) { el.innerHTML = `<div class="empty">${UQ.q ? 'Không tìm thấy khách hàng phù hợp.' : 'Chưa có khách hàng nào đăng ký.'}</div>`; return; }
+  el.innerHTML = `<table class="rsp"><thead><tr><th>Khách hàng</th><th>Điện thoại</th><th>Hồ sơ</th><th>Ngày tạo</th><th>Đăng nhập gần nhất</th><th>Trạng thái</th><th></th></tr></thead><tbody>${UQ.rows.map(u => `<tr data-id="${u.id}">
+    <td data-l="Khách" class="who"><b>${esc(u.name)}</b><span>${esc(u.email)} ${u.email_verified ? '<span class="tag t-ver">Email ✓</span>' : ''}</span></td>
+    <td data-l="Điện thoại"><a href="tel:${esc(u.phone)}">${esc(u.phone)}</a> ${u.phone_verified ? '<span class="tag t-ver">SĐT ✓</span>' : ''}${u.devices ? `<div style="font-size:12px;color:var(--mut)">${u.devices} thiết bị tin cậy</div>` : ''}</td>
+    <td data-l="Hồ sơ">${u.profile_at ? '<span class="tag t-lock">🔒 Đã lưu</span>' : '<span class="tag t-spam">Chưa có</span>'}<div style="font-size:13px;color:var(--mut);margin-top:4px">${esc(u.role || '')}</div></td>
+    <td data-l="Ngày tạo">${fmt(u.created_at)}</td>
+    <td data-l="Gần nhất">${ago(u.last_login)}</td>
+    <td data-l="Trạng thái"><span class="tag t-${u.status === 'active' ? 'active' : 'disabled'}">${u.status === 'active' ? 'Hoạt động' : 'Tạm khoá'}</span></td>
+    <td data-l="Thao tác"><div class="acts"><button class="btn sm" data-detail>Hồ sơ & sửa</button><button class="btn sm ghost" data-a="temp-password">Cấp mật khẩu tạm</button>${u.email_verified ? '' : '<button class="btn sm ghost" data-a="verify">Xác minh email</button>'}${u.devices ? '<button class="btn sm ghost" data-a="revoke-devices">Gỡ thiết bị tin cậy</button>' : ''}<button class="btn sm ghost" data-a="${u.status === 'active' ? 'disable' : 'enable'}">${u.status === 'active' ? 'Khoá' : 'Mở khoá'}</button></div></td></tr>`).join('')}</tbody></table>
+    ${UQ.rows.length < UQ.total ? `<div class="more"><button class="btn ghost" id="umore">Xem thêm (${UQ.total - UQ.rows.length})</button></div>` : ''}`;
+  $$('[data-a]', el).forEach(b => b.onclick = () => userAction(+b.closest('tr').dataset.id, b.dataset.a));
+  $$('[data-detail]', el).forEach(b => b.onclick = () => userDetail(+b.closest('tr').dataset.id));
+  const mo = $('#umore'); if (mo) mo.onclick = () => usersLoad(true);
+}
+async function userAction(id, a) {
+  const u = UQ.rows.find(x => x.id === id) || { name: '', email: '', phone: '' };
+  const Q = { 'temp-password': ['Cấp mật khẩu tạm?', `Mật khẩu hiện tại của ${u.name} sẽ bị thay bằng mật khẩu tạm. Hãy chỉ cấp sau khi đã xác minh đúng chủ tài khoản (gọi số đã đăng ký).`, 'Cấp mật khẩu tạm', false],
+    disable: ['Khoá tài khoản?', `${u.name} sẽ bị đăng xuất và không thể đăng nhập cho tới khi được mở khoá.`, 'Khoá tài khoản', true],
+    enable: ['Mở khoá tài khoản?', `${u.name} có thể đăng nhập lại bình thường.`, 'Mở khoá', false],
+    verify: ['Đánh dấu đã xác minh email?', `Xác nhận email ${u.email} thuộc về khách hàng này.`, 'Xác nhận', false],
+    'revoke-devices': ['Gỡ toàn bộ thiết bị tin cậy?', `Lần đăng nhập sau, ${u.name} sẽ phải nhập mã xác minh trên mọi thiết bị.`, 'Gỡ thiết bị', false] }[a];
+  if (!(await confirmBox(...Q))) return;
+  try {
+    const j = await api('user', { id, action: a });
+    if (j.temp) showTemp(u, j.temp); else toast('Đã cập nhật.');
+    if (S.view === 'users') usersLoad(); else if (S.view === 'resets') resets(); refreshStats();
+  } catch (e) { toast(e.message); }
+}
+function showTemp(u, temp) {
+  const d = dialog(`<h3>Mật khẩu tạm của ${esc(u.name || u.user_name || '')}</h3><p>Gửi mật khẩu này cho khách qua điện thoại/Zalo. Khách nên đổi mật khẩu ngay sau khi đăng nhập (mục Tài khoản → Đổi mật khẩu).</p>
+  <div class="temp"><span>${esc(temp)}</span><button class="btn sm gold" id="cpt">Sao chép</button></div><div class="row"><button class="btn" data-x>Xong</button></div>`);
+  $('#cpt', d).onclick = () => copy(temp);
+}
+
+/* ---------- quên mật khẩu ---------- */
+let RS = 'pending';
+async function resets() {
+  const m = $('#main');
+  m.innerHTML = `<div class="top"><div><h2>Yêu cầu quên mật khẩu</h2><p>${S.mail ? 'Email tự động đang bật — khách tự đặt lại qua email. Danh sách này chỉ còn yêu cầu cũ.' : 'Gọi khách theo số đã đăng ký để xác minh, sau đó cấp mật khẩu tạm.'}</p></div></div>
+  <div class="chips" style="margin-bottom:14px"><button class="chip ${RS === 'pending' ? 'on' : ''}" data-s="pending">Chờ xử lý</button><button class="chip ${RS === 'done' ? 'on' : ''}" data-s="done">Đã xử lý</button></div>
+  <div class="card"><div class="tw" id="rt"><div class="empty">Đang tải…</div></div></div>`;
+  $$('.chip').forEach(c => c.onclick = () => { RS = c.dataset.s; resets(); });
+  let rows; try { rows = (await api('resets?status=' + RS)).rows; } catch (e) { $('#rt').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
+  if (!rows.length) { $('#rt').innerHTML = `<div class="empty">${RS === 'pending' ? 'Không có yêu cầu nào đang chờ.' : 'Chưa có yêu cầu đã xử lý.'}</div>`; return; }
+  $('#rt').innerHTML = `<table class="rsp"><thead><tr><th>Thời gian</th><th>Khách</th><th>Liên hệ xác minh</th><th>${RS === 'pending' ? '' : 'Ghi chú'}</th></tr></thead><tbody>${rows.map(r => `<tr data-id="${r.id}" data-uid="${r.user_id}">
+    <td data-l="Thời gian">${ago(r.created_at)}</td>
+    <td data-l="Khách" class="who"><b>${esc(r.user_name || '—')}</b><span>${esc(r.email)}</span></td>
+    <td data-l="Liên hệ"><a href="tel:${telOf(r.phone || r.user_phone)}">${esc(r.phone || r.user_phone || '—')}</a>${r.phone && r.user_phone && telOf(r.phone) !== telOf(r.user_phone) ? `<div style="color:var(--bad);font-size:12px">Khác số đã đăng ký (${esc(r.user_phone)})</div>` : ''}</td>
+    <td data-l="${RS === 'pending' ? 'Thao tác' : 'Ghi chú'}">${RS === 'pending' ? '<div class="acts"><button class="btn sm gold" data-t>Cấp mật khẩu tạm</button><button class="btn sm ghost" data-c>Đóng yêu cầu</button></div>' : esc(r.note)}</td></tr>`).join('')}</tbody></table>`;
+  $$('[data-t]').forEach(b => b.onclick = async () => { const tr = b.closest('tr'), r = rows.find(x => x.id === +tr.dataset.id); UQ.rows = [{ id: r.user_id, name: r.user_name, email: r.email }]; await userAction(r.user_id, 'temp-password'); });
+  $$('[data-c]').forEach(b => b.onclick = async () => { if (!(await confirmBox('Đóng yêu cầu?', 'Yêu cầu sẽ chuyển sang mục đã xử lý.', 'Đóng yêu cầu'))) return; try { await api('reset', { id: +b.closest('tr').dataset.id }); toast('Đã đóng yêu cầu.'); refreshStats(); resets(); } catch (e) { toast(e.message); } });
+}
+
+/* ---------- quản trị viên ---------- */
+async function admins() {
+  const m = $('#main');
+  m.innerHTML = `<div class="top"><div><h2>Quản trị viên</h2><p>Tài khoản quản trị tách riêng hoàn toàn với tài khoản khách hàng.</p></div></div>
+  <div class="grid2"><div class="card"><div class="tw" id="at"><div class="empty">Đang tải…</div></div></div>
+  <div class="card pad"><h3>Thêm quản trị viên</h3><p class="d">Người được thêm có toàn quyền xem khách hàng và yêu cầu tư vấn.</p>
+    <form id="af" novalidate><label class="f">Họ và tên<input class="in" name="name" required></label><label class="f">Email<input class="in" name="email" type="email" required></label><label class="f">Mật khẩu ban đầu (tối thiểu 10 ký tự)<input class="in" name="pass" type="password" autocomplete="new-password" required></label><div class="err" id="ae"></div><button class="btn" type="submit">Thêm quản trị viên</button></form></div></div>`;
+  try { const rows = (await api('admins')).rows; $('#at').innerHTML = `<table class="rsp"><thead><tr><th>Quản trị viên</th><th>Ngày tạo</th><th>Đăng nhập gần nhất</th></tr></thead><tbody>${rows.map(a => `<tr><td data-l="Tên" class="who"><b>${esc(a.name)}${a.id === S.admin.id ? ' (bạn)' : ''}</b><span>${esc(a.email)}</span></td><td data-l="Ngày tạo">${fmt(a.created_at)}</td><td data-l="Gần nhất">${ago(a.last_login)}</td></tr>`).join('')}</tbody></table>`; }
+  catch (e) { $('#at').innerHTML = `<div class="empty">${esc(e.message)}</div>`; }
+  $('#af').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); try { await api('admins', d); toast('Đã thêm quản trị viên.'); admins(); } catch (err) { $('#ae').textContent = err.message; } };
+}
+
+
+/* ---------- hồ sơ khách: xem đầy đủ, sửa, mở khoá ---------- */
+const PF = [['fullName', 'Họ và tên theo CCCD', 1], ['dob', 'Ngày sinh', 1, 'date'], ['gender', 'Giới tính', 1, ['Nam', 'Nữ', 'Khác']], ['cccd', 'Số CCCD/Căn cước', 1], ['cccdDate', 'Ngày cấp', 1, 'date'], ['cccdPlace', 'Nơi cấp', 1], ['address', 'Địa chỉ thường trú', 1], ['currentAddress', 'Nơi ở hiện tại'], ['occupation', 'Nghề nghiệp'],
+  ['need', 'Nhu cầu chính', 0, ['Mua để ở', 'Mua đầu tư', 'Thuê nhà', 'Bán nhà', 'Cho thuê', 'Tìm hiểu thị trường']], ['budget', 'Ngân sách dự kiến', 0, ['Dưới 3 tỷ', '3 – 5 tỷ', '5 – 10 tỷ', '10 – 20 tỷ', 'Trên 20 tỷ', 'Thuê dưới 15 triệu/tháng', 'Thuê từ 15 triệu/tháng']], ['areas', 'Khu vực quan tâm'], ['contactTime', 'Thời gian liên hệ', 0, ['Giờ hành chính', 'Buổi tối (18h – 21h)', 'Cuối tuần', 'Bất kỳ lúc nào']]];
+const dIso = v => /^\d{4}-\d{2}-\d{2}$/.test(v || '') ? v.split('-').reverse().join('/') : (v || '');
+const EV = { name: 'Tên hiển thị', email: 'Email', phone: 'Số điện thoại', profile: 'Thông tin cá nhân', request: 'Yêu cầu', 'admin-update': 'Quản trị viên cập nhật' };
+async function userDetail(id, requestId) {
+  let j; try { j = await api('user?id=' + id); } catch (e) { toast(e.message); return; }
+  const u = j.user, p = j.profile || {};
+  const has = PF.some(([k]) => p[k]);
+  const d = dialog(`<h3>${esc(u.name)}</h3><p>${esc(u.email)} · <a href="tel:${esc(u.phone)}">${esc(u.phone)}</a></p>
+    <div class="row" style="justify-content:flex-start;margin-bottom:6px"><button class="btn sm" data-edit>Sửa thông tin</button>${u.profile_at ? '<button class="btn sm ghost" data-unlock>Mở khoá để khách tự sửa 1 lần</button>' : ''}${u.name_changes >= 1 ? '<button class="btn sm ghost" data-rename>Cho khách đổi tên thêm 1 lần</button>' : ''}</div>
+    <div class="sec-t">Tài khoản</div><dl class="dl"><dt>Tên hiển thị</dt><dd>${esc(u.name)} ${u.name_changes >= 1 ? '<span class="tag t-spam">đã tự đổi 1 lần</span>' : ''}</dd><dt>Email</dt><dd>${esc(u.email)} ${u.email_verified ? '<span class="tag t-ver">✓</span>' : '<span class="tag t-new">chưa xác minh</span>'}</dd><dt>Số điện thoại</dt><dd>${esc(u.phone)} ${u.phone_verified ? '<span class="tag t-ver">✓</span>' : '<span class="tag t-new">chưa xác minh</span>'}</dd><dt>Vai trò</dt><dd>${esc(u.role || '—')}</dd><dt>Ngày tạo</dt><dd>${fmt(u.created_at)}</dd><dt>Trạng thái</dt><dd>${u.status === 'active' ? 'Hoạt động' : 'Tạm khoá'}</dd></dl>
+    <div class="sec-t">Thông tin cá nhân ${u.profile_at ? `<span class="tag t-lock">🔒 khoá từ ${fmt(u.profile_at)}</span>` : ''}</div>
+    ${has ? `<dl class="dl">${PF.filter(([k]) => p[k]).map(([k, l, , t]) => `<dt>${l}</dt><dd>${esc(t === 'date' ? dIso(p[k]) : p[k])}</dd>`).join('')}${p.consentAt ? `<dt>Đồng ý xử lý dữ liệu</dt><dd>${fmt(Date.parse(p.consentAt))}</dd>` : ''}</dl>` : '<p>Khách chưa lưu thông tin cá nhân.</p>'}
+    ${j.requests.length ? `<div class="sec-t">Yêu cầu cập nhật</div>${j.requests.map(r => `<div class="ev"><b>${esc(r.topic)} <span class="tag t-${esc(r.status)}">${{ pending: 'Chờ xử lý', done: 'Đã xử lý', rejected: 'Từ chối' }[r.status] || esc(r.status)}</span></b><div class="req-msg">${esc(r.message)}</div><small>${fmt(r.created_at)}${r.handled_by ? ' · ' + esc(r.handled_by) : ''}${r.note ? ' · ' + esc(r.note) : ''}</small></div>`).join('')}` : ''}
+    ${j.events.length ? `<div class="sec-t">Lịch sử thay đổi</div>${j.events.map(e => `<div class="ev"><span><b>${esc(EV[e.kind] || e.kind)}</b> · ${esc(e.detail)}</span><small>${fmt(e.at)} · ${esc(e.actor)}</small></div>`).join('')}` : ''}
+    <div class="row" style="margin-top:18px"><button class="btn ghost" data-x>Đóng</button></div>`);
+  d.firstElementChild.classList.add('wide');
+  $('[data-edit]', d).onclick = () => { d.remove(); userEdit(u, p, requestId); };
+  const ul = $('[data-unlock]', d); if (ul) ul.onclick = async () => { if (!(await confirmBox('Mở khoá thông tin cá nhân?', `${u.name} sẽ được tự sửa và lưu lại thông tin cá nhân thêm 1 lần, sau đó hồ sơ khoá lại.`, 'Mở khoá'))) return; try { await api('user', { id, action: 'unlock-profile' }); toast('Đã mở khoá.'); d.remove(); userDetail(id, requestId); } catch (e) { toast(e.message); } };
+  const rn = $('[data-rename]', d); if (rn) rn.onclick = async () => { try { await api('user', { id, action: 'allow-rename' }); toast('Khách có thể tự đổi tên thêm 1 lần.'); d.remove(); userDetail(id, requestId); } catch (e) { toast(e.message); } };
+}
+function userEdit(u, p, requestId) {
+  const field = ([k, l, req, t]) => Array.isArray(t)
+    ? `<label class="f">${l}${req ? ' *' : ''}<select class="in" name="p_${k}"><option value="">—</option>${t.map(o => `<option${o === p[k] ? ' selected' : ''}>${esc(o)}</option>`).join('')}</select></label>`
+    : `<label class="f${k === 'address' || k === 'currentAddress' ? ' full' : ''}">${l}${req ? ' *' : ''}<input class="in" name="p_${k}" type="${t === 'date' ? 'date' : 'text'}" value="${esc(p[k] || '')}"${k === 'cccd' ? ' inputmode="numeric" maxlength="12"' : ''}></label>`;
+  const d = dialog(`<h3>Sửa thông tin khách hàng</h3><p>Chỉ cập nhật sau khi đã xác minh đúng chủ tài khoản. Mọi thay đổi được ghi vào lịch sử.</p>
+    <form id="uef" novalidate><div class="sec-t">Tài khoản</div><div class="fgrid"><label class="f">Tên hiển thị<input class="in" name="name" value="${esc(u.name)}" required></label><label class="f">Email<input class="in" name="email" type="email" value="${esc(u.email)}" required></label><label class="f">Số điện thoại (định dạng quốc tế, ví dụ +84901234567)<input class="in" name="phone" value="${esc(u.phone)}" required></label></div>
+    <div class="sec-t">Thông tin cá nhân <span style="text-transform:none;letter-spacing:0;font-weight:400">(bỏ trống toàn bộ nếu khách chưa cung cấp)</span></div><div class="fgrid">${PF.map(field).join('')}</div>
+    <div class="err" id="uee" style="margin-top:12px"></div><div class="row"><button type="button" class="btn ghost" data-x>Huỷ</button><button class="btn gold" type="submit">${requestId ? 'Lưu & đóng yêu cầu' : 'Lưu thay đổi'}</button></div></form>`);
+  d.firstElementChild.classList.add('wide');
+  $('#uef', d).onsubmit = async e => {
+    e.preventDefault(); const f = Object.fromEntries(new FormData(e.target)); const prof = {}; PF.forEach(([k]) => { if (f['p_' + k]) prof[k] = f['p_' + k].trim(); });
+    const b = $('#uef button[type=submit]', d); b.disabled = true;
+    try { await api('user', { id: u.id, action: 'update', name: f.name, email: f.email, phone: f.phone, profile: prof, requestId: requestId || undefined }); d.remove(); toast('Đã cập nhật thông tin khách hàng.'); refreshStats(); if (S.view === 'users') usersLoad(); else if (S.view === 'requests') requests(); userDetail(u.id); }
+    catch (err) { $('#uee', d).textContent = err.message; b.disabled = false; }
+  };
+}
+
+/* ---------- yêu cầu cập nhật thông tin (khách gửi từ trang tài khoản) ---------- */
+let RQ = 'pending';
+async function requests() {
+  const m = $('#main');
+  m.innerHTML = `<div class="top"><div><h2>Yêu cầu cập nhật thông tin</h2><p>Khách gửi khi hồ sơ đã khoá hoặc đã dùng hết lượt tự đổi tên. Gọi số đã đăng ký để xác minh trước khi sửa.</p></div></div>
+  <div class="chips" style="margin-bottom:14px"><button class="chip ${RQ === 'pending' ? 'on' : ''}" data-s="pending">Chờ xử lý</button><button class="chip ${RQ === 'done' ? 'on' : ''}" data-s="done">Đã xử lý</button></div>
+  <div class="card"><div class="tw" id="qt"><div class="empty">Đang tải…</div></div></div>`;
+  $$('.chip').forEach(c => c.onclick = () => { RQ = c.dataset.s; requests(); });
+  let rows; try { rows = (await api('requests?status=' + RQ)).rows; } catch (e) { $('#qt').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
+  if (!rows.length) { $('#qt').innerHTML = `<div class="empty">${RQ === 'pending' ? 'Không có yêu cầu nào đang chờ.' : 'Chưa có yêu cầu đã xử lý.'}</div>`; return; }
+  $('#qt').innerHTML = `<table class="rsp"><thead><tr><th>Thời gian</th><th>Khách</th><th>Nội dung yêu cầu</th><th>${RQ === 'pending' ? 'Thao tác' : 'Kết quả'}</th></tr></thead><tbody>${rows.map(r => `<tr data-id="${r.id}" data-uid="${r.user_id}">
+    <td data-l="Thời gian"><span title="${fmt(r.created_at)}">${ago(r.created_at)}</span></td>
+    <td data-l="Khách" class="who"><b>${esc(r.user_name || '—')}</b><span>${esc(r.user_email || '')}<br><a href="tel:${esc(r.user_phone || '')}">${esc(r.user_phone || '')}</a></span></td>
+    <td data-l="Nội dung"><b>${esc(r.topic)}</b><div class="req-msg">${esc(r.message)}</div></td>
+    <td data-l="${RQ === 'pending' ? 'Thao tác' : 'Kết quả'}">${RQ === 'pending' ? '<div class="acts"><button class="btn sm gold" data-open>Mở hồ sơ & cập nhật</button><button class="btn sm ghost" data-done>Đã xử lý</button><button class="btn sm ghost" data-reject>Từ chối</button></div>' : `<span class="tag t-${esc(r.status)}">${r.status === 'done' ? 'Đã xử lý' : 'Từ chối'}</span><div style="font-size:13px;color:var(--mut);margin-top:4px">${fmt(r.handled_at)} · ${esc(r.handled_by)}${r.note ? '<br>' + esc(r.note) : ''}</div>`}</td></tr>`).join('')}</tbody></table>`;
+  const close = async (b, status) => {
+    const tr = b.closest('tr'); const dd = dialog(`<h3>${status === 'done' ? 'Đánh dấu đã xử lý' : 'Từ chối yêu cầu'}</h3><p>Ghi chú nội bộ (tuỳ chọn).</p><textarea class="in" id="rqn" rows="3" placeholder="${status === 'done' ? 'Ví dụ: đã gọi xác minh và cập nhật địa chỉ' : 'Lý do từ chối'}"></textarea><div class="row" style="margin-top:12px"><button class="btn ghost" data-x>Huỷ</button><button class="btn ${status === 'done' ? '' : 'danger'}" id="rqok">Xác nhận</button></div>`);
+    $('#rqok', dd).onclick = async () => { try { await api('request', { id: +tr.dataset.id, status, note: $('#rqn', dd).value }); dd.remove(); toast('Đã cập nhật yêu cầu.'); refreshStats().then(() => shell()); } catch (e) { toast(e.message); } };
+  };
+  $$('[data-open]').forEach(b => b.onclick = () => { const tr = b.closest('tr'); userDetail(+tr.dataset.uid, +tr.dataset.id); });
+  $$('[data-done]').forEach(b => b.onclick = () => close(b, 'done'));
+  $$('[data-reject]').forEach(b => b.onclick = () => close(b, 'rejected'));
+}
+
+/* ---------- tài khoản quản trị của tôi ---------- */
+async function account() {
+  const m = $('#main');
+  let me = S.admin; try { me = (await api('me')).admin || me; } catch (e) { }
+  m.innerHTML = `<div class="top"><div><h2>Tài khoản của tôi</h2><p>Thông tin đăng nhập trang quản trị của bạn.</p></div></div>
+  <div class="grid2"><div class="card pad"><h3>Thông tin tài khoản</h3><p class="d">Tạo ngày ${fmt(me.created_at)} · đăng nhập gần nhất ${ago(me.last_login)}. Cần nhập mật khẩu hiện tại để lưu.</p>
+    <form id="mf" novalidate><label class="f">Tên hiển thị<input class="in" name="name" value="${esc(me.name)}" autocomplete="name" required></label><label class="f">Email đăng nhập<input class="in" name="email" type="email" value="${esc(me.email)}" autocomplete="username" required></label><label class="f">Mật khẩu hiện tại<input class="in" name="pass" type="password" autocomplete="current-password" required></label><div class="err" id="me"></div><button class="btn" type="submit">Lưu thông tin</button></form></div>
+  <div class="card pad"><h3>Đổi mật khẩu quản trị</h3><p class="d">Các phiên đăng nhập quản trị khác sẽ bị đăng xuất.</p>
+    <form id="pf" novalidate><label class="f">Mật khẩu hiện tại<input class="in" name="old" type="password" autocomplete="current-password" required></label><label class="f">Mật khẩu mới (tối thiểu 10 ký tự)<input class="in" name="pass" type="password" autocomplete="new-password" required></label><label class="f">Nhập lại mật khẩu mới<input class="in" name="pass2" type="password" autocomplete="new-password" required></label><div class="err" id="pe"></div><button class="btn" type="submit">Lưu mật khẩu mới</button></form></div></div>`;
+  $('#mf').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); if (!d.pass) { $('#me').textContent = 'Vui lòng nhập mật khẩu hiện tại.'; return; } try { const j = await api('me', d); S.admin = j.admin; toast('Đã lưu thông tin tài khoản.'); shell(); } catch (err) { $('#me').textContent = err.message; } };
+  $('#pf').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); if (d.pass !== d.pass2) { $('#pe').textContent = 'Hai mật khẩu mới chưa khớp.'; return; } try { await api('password', { old: d.old, pass: d.pass }); e.target.reset(); $('#pe').textContent = ''; toast('Đã đổi mật khẩu quản trị.'); } catch (err) { $('#pe').textContent = err.message; } };
+}
+
+/* ---------- cài đặt ---------- */
+function settings() {
+  const m = $('#main');
+  m.innerHTML = `<div class="top"><div><h2>Cài đặt</h2><p>Gửi mã xác minh và email tự động.</p></div></div>
+  <div class="grid2"><div class="card pad"><h3>Tài khoản quản trị</h3><p class="d">Đổi tên, email đăng nhập và mật khẩu ở mục <b>Tài khoản của tôi</b>.</p><button class="btn ghost" data-go="account">Mở Tài khoản của tôi</button></div>
+  <div class="card pad"><h3>Mã xác minh tự động</h3>
+    <p class="d">SMS ${S.sms ? '<span class="tag t-active">Đang bật</span>' : '<span class="tag t-new">Chưa bật</span>'} · Email ${S.mail ? '<span class="tag t-active">Đang bật</span>' : '<span class="tag t-new">Chưa bật</span>'}</p>
+    <div style="font-size:13px;line-height:1.75;color:var(--ink2)">Các khoá được thêm trong <b>Cloudflare → Workers &amp; Pages → hoangdung-realestate → Settings → Variables and Secrets</b> (chọn loại <b>Secret</b>), rồi bấm <b>Deploy</b>:<br>
+    <b>SMS (Twilio Verify, hỗ trợ số quốc tế):</b><br>
+    &nbsp;&nbsp;• <code>TWILIO_ACCOUNT_SID</code>, <code>TWILIO_AUTH_TOKEN</code> — trong trang chủ tài khoản Twilio<br>
+    &nbsp;&nbsp;• <code>TWILIO_VERIFY_SID</code> — tạo dịch vụ ở Twilio → Verify → Services (bắt đầu bằng VA…)<br>
+    <b>Email (miễn phí 300 thư/ngày với Brevo):</b><br>
+    &nbsp;&nbsp;• <code>BREVO_API_KEY</code> — Brevo → SMTP &amp; API → API Keys<br>
+    &nbsp;&nbsp;• <code>MAIL_FROM</code> — ví dụ <code>Hoàng Dũng Real Estate &lt;email-da-xac-minh@...&gt;</code><br>
+    &nbsp;&nbsp;• <code>NOTIFY_EMAIL</code> — email nhận thông báo yêu cầu tư vấn mới (tuỳ chọn)</div></div></div>`;
+  $$('[data-go]').forEach(b => b.onclick = () => { S.view = b.dataset.go; shell(); });
+}
+
+/* ---------- khởi động ---------- */
+function render() { if (!S.admin) gate(); else { shell(); refreshStats().then(() => { if (S.view !== 'home' && S.stats) { const b = $$('.nav .bd'); if (!b.length && (S.stats.leadsNew || S.stats.resets || S.stats.requests)) shell(); } }); } }
+(async () => {
+  try { const j = await (await fetch('/api/admin/state', { cache: 'no-store', credentials: 'same-origin' })).json(); S.setup = j.setup; S.admin = j.admin; S.mail = j.mail; S.sms = j.sms; }
+  catch (e) { $('#root').innerHTML = '<div class="gate"><div class="gate-card"><h1>Không kết nối được máy chủ</h1><p class="lead">Vui lòng tải lại trang sau ít phút.</p></div></div>'; return; }
+  render();
+})();
+</script>
+</body>
+</html>
