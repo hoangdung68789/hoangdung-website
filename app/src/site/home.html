@@ -640,6 +640,9 @@ html.static .hero{height:auto}
 html.static .hero-pin{position:relative;height:auto;min-height:640px;padding-bottom:40vh}
 html.static .mask{display:none}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+html.hosted .totop{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+html.hosted .scene-info{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 70px)}
+html.hosted .gyro-btn{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 img[data-pan]{position:absolute;left:-7%;top:-7%;width:114%;height:114%;max-width:none;object-fit:cover}
 img{image-rendering:auto}
 </style>
@@ -1820,6 +1823,7 @@ $('#totop').onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
    - Có cấu hình Firebase → tài khoản thật, dùng chung mọi thiết bị, email đặt lại mật khẩu.
    - Chưa có → tài khoản lưu trên thiết bị này (mật khẩu được băm SHA-256, không lưu dạng chữ).
    ========================================================= */
+if (CAU_HINH.api) document.documentElement.classList.add('hosted');
 const ACC = { user: null, mode: CAU_HINH.api ? 'server' : CAU_HINH.firebase ? 'firebase' : 'local', fb: null };
 async function api(path, body) {
   let r, j = {};
@@ -2010,7 +2014,7 @@ function initAccount() {
   }
   $('#mAcct').onclick = () => { setMenu(false); setTimeout(() => openAuth('login'), 250); };
   if (ACC.mode === 'local') { const u = store.get('hd_session', null); if (u) setUser(u); }
-  else fbAuth().then(a => a.onAuthStateChanged(u => setUser(u ? { name: u.displayName || u.email, email: u.email, uid: u.uid } : null))).catch(() => { });
+  else if (ACC.mode === 'firebase') fbAuth().then(a => a.onAuthStateChanged(u => setUser(u ? { name: u.displayName || u.email, email: u.email, uid: u.uid } : null))).catch(() => { });
 }
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-find]'); if (!b) return;
