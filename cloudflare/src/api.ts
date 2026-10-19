@@ -88,12 +88,20 @@ export const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS otp_challenges (token_hash TEXT PRIMARY KEY, user_id INTEGER NOT NULL, purpose TEXT NOT NULL, channel TEXT NOT NULL DEFAULT '', dest TEXT NOT NULL DEFAULT '', code_hash TEXT, sends INTEGER NOT NULL DEFAULT 0, attempts INTEGER NOT NULL DEFAULT 0, last_sent INTEGER NOT NULL DEFAULT 0, remember INTEGER NOT NULL DEFAULT 1, expires_at INTEGER NOT NULL, created_at INTEGER NOT NULL, verified_at INTEGER)`,
   `CREATE TABLE IF NOT EXISTS trusted_devices (id INTEGER PRIMARY KEY AUTOINCREMENT, token_hash TEXT NOT NULL UNIQUE, user_id INTEGER NOT NULL, label TEXT NOT NULL DEFAULT '', created_at INTEGER NOT NULL, last_used INTEGER NOT NULL, expires_at INTEGER NOT NULL)`,
   `CREATE INDEX IF NOT EXISTS trusted_user ON trusted_devices(user_id)`,
+  `CREATE TABLE IF NOT EXISTS change_requests (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, topic TEXT NOT NULL, message TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'pending', note TEXT NOT NULL DEFAULT '', created_at INTEGER NOT NULL, handled_at INTEGER, handled_by TEXT NOT NULL DEFAULT '')`,
+  `CREATE INDEX IF NOT EXISTS change_requests_status ON change_requests(status, created_at)`,
+  `CREATE TABLE IF NOT EXISTS account_events (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, kind TEXT NOT NULL, detail TEXT NOT NULL DEFAULT '', actor TEXT NOT NULL DEFAULT '', at INTEGER NOT NULL)`,
+  `CREATE INDEX IF NOT EXISTS account_events_user ON account_events(user_id, at)`,
 ];
 const ADD_COLUMNS = [
   `ALTER TABLE users ADD COLUMN phone_cc TEXT NOT NULL DEFAULT ''`,
   `ALTER TABLE users ADD COLUMN phone_verified INTEGER NOT NULL DEFAULT 0`,
   `ALTER TABLE users ADD COLUMN pass_iter INTEGER NOT NULL DEFAULT 100000`,
   `ALTER TABLE admins ADD COLUMN pass_iter INTEGER NOT NULL DEFAULT 100000`,
+  `ALTER TABLE users ADD COLUMN name_changes INTEGER NOT NULL DEFAULT 0`,
+  `ALTER TABLE users ADD COLUMN profile TEXT NOT NULL DEFAULT ''`,
+  `ALTER TABLE users ADD COLUMN profile_at INTEGER`,
+  `ALTER TABLE otp_challenges ADD COLUMN meta TEXT NOT NULL DEFAULT ''`,
 ];
 let schemaReady: Promise<void> | null = null;
 async function ensureSchema() {
@@ -287,19 +295,86 @@ function mailLayout(title: string, body: string, extra = "") {
 <tr><td style="padding:18px 28px;border-top:1px solid #eee;font-size:12px;color:#8a9099">Hoàng Dũng Real Estate · Kiến tạo mái ấm gia đình Việt<br>Hotline ${HOTLINE} · 37 Lê Thúc Hoạch, Phú Thọ Hoà, Tân Phú</td></tr>
 </table></td></tr></table></body></html>`;
 }
-const PURPOSE_TEXT: Record<string, string> = { login: "đăng nhập", register: "xác minh tài khoản mới", reset: "khôi phục tài khoản" };
+const PURPOSE_TEXT: Record<string, string> = { login: "đăng nhập", register: "xác minh tài khoản mới", reset: "khôi phục tài khoản", "change-email": "xác minh email mới", "change-phone": "xác minh số điện thoại mới" };
+/** Gửi mã 6 số tới một đích (SMS qua Twilio Verify, email qua Brevo/Resend). Trả về bản băm mã khi gửi email. */
+async function deliverCode(challengeHash: string, channel: "sms" | "email", dest: string, purpose: string, name: string): Promise<string | null> {
+  if (channel === "sms") { await sendSmsCode(dest); return null; }
+  const code = randomCode();
+  const text = PURPOSE_TEXT[purpose] ?? "xác minh";
+  const ok = await sendMail(dest, `${code} là mã xác minh Hoàng Dũng Real Estate`, mailLayout(
+    `Mã ${text} của bạn`,
+    `Chào ${escHtml(name)},<br>Nhập mã dưới đây để ${text}. Mã có hiệu lực trong 10 phút. Tuyệt đối không chia sẻ mã này cho bất kỳ ai, kể cả nhân viên Hoàng Dũng Real Estate.`,
+    `<p style="margin:22px 0;font-size:34px;letter-spacing:10px;font-weight:bold;color:#121417">${code}</p><p style="font-size:12px;color:#8a9099">Nếu bạn không thực hiện yêu cầu này, hãy bỏ qua email và cân nhắc đổi mật khẩu.</p>`));
+  if (!ok) throw new HttpError(502, "Chưa gửi được email. Vui lòng thử lại sau ít phút.");
+  return sha256(challengeHash + code);
+}
+async function logEvent(userId: number, kind: string, detail = "", actor = "") {
+  try { await db().prepare("INSERT INTO account_events (user_id, kind, detail, actor, at) VALUES (?, ?, ?, ?, ?)").bind(userId, kind, detail.slice(0, 300), actor.slice(0, 160), now()).run(); } catch (e) { console.error("log", e); }
+}
+async function notifyAdmin(origin: string, subject: string, body: string) {
+  const to = env().NOTIFY_EMAIL;
+  if (to && mailReady()) await sendMail(to, subject, mailLayout(escHtml(subject), body, `<p><a href="${origin}/admin">Mở trang quản trị</a></p>`));
+}
 
 /* ---------------- người dùng, phiên, thiết bị ---------------- */
 type User = {
   id: number; email: string; phone: string; phone_cc: string; name: string; role: string;
   email_verified: number; phone_verified: number; status: string; created_at: number;
   pass_hash: string; pass_salt: string; pass_iter: number;
+  name_changes: number; profile: string; profile_at: number | null;
 };
 type Admin = { id: number; email: string; name: string };
 const publicUser = (u: User) => ({
-  id: u.id, name: u.name, email: u.email, phone: u.phone, role: u.role,
+  id: u.id, name: u.name, email: u.email, phone: u.phone, phoneCc: u.phone_cc, role: u.role,
   emailVerified: !!u.email_verified, phoneVerified: !!u.phone_verified,
+  nameLocked: (u.name_changes ?? 0) >= 1, profileLocked: !!u.profile_at,
 });
+
+/* ---------------- hồ sơ cá nhân (bắt buộc có thông tin CCCD) ---------------- */
+type PField = { k: string; max: number; req?: boolean; opts?: string[]; kind?: "date" | "cccd" | "text" };
+export const PROFILE_FIELDS: PField[] = [
+  { k: "fullName", max: 80, req: true },
+  { k: "dob", max: 10, req: true, kind: "date" },
+  { k: "gender", max: 10, req: true, opts: ["Nam", "Nữ", "Khác"] },
+  { k: "cccd", max: 12, req: true, kind: "cccd" },
+  { k: "cccdDate", max: 10, req: true, kind: "date" },
+  { k: "cccdPlace", max: 120, req: true },
+  { k: "address", max: 200, req: true },
+  { k: "currentAddress", max: 200 },
+  { k: "occupation", max: 80 },
+  { k: "need", max: 40, opts: ["Mua để ở", "Mua đầu tư", "Thuê nhà", "Bán nhà", "Cho thuê", "Tìm hiểu thị trường"] },
+  { k: "budget", max: 40, opts: ["Dưới 3 tỷ", "3 – 5 tỷ", "5 – 10 tỷ", "10 – 20 tỷ", "Trên 20 tỷ", "Thuê dưới 15 triệu/tháng", "Thuê từ 15 triệu/tháng"] },
+  { k: "areas", max: 120 },
+  { k: "contactTime", max: 40, opts: ["Giờ hành chính", "Buổi tối (18h – 21h)", "Cuối tuần", "Bất kỳ lúc nào"] },
+];
+const PROFILE_LABEL: Record<string, string> = {
+  fullName: "Họ và tên theo CCCD", dob: "Ngày sinh", gender: "Giới tính", cccd: "Số CCCD/Căn cước", cccdDate: "Ngày cấp",
+  cccdPlace: "Nơi cấp", address: "Địa chỉ thường trú", currentAddress: "Nơi ở hiện tại", occupation: "Nghề nghiệp",
+  need: "Nhu cầu chính", budget: "Ngân sách dự kiến", areas: "Khu vực quan tâm", contactTime: "Thời gian liên hệ",
+};
+const isDate = (s: string) => /^\d{4}-\d{2}-\d{2}$/.test(s) && !Number.isNaN(Date.parse(s + "T00:00:00Z")) && new Date(s + "T00:00:00Z").toISOString().slice(0, 10) === s;
+function cleanProfile(raw: unknown): Record<string, string> {
+  const src = raw && typeof raw === "object" && !Array.isArray(raw) ? (raw as Row) : {};
+  const p: Record<string, string> = {};
+  for (const f of PROFILE_FIELDS) {
+    let v = str(src[f.k], f.max).replace(/\s+/g, " ");
+    if (f.kind === "cccd") v = v.replace(/\D/g, "");
+    if (!v) { if (f.req) throw new HttpError(400, `Vui lòng nhập ${PROFILE_LABEL[f.k].toLowerCase()}.`); continue; }
+    if (f.opts && !f.opts.includes(v)) throw new HttpError(400, `${PROFILE_LABEL[f.k]} chưa hợp lệ.`);
+    if (f.kind === "date" && !isDate(v)) throw new HttpError(400, `${PROFILE_LABEL[f.k]} chưa đúng định dạng.`);
+    if (f.kind === "cccd" && !/^0\d{11}$/.test(v)) throw new HttpError(400, "Số CCCD/Căn cước gồm đúng 12 chữ số, bắt đầu bằng số 0.");
+    if (f.k === "fullName" && !/^[\p{L}][\p{L} .'-]{1,79}$/u.test(v)) throw new HttpError(400, "Họ và tên chỉ gồm chữ cái và khoảng trắng.");
+    p[f.k] = v;
+  }
+  const today = new Date(now() + 7 * HOUR).toISOString().slice(0, 10);
+  const age = (Date.parse(today) - Date.parse(p.dob)) / (365.2425 * DAY);
+  if (!(age >= 14 && age <= 120)) throw new HttpError(400, "Ngày sinh chưa hợp lệ.");
+  if (p.cccdDate > today) throw new HttpError(400, "Ngày cấp không thể ở tương lai.");
+  if (p.cccdDate <= p.dob) throw new HttpError(400, "Ngày cấp phải sau ngày sinh.");
+  return p;
+}
+const parseProfile = (s: string): Record<string, string> => { try { const v = JSON.parse(s || "{}"); return v && typeof v === "object" ? v : {}; } catch { return {}; } };
+const maskCccd = (c: string) => (c ? `${c.slice(0, 3)} ••• ••• ${c.slice(-3)}` : "");
 const getUser = (id: number) => db().prepare("SELECT * FROM users WHERE id = ?").bind(id).first<User>();
 function channelsOf(u: User) {
   const ch: { type: "sms" | "email"; masked: string; verified: boolean }[] = [];
@@ -435,16 +510,22 @@ async function codeStart(req: Request) {
   return json(await newChallenge(u, purpose));
 }
 
-type Challenge = { token_hash: string; user_id: number; purpose: string; channel: string; dest: string; code_hash: string | null; sends: number; attempts: number; last_sent: number; remember: number; expires_at: number; verified_at: number | null };
+type Challenge = { token_hash: string; user_id: number; purpose: string; channel: string; dest: string; code_hash: string | null; sends: number; attempts: number; last_sent: number; remember: number; expires_at: number; verified_at: number | null; meta: string };
 async function loadChallenge(tok: unknown): Promise<Challenge> {
   const t = str(tok, 100);
   const c = t ? await db().prepare("SELECT * FROM otp_challenges WHERE token_hash = ?").bind(await sha256(t)).first<Challenge>() : null;
   if (!c || c.expires_at < now() || c.verified_at) throw new HttpError(410, "Phiên xác minh đã hết hạn. Vui lòng thực hiện lại.");
   return c;
 }
+/** Chỉ dùng cho đăng nhập / đăng ký / khôi phục — phiên đổi email, SĐT có luồng riêng gắn với phiên đăng nhập. */
+async function loadAuthChallenge(tok: unknown): Promise<Challenge> {
+  const c = await loadChallenge(tok);
+  if (c.purpose.startsWith("change-")) throw new HttpError(410, "Phiên xác minh đã hết hạn. Vui lòng thực hiện lại.");
+  return c;
+}
 async function otpSend(req: Request) {
   const b = await readBody(req);
-  const c = await loadChallenge(b.challenge);
+  const c = await loadAuthChallenge(b.challenge);
   const u = await getUser(c.user_id);
   if (!u) throw new HttpError(410, "Phiên xác minh đã hết hạn. Vui lòng thực hiện lại.");
   const channel = b.channel === "sms" ? "sms" : "email";
@@ -455,23 +536,13 @@ async function otpSend(req: Request) {
   const dest = channel === "sms" ? u.phone : u.email;
   await limit(`otpdest:${dest}`, 8, HOUR, "Địa chỉ nhận này đã nhận quá nhiều mã. Vui lòng thử lại sau 1 giờ.");
   await limit(`otpip:${clientIp(req)}`, 25, HOUR);
-  let codeHash: string | null = null;
-  if (channel === "sms") await sendSmsCode(dest);
-  else {
-    const code = randomCode();
-    codeHash = await sha256(c.token_hash + code);
-    const ok = await sendMail(dest, `${code} là mã xác minh Hoàng Dũng Real Estate`, mailLayout(
-      `Mã ${PURPOSE_TEXT[c.purpose] ?? "xác minh"} của bạn`,
-      `Chào ${escHtml(u.name)},<br>Nhập mã dưới đây để ${PURPOSE_TEXT[c.purpose] ?? "xác minh"}. Mã có hiệu lực trong 10 phút. Tuyệt đối không chia sẻ mã này cho bất kỳ ai, kể cả nhân viên Hoàng Dũng Real Estate.`,
-      `<p style="margin:22px 0;font-size:34px;letter-spacing:10px;font-weight:bold;color:#121417">${code}</p><p style="font-size:12px;color:#8a9099">Nếu bạn không thực hiện yêu cầu này, hãy bỏ qua email và cân nhắc đổi mật khẩu.</p>`));
-    if (!ok) throw new HttpError(502, "Chưa gửi được email. Vui lòng thử lại hoặc chọn nhận mã qua SMS.");
-  }
+  const codeHash = await deliverCode(c.token_hash, channel, dest, c.purpose, u.name);
   await db().prepare("UPDATE otp_challenges SET channel = ?, dest = ?, code_hash = ?, sends = sends + 1, attempts = 0, last_sent = ?, expires_at = ? WHERE token_hash = ?").bind(channel, dest, codeHash, now(), Math.max(c.expires_at, now() + OTP_TTL), c.token_hash).run();
   return json({ sent: true, channel, masked: channel === "sms" ? maskPhone(dest) : maskEmail(dest), wait: 45 });
 }
 async function otpVerify(req: Request) {
   const b = await readBody(req);
-  const c = await loadChallenge(b.challenge);
+  const c = await loadAuthChallenge(b.challenge);
   const code = str(b.code, 12).replace(/\D/g, "");
   if (!c.channel || !c.last_sent) throw new HttpError(400, "Vui lòng chọn nơi nhận mã và bấm gửi mã trước.");
   if (now() - c.last_sent > OTP_TTL) throw new HttpError(410, "Mã đã hết hạn. Vui lòng gửi lại mã mới.");
@@ -556,6 +627,150 @@ async function trustCurrent(req: Request) {
   return json({ ok: true }, 200, [await trustDevice(req, u.id)]);
 }
 
+/* ---------------- hồ sơ tài khoản ---------------- */
+const REQUEST_TOPICS = ["Cập nhật thông tin cá nhân", "Đổi tên hiển thị", "Đổi email hoặc số điện thoại", "Khác"];
+async function profileGet(req: Request) {
+  const u = await requireUser(req);
+  const p = parseProfile(u.profile);
+  const masked = { ...p, cccd: maskCccd(p.cccd ?? "") };
+  const pending = (await db().prepare("SELECT id, topic, message, created_at FROM change_requests WHERE user_id = ? AND status = 'pending' ORDER BY id DESC").bind(u.id).all()).results;
+  return json({ user: publicUser(u), profile: u.profile_at ? masked : null, profileAt: u.profile_at, requests: pending, channels: { mail: mailReady(), sms: smsReady() } });
+}
+async function profileName(req: Request) {
+  const u = await requireUser(req);
+  const b = await readBody(req);
+  const name = str(b.name, 80).replace(/\s+/g, " ");
+  if ((u.name_changes ?? 0) >= 1) throw new HttpError(403, "Tên hiển thị chỉ được tự đổi 1 lần. Vui lòng gửi yêu cầu để quản trị viên hỗ trợ.");
+  if (!/^[\p{L}][\p{L}\p{N} .'-]{1,79}$/u.test(name)) throw new HttpError(400, "Tên hiển thị cần 2–80 ký tự, gồm chữ cái và khoảng trắng.");
+  if (name === u.name) throw new HttpError(400, "Tên mới đang trùng với tên hiện tại.");
+  await db().prepare("UPDATE users SET name = ?, name_changes = name_changes + 1 WHERE id = ? AND name_changes < 1").bind(name, u.id).run();
+  await logEvent(u.id, "name", `${u.name} → ${name}`, "khách");
+  return json({ user: publicUser((await getUser(u.id)) as User) });
+}
+async function profileSave(req: Request) {
+  const u = await requireUser(req);
+  const b = await readBody(req);
+  if (u.profile_at) throw new HttpError(403, "Thông tin cá nhân đã được lưu. Nếu cần thay đổi, vui lòng gửi yêu cầu để quản trị viên hỗ trợ.");
+  if (b.consent !== true) throw new HttpError(400, "Vui lòng đồng ý với việc xử lý dữ liệu cá nhân để lưu hồ sơ.");
+  await limit(`profile:${u.id}`, 10, HOUR);
+  const p = cleanProfile(b.profile);
+  p.consentAt = new Date(now()).toISOString();
+  const r = await db().prepare("UPDATE users SET profile = ?, profile_at = ? WHERE id = ? AND profile_at IS NULL").bind(JSON.stringify(p), now(), u.id).run();
+  if (!r.meta?.changes) throw new HttpError(409, "Thông tin cá nhân đã được lưu trước đó.");
+  await logEvent(u.id, "profile", "Khách lưu thông tin cá nhân lần đầu", "khách");
+  return profileGet(req);
+}
+/** Đổi email / số điện thoại: cần mật khẩu hiện tại + mã xác minh gửi tới địa chỉ MỚI (khi đã bật kênh gửi). */
+async function contactStart(req: Request) {
+  const u = await requireUser(req);
+  const b = await readBody(req);
+  const type = b.type === "phone" ? "phone" : "email";
+  await limit(`contact:${u.id}`, 6, 15 * MIN);
+  const pass = typeof b.pass === "string" ? b.pass.slice(0, 128) : "";
+  if (!pass || !(await checkPass(pass, u.pass_salt, u.pass_hash, u.pass_iter || 100_000))) throw new HttpError(400, "Mật khẩu hiện tại chưa đúng.");
+  let value = "", iso = "";
+  if (type === "email") {
+    value = str(b.email, 160).toLowerCase();
+    if (!isEmail(value)) throw new HttpError(400, "Vui lòng nhập địa chỉ email hợp lệ, ví dụ ten@gmail.com.");
+    if (value === u.email) throw new HttpError(400, "Email mới đang trùng với email hiện tại.");
+    if (await db().prepare("SELECT id FROM users WHERE email = ?").bind(value).first()) throw new HttpError(409, "Email này đã được dùng cho một tài khoản khác.");
+  } else {
+    value = toE164(b.cc, b.phone); iso = str(b.ccIso, 3).toUpperCase();
+    if (!value) throw new HttpError(400, "Số điện thoại chưa đúng. Hãy chọn mã quốc gia và nhập số, ví dụ 0901 234 567.");
+    if (value === u.phone) throw new HttpError(400, "Số điện thoại mới đang trùng với số hiện tại.");
+    if (await db().prepare("SELECT id FROM users WHERE phone = ?").bind(value).first()) throw new HttpError(409, "Số điện thoại này đã được dùng cho một tài khoản khác.");
+  }
+  // Ưu tiên gửi mã tới địa chỉ MỚI (chứng minh sở hữu); nếu kênh đó chưa bật thì gửi tới kênh cũ còn hoạt động.
+  let channel: "sms" | "email" | "" = type === "email" ? (mailReady() ? "email" : "") : (smsReady() ? "sms" : "");
+  let dest = channel ? value : "";
+  if (!channel && mailReady() && u.email) { channel = "email"; dest = u.email; }
+  else if (!channel && smsReady() && u.phone) { channel = "sms"; dest = u.phone; }
+  if (!channel) {
+    // chưa bật dịch vụ gửi mã → đổi ngay bằng mật khẩu, đánh dấu "chưa xác minh"
+    await applyContact(u, type, value, iso, false, "khách (chưa xác minh)");
+    return json({ changed: true, verified: false, user: publicUser((await getUser(u.id)) as User) });
+  }
+  await limit(`otpdest:${dest}`, 8, HOUR, "Địa chỉ nhận này đã nhận quá nhiều mã. Vui lòng thử lại sau 1 giờ.");
+  const tok = randomToken(), th = await sha256(tok), t = now();
+  const codeHash = await deliverCode(th, channel, dest, `change-${type}`, u.name);
+  await db().prepare("INSERT INTO otp_challenges (token_hash, user_id, purpose, channel, dest, code_hash, sends, last_sent, remember, expires_at, created_at, meta) VALUES (?, ?, ?, ?, ?, ?, 1, ?, 0, ?, ?, ?)")
+    .bind(th, u.id, `change-${type}`, channel, dest, codeHash, t, t + 30 * MIN, t, JSON.stringify({ iso, value })).run();
+  return json({ challenge: tok, type, toNew: dest === value, masked: channel === "email" ? maskEmail(dest) : maskPhone(dest), wait: 45 });
+}
+async function loadContactChallenge(req: Request, b: Row) {
+  const u = await requireUser(req);
+  const c = await loadChallenge(b.challenge);
+  if (c.user_id !== u.id || !c.purpose.startsWith("change-")) throw new HttpError(410, "Phiên xác minh đã hết hạn. Vui lòng thực hiện lại.");
+  return { u, c };
+}
+async function contactResend(req: Request) {
+  const b = await readBody(req);
+  const { u, c } = await loadContactChallenge(req, b);
+  const wait = Math.ceil((c.last_sent + 45_000 - now()) / 1000);
+  if (wait > 0) throw new HttpError(429, `Vui lòng đợi ${wait} giây rồi gửi lại mã.`, { wait });
+  if (c.sends >= 5) throw new HttpError(429, "Bạn đã yêu cầu gửi mã quá nhiều lần. Vui lòng thực hiện lại sau.");
+  await limit(`otpdest:${c.dest}`, 8, HOUR, "Địa chỉ nhận này đã nhận quá nhiều mã. Vui lòng thử lại sau 1 giờ.");
+  const codeHash = await deliverCode(c.token_hash, c.channel === "sms" ? "sms" : "email", c.dest, c.purpose, u.name);
+  await db().prepare("UPDATE otp_challenges SET code_hash = ?, sends = sends + 1, attempts = 0, last_sent = ? WHERE token_hash = ?").bind(codeHash, now(), c.token_hash).run();
+  return json({ sent: true, wait: 45 });
+}
+async function contactVerify(req: Request) {
+  const b = await readBody(req);
+  const { u, c } = await loadContactChallenge(req, b);
+  const code = str(b.code, 12).replace(/\D/g, "");
+  if (now() - c.last_sent > OTP_TTL) throw new HttpError(410, "Mã đã hết hạn. Vui lòng gửi lại mã mới.");
+  if (c.attempts >= 5) throw new HttpError(429, "Bạn đã nhập sai quá 5 lần. Vui lòng gửi lại mã mới.");
+  if (code.length !== 6) throw new HttpError(400, "Mã xác minh gồm 6 chữ số.");
+  await db().prepare("UPDATE otp_challenges SET attempts = attempts + 1 WHERE token_hash = ?").bind(c.token_hash).run();
+  const ok = c.channel === "sms" ? await checkSmsCode(c.dest, code) : !!c.code_hash && safeEq(await sha256(c.token_hash + code), c.code_hash);
+  if (!ok) throw new HttpError(400, `Mã chưa đúng. Bạn còn ${Math.max(0, 4 - c.attempts)} lần thử.`);
+  await db().prepare("UPDATE otp_challenges SET verified_at = ? WHERE token_hash = ?").bind(now(), c.token_hash).run();
+  const type = c.purpose === "change-phone" ? "phone" : "email";
+  let meta: Row = {}; try { meta = JSON.parse(c.meta || "{}"); } catch { /* bỏ qua */ }
+  const value = str(meta.value, 160);
+  if (!value) throw new HttpError(410, "Phiên xác minh đã hết hạn. Vui lòng thực hiện lại.");
+  const verified = value === c.dest; // mã gửi tới chính địa chỉ mới → địa chỉ mới đã được xác minh
+  await applyContact(u, type, value, str(meta.iso, 3), verified, verified ? "khách (đã xác minh mã)" : "khách (xác minh qua kênh cũ)");
+  return json({ changed: true, verified, user: publicUser((await getUser(u.id)) as User) });
+}
+async function applyContact(u: User, type: "email" | "phone", value: string, iso: string, verified: boolean, actor: string) {
+  const col = type === "email" ? "email" : "phone";
+  if (await db().prepare(`SELECT id FROM users WHERE ${col} = ? AND id != ?`).bind(value, u.id).first()) throw new HttpError(409, type === "email" ? "Email này đã được dùng cho một tài khoản khác." : "Số điện thoại này đã được dùng cho một tài khoản khác.");
+  if (type === "email") await db().prepare("UPDATE users SET email = ?, email_verified = ? WHERE id = ?").bind(value, verified ? 1 : 0, u.id).run();
+  else await db().prepare("UPDATE users SET phone = ?, phone_cc = ?, phone_verified = ? WHERE id = ?").bind(value, iso || u.phone_cc, verified ? 1 : 0, u.id).run();
+  await logEvent(u.id, type, `${type === "email" ? u.email : u.phone} → ${value}`, actor);
+  // báo cho email cũ để chủ tài khoản phát hiện thay đổi bất thường
+  if (u.email && mailReady()) await sendMail(u.email, "Thông tin đăng nhập tài khoản vừa thay đổi", mailLayout(
+    type === "email" ? "Email tài khoản đã được đổi" : "Số điện thoại tài khoản đã được đổi",
+    `Chào ${escHtml(u.name)},<br>${type === "email" ? `Email đăng nhập đã đổi thành <b>${escHtml(maskEmail(value))}</b>.` : `Số điện thoại đã đổi thành <b>${escHtml(maskPhone(value))}</b>.`}<br>Nếu không phải bạn thực hiện, hãy gọi ngay ${HOTLINE} để được khoá tài khoản.`));
+}
+/** Khôi phục mật khẩu ngay trong trang tài khoản (không cần nhớ mật khẩu cũ). */
+async function recover(req: Request) {
+  await readBody(req);
+  const u = await requireUser(req);
+  await limit(`recover:${u.id}`, 6, HOUR);
+  if (!channelsOf(u).length) {
+    const dup = await db().prepare("SELECT id FROM reset_requests WHERE user_id = ? AND status = 'pending' AND created_at > ?").bind(u.id, now() - DAY).first();
+    if (!dup) await db().prepare("INSERT INTO reset_requests (user_id, email, phone, created_at) VALUES (?, ?, ?, ?)").bind(u.id, u.email, u.phone, now()).run();
+    return json({ mode: "admin" });
+  }
+  return json(await newChallenge(u, "reset"));
+}
+/** Yêu cầu quản trị viên hỗ trợ cập nhật (sau khi hồ sơ đã khoá, hoặc đã dùng hết lượt đổi tên). */
+async function changeRequest(req: Request) {
+  const u = await requireUser(req);
+  const b = await readBody(req);
+  const topic = REQUEST_TOPICS.includes(str(b.topic, 60)) ? str(b.topic, 60) : "Khác";
+  const message = str(b.message, 1500);
+  if (message.length < 10) throw new HttpError(400, "Vui lòng mô tả nội dung cần cập nhật (ít nhất 10 ký tự).");
+  await limit(`creq:${u.id}`, 5, DAY, "Bạn đã gửi nhiều yêu cầu trong hôm nay. Quản trị viên sẽ sớm liên hệ.");
+  if (await db().prepare("SELECT id FROM change_requests WHERE user_id = ? AND topic = ? AND status = 'pending'").bind(u.id, topic).first()) throw new HttpError(409, "Bạn đã có một yêu cầu cùng nội dung đang chờ xử lý.");
+  await db().prepare("INSERT INTO change_requests (user_id, topic, message, created_at) VALUES (?, ?, ?, ?)").bind(u.id, topic, message, now()).run();
+  await logEvent(u.id, "request", topic, "khách");
+  await notifyAdmin(new URL(req.url).origin, `[Website] Yêu cầu cập nhật – ${u.name}`, `<b>${escHtml(topic)}</b><br>${escHtml(u.name)} · ${escHtml(u.email)} · ${escHtml(u.phone)}<pre style="white-space:pre-wrap;font-family:inherit">${escHtml(message)}</pre>`);
+  return profileGet(req);
+}
+
 async function favs(req: Request) {
   const u = await requireUser(req);
   if (req.method === "GET") {
@@ -619,7 +834,7 @@ async function adminStats(req: Request) {
   await requireAdmin(req);
   const d = db(), t = now();
   const q = async (sql: string, ...v: unknown[]) => ((await d.prepare(sql).bind(...v).first<{ n: number }>())?.n ?? 0);
-  const [users, users7, leads, leadsNew, leads7, resets, active30, trusted, daily] = await Promise.all([
+  const [users, users7, leads, leadsNew, leads7, resets, active30, trusted, daily, requests, profiles] = await Promise.all([
     q("SELECT COUNT(*) AS n FROM users"),
     q("SELECT COUNT(*) AS n FROM users WHERE created_at > ?", t - 7 * DAY),
     q("SELECT COUNT(*) AS n FROM leads"),
@@ -629,15 +844,17 @@ async function adminStats(req: Request) {
     q("SELECT COUNT(*) AS n FROM users WHERE last_login > ?", t - 30 * DAY),
     q("SELECT COUNT(*) AS n FROM trusted_devices WHERE expires_at > ?", t),
     d.prepare("SELECT strftime('%Y-%m-%d', created_at / 1000, 'unixepoch', '+7 hours') AS day, COUNT(*) AS n FROM leads WHERE created_at > ? GROUP BY day ORDER BY day").bind(t - 14 * DAY).all<{ day: string; n: number }>(),
+    q("SELECT COUNT(*) AS n FROM change_requests WHERE status = 'pending'"),
+    q("SELECT COUNT(*) AS n FROM users WHERE profile_at IS NOT NULL"),
   ]);
-  return json({ users, users7, leads, leadsNew, leads7, resets, active30, trusted, mail: mailReady(), sms: smsReady(), daily: daily.results });
+  return json({ users, users7, leads, leadsNew, leads7, resets, active30, trusted, requests, profiles, mail: mailReady(), sms: smsReady(), daily: daily.results });
 }
 const likeQ = (q: string) => `%${q.replace(/[%_\\]/g, (c) => "\\" + c)}%`;
 async function adminUsers(req: Request) {
   await requireAdmin(req);
   const u = new URL(req.url), q = str(u.searchParams.get("q"), 80), off = Math.max(0, Math.floor(Number(u.searchParams.get("offset")) || 0));
   const where = q ? "WHERE u.email LIKE ?1 ESCAPE '\\' OR u.name LIKE ?1 ESCAPE '\\' OR u.phone LIKE ?1 ESCAPE '\\'" : "";
-  const sql = `SELECT u.id, u.email, u.phone, u.name, u.role, u.email_verified, u.phone_verified, u.status, u.marketing, u.created_at, u.last_login, (SELECT COUNT(*) FROM trusted_devices t WHERE t.user_id = u.id AND t.expires_at > ${now()}) AS devices FROM users u ${where} ORDER BY u.id DESC LIMIT 50 OFFSET ${off}`;
+  const sql = `SELECT u.id, u.email, u.phone, u.name, u.role, u.email_verified, u.phone_verified, u.status, u.marketing, u.created_at, u.last_login, u.profile_at, u.name_changes, (SELECT COUNT(*) FROM trusted_devices t WHERE t.user_id = u.id AND t.expires_at > ${now()}) AS devices FROM users u ${where} ORDER BY u.id DESC LIMIT 50 OFFSET ${off}`;
   const rows = (q ? await db().prepare(sql).bind(likeQ(q)).all() : await db().prepare(sql).all()).results;
   const tsql = `SELECT COUNT(*) AS n FROM users u ${where}`;
   const n = (q ? await db().prepare(tsql).bind(likeQ(q)).first<{ n: number }>() : await db().prepare(tsql).first<{ n: number }>())?.n ?? 0;
@@ -656,6 +873,32 @@ async function adminUserAction(req: Request) {
     return json({ ok: true });
   }
   if (action === "verify") { await d.prepare("UPDATE users SET email_verified = 1 WHERE id = ?").bind(id).run(); return json({ ok: true }); }
+  if (action === "unlock-profile") { await d.prepare("UPDATE users SET profile_at = NULL WHERE id = ?").bind(id).run(); await logEvent(id, "profile", "Mở khoá để khách tự cập nhật thông tin 1 lần", a.email); return json({ ok: true }); }
+  if (action === "allow-rename") { await d.prepare("UPDATE users SET name_changes = 0 WHERE id = ?").bind(id).run(); await logEvent(id, "name", "Cho phép khách tự đổi tên thêm 1 lần", a.email); return json({ ok: true }); }
+  if (action === "update") {
+    const name = str(b.name, 80).replace(/\s+/g, " "), email = str(b.email, 160).toLowerCase();
+    const phone = b.phone !== undefined ? toE164(b.cc, b.phone) : u.phone;
+    if (name.length < 2) throw new HttpError(400, "Tên hiển thị cần ít nhất 2 ký tự.");
+    if (!isEmail(email)) throw new HttpError(400, "Email chưa hợp lệ.");
+    if (!phone) throw new HttpError(400, "Số điện thoại chưa hợp lệ.");
+    if (email !== u.email && await d.prepare("SELECT id FROM users WHERE email = ? AND id != ?").bind(email, id).first()) throw new HttpError(409, "Email này đã thuộc tài khoản khác.");
+    if (phone !== u.phone && await d.prepare("SELECT id FROM users WHERE phone = ? AND id != ?").bind(phone, id).first()) throw new HttpError(409, "Số điện thoại này đã thuộc tài khoản khác.");
+    const hasProfile = b.profile && typeof b.profile === "object" && Object.values(b.profile as Row).some((v) => typeof v === "string" && v.trim());
+    let profileJson = u.profile, profileAt = u.profile_at;
+    if (hasProfile) {
+      const p = cleanProfile(b.profile);
+      const old = parseProfile(u.profile);
+      if (old.consentAt) p.consentAt = old.consentAt;
+      profileJson = JSON.stringify(p); profileAt = profileAt ?? now();
+    }
+    await d.prepare("UPDATE users SET name = ?, email = ?, email_verified = CASE WHEN email = ? THEN email_verified ELSE 0 END, phone = ?, phone_cc = CASE WHEN ? != '' THEN ? ELSE phone_cc END, phone_verified = CASE WHEN phone = ? THEN phone_verified ELSE 0 END, profile = ?, profile_at = ? WHERE id = ?")
+      .bind(name, email, email, phone, str(b.ccIso, 3).toUpperCase(), str(b.ccIso, 3).toUpperCase(), phone, profileJson, profileAt, id).run();
+    const changed = [name !== u.name && "tên", email !== u.email && "email", phone !== u.phone && "SĐT", hasProfile && profileJson !== u.profile && "thông tin cá nhân"].filter(Boolean).join(", ");
+    if (changed) await logEvent(id, "admin-update", `Quản trị viên cập nhật: ${changed}`, a.email);
+    const rid = Number(b.requestId);
+    if (rid) await d.prepare("UPDATE change_requests SET status = 'done', handled_at = ?, handled_by = ?, note = ? WHERE id = ? AND user_id = ?").bind(now(), a.email, changed ? `Đã cập nhật: ${changed}` : "Đã xử lý", rid, id).run();
+    return json({ ok: true });
+  }
   if (action === "revoke-devices") { await d.prepare("DELETE FROM trusted_devices WHERE user_id = ?").bind(id).run(); return json({ ok: true }); }
   if (action === "temp-password") {
     const temp = tempPassword();
@@ -730,6 +973,52 @@ async function adminAdmins(req: Request) {
   await db().prepare("INSERT INTO admins (email, name, pass_hash, pass_salt, pass_iter, created_at) VALUES (?, ?, ?, ?, ?, ?)").bind(email, name, hash, salt, iter, now()).run();
   return json({ ok: true }, 201);
 }
+async function adminUserGet(req: Request) {
+  await requireAdmin(req);
+  const id = Number(new URL(req.url).searchParams.get("id"));
+  const u = await getUser(id);
+  if (!u) throw new HttpError(404, "Không tìm thấy tài khoản.");
+  const d = db();
+  const [events, requests, devices] = await Promise.all([
+    d.prepare("SELECT kind, detail, actor, at FROM account_events WHERE user_id = ? ORDER BY id DESC LIMIT 30").bind(id).all(),
+    d.prepare("SELECT * FROM change_requests WHERE user_id = ? ORDER BY id DESC LIMIT 20").bind(id).all(),
+    d.prepare("SELECT COUNT(*) AS n FROM trusted_devices WHERE user_id = ? AND expires_at > ?").bind(id, now()).first<{ n: number }>(),
+  ]);
+  const { pass_hash: _h, pass_salt: _s, pass_iter: _i, profile, ...rest } = u;
+  return json({ user: { ...rest, devices: devices?.n ?? 0 }, profile: parseProfile(profile), events: events.results, requests: requests.results });
+}
+async function adminRequests(req: Request) {
+  await requireAdmin(req);
+  const s = str(new URL(req.url).searchParams.get("status"), 20) === "done" ? "done" : "pending";
+  const rows = (await db().prepare(`SELECT r.*, u.name AS user_name, u.email AS user_email, u.phone AS user_phone FROM change_requests r LEFT JOIN users u ON u.id = r.user_id WHERE ${s === "done" ? "r.status != 'pending'" : "r.status = 'pending'"} ORDER BY r.id DESC LIMIT 100`).all()).results;
+  return json({ rows });
+}
+async function adminRequestUpdate(req: Request) {
+  const a = await requireAdmin(req);
+  const b = await readBody(req);
+  const status = b.status === "rejected" ? "rejected" : "done";
+  const note = str(b.note, 1000);
+  const r = await db().prepare("SELECT user_id, topic FROM change_requests WHERE id = ?").bind(Number(b.id)).first<{ user_id: number; topic: string }>();
+  if (!r) throw new HttpError(404, "Không tìm thấy yêu cầu.");
+  await db().prepare("UPDATE change_requests SET status = ?, note = ?, handled_at = ?, handled_by = ? WHERE id = ?").bind(status, note, now(), a.email, Number(b.id)).run();
+  await logEvent(r.user_id, "request", `${r.topic}: ${status === "done" ? "đã xử lý" : "từ chối"}${note ? " – " + note : ""}`, a.email);
+  return json({ ok: true });
+}
+/** Tài khoản quản trị của chính mình: đổi tên hiển thị, email đăng nhập (cần mật khẩu hiện tại). */
+async function adminMe(req: Request) {
+  const a = await requireAdmin(req);
+  if (req.method === "GET") return json({ admin: await db().prepare("SELECT id, email, name, created_at, last_login FROM admins WHERE id = ?").bind(a.id).first() });
+  const b = await readBody(req);
+  const name = str(b.name, 80).replace(/\s+/g, " "), email = str(b.email, 160).toLowerCase(), pass = typeof b.pass === "string" ? b.pass.slice(0, 128) : "";
+  if (name.length < 2) throw new HttpError(400, "Tên hiển thị cần ít nhất 2 ký tự.");
+  if (!isEmail(email)) throw new HttpError(400, "Email chưa hợp lệ.");
+  await limit(`ame:${a.id}`, 6, 15 * MIN);
+  const row = await db().prepare("SELECT pass_hash, pass_salt, pass_iter FROM admins WHERE id = ?").bind(a.id).first<{ pass_hash: string; pass_salt: string; pass_iter: number }>();
+  if (!row || !(await checkPass(pass, row.pass_salt, row.pass_hash, row.pass_iter || 100_000))) throw new HttpError(400, "Mật khẩu hiện tại chưa đúng.");
+  if (email !== a.email && await db().prepare("SELECT id FROM admins WHERE email = ? AND id != ?").bind(email, a.id).first()) throw new HttpError(409, "Email này đã là quản trị viên khác.");
+  await db().prepare("UPDATE admins SET name = ?, email = ? WHERE id = ?").bind(name, email, a.id).run();
+  return json({ admin: { id: a.id, email, name } });
+}
 function csvCell(v: unknown) {
   let s = v === null || v === undefined ? "" : String(v);
   if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; // chặn công thức độc hại khi mở bằng Excel
@@ -742,8 +1031,8 @@ async function adminExport(req: Request) {
   let head: string[], rows: unknown[][];
   if (what === "users") {
     const r = (await db().prepare("SELECT * FROM users ORDER BY id").all<Row>()).results;
-    head = ["ID", "Họ tên", "Email", "Điện thoại", "Vai trò", "Email đã xác minh", "SĐT đã xác minh", "Trạng thái", "Nhận tư vấn", "Ngày tạo", "Đăng nhập gần nhất"];
-    rows = r.map((u) => [u.id, u.name, u.email, u.phone, u.role, u.email_verified ? "Có" : "Chưa", u.phone_verified ? "Có" : "Chưa", u.status === "active" ? "Hoạt động" : "Tạm khoá", u.marketing ? "Có" : "Không", fmtTime(u.created_at), fmtTime(u.last_login)]);
+    head = ["ID", "Tên hiển thị", "Email", "Điện thoại", "Vai trò", "Email đã xác minh", "SĐT đã xác minh", "Trạng thái", "Nhận tư vấn", "Ngày tạo", "Đăng nhập gần nhất", ...PROFILE_FIELDS.map((f) => PROFILE_LABEL[f.k]), "Lưu hồ sơ lúc"];
+    rows = r.map((u) => { const p = parseProfile(u.profile as string); return [u.id, u.name, u.email, u.phone, u.role, u.email_verified ? "Có" : "Chưa", u.phone_verified ? "Có" : "Chưa", u.status === "active" ? "Hoạt động" : "Tạm khoá", u.marketing ? "Có" : "Không", fmtTime(u.created_at), fmtTime(u.last_login), ...PROFILE_FIELDS.map((f) => p[f.k] ?? ""), fmtTime(u.profile_at)]; });
   } else {
     const SL: Record<string, string> = { new: "Mới", contacted: "Đã liên hệ", deal: "Đang thương lượng", closed: "Đã chốt", spam: "Rác" };
     const r = (await db().prepare("SELECT * FROM leads ORDER BY id").all<Row>()).results;
@@ -771,6 +1060,13 @@ const ROUTES: Record<string, Partial<Record<"GET" | "POST", Handler>>> = {
   "auth/password": { POST: changePassword },
   "auth/devices": { GET: devices, POST: devices },
   "auth/devices/trust": { POST: trustCurrent },
+  "auth/profile": { GET: profileGet, POST: profileSave },
+  "auth/profile/name": { POST: profileName },
+  "auth/contact/start": { POST: contactStart },
+  "auth/contact/resend": { POST: contactResend },
+  "auth/contact/verify": { POST: contactVerify },
+  "auth/recover": { POST: recover },
+  "auth/request": { POST: changeRequest },
   "favs": { GET: favs, POST: favs },
   "leads": { POST: lead },
   "admin/state": { GET: adminState },
@@ -779,7 +1075,10 @@ const ROUTES: Record<string, Partial<Record<"GET" | "POST", Handler>>> = {
   "admin/logout": { POST: async (r) => { await readBody(r); await dropSession(r, "admin"); return json({ ok: true }, 200, [cookie(ADMIN_COOKIE, "", 0, "Strict")]); } },
   "admin/stats": { GET: adminStats },
   "admin/users": { GET: adminUsers },
-  "admin/user": { POST: adminUserAction },
+  "admin/user": { GET: adminUserGet, POST: adminUserAction },
+  "admin/requests": { GET: adminRequests },
+  "admin/request": { POST: adminRequestUpdate },
+  "admin/me": { GET: adminMe, POST: adminMe },
   "admin/leads": { GET: adminLeads },
   "admin/lead": { POST: adminLeadUpdate },
   "admin/resets": { GET: adminResets },

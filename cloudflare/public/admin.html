@@ -11,25 +11,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
 <style>
-:root{--bg:#f3f4f6;--card:#fff;--ink:#121417;--ink2:#4a5059;--mut:#8a9099;--line:#e6e8eb;--night:#0c0d0f;--night2:#16181b;--gold:#e9a27a;--gold2:#c97a52;--ok:#2f9e6b;--warn:#c98a1b;--bad:#c2463d;--blue:#3b6fd8;
+:root{--bg:#f3f4f6;--card:#fff;--ink:#121417;--ink2:#434951;--mut:#6f7680;--line:#e6e8eb;--night:#0c0d0f;--night2:#16181b;--gold:#e9a27a;--gold2:#c97a52;--ok:#2f9e6b;--warn:#c98a1b;--bad:#c2463d;--blue:#3b6fd8;
   --font:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
 *{box-sizing:border-box}[hidden]{display:none!important}
 html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
-.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 16px;border-radius:999px;background:var(--ink);color:#fff;font-weight:500;font-size:13.5px;white-space:nowrap;transition:transform .2s,opacity .2s}
+.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 16px;border-radius:999px;background:var(--ink);color:#fff;font-weight:500;font-size:14.5px;white-space:nowrap;transition:transform .2s,opacity .2s}
 .btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.5;transform:none;cursor:default}
 .btn.gold{background:linear-gradient(90deg,#f3c9a3,var(--gold));color:#1a120c}
 .btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
-.btn.sm{height:32px;padding:0 12px;font-size:12.5px}
+.btn.sm{height:32px;padding:0 12px;font-size:13.5px}
 .btn.danger{background:var(--bad)}
 input.in,select.in,textarea.in{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;outline:none;transition:border-color .2s,box-shadow .2s}
 input.in:focus,select.in:focus,textarea.in:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(233,162,122,.2)}
-label.f{display:grid;gap:6px;font-size:12.5px;color:var(--ink2);font-weight:500}
-.err{color:var(--bad);font-size:13px;min-height:18px}
+label.f{display:grid;gap:6px;font-size:13.5px;color:var(--ink2);font-weight:500}
+.err{color:var(--bad);font-size:14px;min-height:18px}
 
 /* ---- màn đăng nhập ---- */
 .gate{min-height:100vh;min-height:100dvh;box-sizing:border-box;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(60% 50% at 20% 10%,rgba(233,162,122,.18),transparent 70%),radial-gradient(50% 40% at 90% 90%,rgba(120,160,230,.12),transparent 70%),var(--night)}
@@ -40,23 +40,23 @@ label.f{display:grid;gap:6px;font-size:12.5px;color:var(--ink2);font-weight:500}
 .gate p.lead{margin:0 0 18px;color:var(--ink2)}
 .gate form{display:grid;gap:14px}
 .gate .btn{height:44px;width:100%}
-.gate .foot{margin-top:16px;font-size:12px;color:var(--mut);text-align:center}
+.gate .foot{margin-top:16px;font-size:13px;color:var(--mut);text-align:center}
 
 /* ---- khung ứng dụng ---- */
 .app{display:grid;grid-template-columns:240px 1fr;min-height:100%}
 .side{background:var(--night);color:#e9eaec;padding:22px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:22px}
 .side .brand{color:#fff;padding:0 8px;flex-direction:column;align-items:flex-start;gap:3px;line-height:1.1}
 .nav{display:grid;gap:3px}
-.nav button{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;color:#b9bec5;text-align:left;font-size:13.5px;transition:background .2s,color .2s}
+.nav button{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;color:#b9bec5;text-align:left;font-size:14.5px;transition:background .2s,color .2s}
 .nav button:hover{background:rgba(255,255,255,.06);color:#fff}
 .nav button.on{background:rgba(233,162,122,.14);color:#fff}
 .nav button.on svg{color:var(--gold)}
 .nav svg{width:18px;height:18px;flex:none}
-.nav .bd{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--gold);color:#1a120c;font-size:11px;font-weight:700;display:grid;place-items:center}
-.side .me{margin-top:auto;padding:12px;border-radius:12px;background:var(--night2);font-size:12.5px;color:#b9bec5}
+.nav .bd{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--gold);color:#1a120c;font-size:12.5px;font-weight:700;display:grid;place-items:center}
+.side .me{margin-top:auto;padding:12px;border-radius:12px;background:var(--night2);font-size:13.5px;color:#b9bec5}
 .side .me b{display:block;color:#fff;font-weight:600}
 .side .me .row{display:flex;gap:8px;margin-top:10px}
-.side .me button,.side .me a{flex:1;height:32px;border-radius:8px;background:rgba(255,255,255,.07);color:#e9eaec;font-size:12px;display:grid;place-items:center;text-decoration:none}
+.side .me button,.side .me a{flex:1;height:32px;border-radius:8px;background:rgba(255,255,255,.07);color:#e9eaec;font-size:13px;display:grid;place-items:center;text-decoration:none}
 .main{padding:28px clamp(16px,3vw,40px) 60px;min-width:0}
 .top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
 .top h2{margin:0;font-size:24px;letter-spacing:-.02em}
@@ -66,46 +66,46 @@ label.f{display:grid;gap:6px;font-size:12.5px;color:var(--ink2);font-weight:500}
 .card{background:var(--card);border-radius:16px;box-shadow:0 1px 0 var(--line),0 10px 30px -22px rgba(18,20,23,.3)}
 .kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:18px}
 .kpi{padding:18px}
-.kpi span{font-size:12.5px;color:var(--ink2)}
+.kpi span{font-size:13.5px;color:var(--ink2)}
 .kpi b{display:block;font-size:30px;letter-spacing:-.03em;margin-top:4px;font-variant-numeric:tabular-nums}
-.kpi i{font-style:normal;font-size:12px;color:var(--mut)}
+.kpi i{font-style:normal;font-size:13px;color:var(--mut)}
 .kpi.hot b{color:var(--gold2)}
 .chart{padding:18px 18px 12px}
 .chart h3{margin:0 0 14px;font-size:15px}
 .bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;align-items:end;height:140px}
 .bar{position:relative;background:linear-gradient(180deg,#f3c9a3,var(--gold));border-radius:6px 6px 2px 2px;min-height:3px}
-.bar em{position:absolute;top:-18px;left:0;right:0;text-align:center;font-style:normal;font-size:11px;color:var(--ink2)}
-.blabels{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;margin-top:6px;font-size:10.5px;color:var(--mut);text-align:center}
-.note{padding:14px 16px;border-radius:12px;background:#fff7f0;color:#7a4a2b;font-size:13px;line-height:1.6;margin-top:18px}
+.bar em{position:absolute;top:-18px;left:0;right:0;text-align:center;font-style:normal;font-size:12.5px;color:var(--ink2)}
+.blabels{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;margin-top:6px;font-size:12px;color:var(--mut);text-align:center}
+.note{padding:14px 16px;border-radius:12px;background:#fff7f0;color:#7a4a2b;font-size:14px;line-height:1.6;margin-top:18px}
 .note.ok{background:#eef8f2;color:#245c40}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
-.chip{height:34px;padding:0 14px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);font-size:13px;color:var(--ink2)}
+.chip{height:34px;padding:0 14px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);font-size:14px;color:var(--ink2)}
 .chip.on{background:var(--ink);color:#fff;box-shadow:none}
 table{width:100%;border-collapse:collapse}
-th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);font-weight:600;text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);font-weight:600;text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
 td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top}
 tr:last-child td{border-bottom:0}
 .tw{overflow-x:auto}
 .who b{display:block;font-weight:600}
-.who span{color:var(--mut);font-size:12.5px}
-.tag{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.who span{color:var(--mut);font-size:13.5px}
+.tag{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:999px;font-size:12.5px;font-weight:600;white-space:nowrap}
 .t-new{background:#fff1e6;color:#b4572a}.t-contacted{background:#e9f0ff;color:#2f57b0}.t-deal{background:#fdf4d8;color:#8a6510}.t-closed{background:#e7f6ee;color:#23744e}.t-spam{background:#f1f1f1;color:#777}
 .t-active{background:#e7f6ee;color:#23744e}.t-disabled{background:#fdeceb;color:#a3352d}.t-ver{background:#e9f0ff;color:#2f57b0}
-.msg{max-width:420px;white-space:pre-wrap;color:var(--ink2);font-size:13px;max-height:66px;overflow:hidden;position:relative;cursor:pointer}
+.msg{max-width:420px;white-space:pre-wrap;color:var(--ink2);font-size:14px;max-height:66px;overflow:hidden;position:relative;cursor:pointer}
 .msg.open{max-height:none}
 .msg:not(.open)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:24px;background:linear-gradient(transparent,#fff)}
 .acts{display:flex;gap:6px;flex-wrap:wrap}
 .empty{padding:40px 16px;text-align:center;color:var(--mut)}
 .more{display:flex;justify-content:center;padding:14px}
 .lead-note{margin-top:8px;display:flex;gap:6px}
-.lead-note .in{min-height:36px;padding:7px 10px;font-size:13px;resize:vertical}
-select.st{border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:#fff;font-size:12.5px}
+.lead-note .in{min-height:36px;padding:7px 10px;font-size:14px;resize:vertical}
+select.st{border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:#fff;font-size:13.5px}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px}
 .pad{padding:20px}
 .pad h3{margin:0 0 4px;font-size:16px}
-.pad p.d{margin:0 0 16px;color:var(--ink2);font-size:13px}
+.pad p.d{margin:0 0 16px;color:var(--ink2);font-size:14px}
 .pad form{display:grid;gap:12px}
-code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-size:12.5px}
+code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-size:13.5px}
 
 /* hộp thoại */
 .dlg{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(10,12,15,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
@@ -115,7 +115,7 @@ code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-size:12.5px}
 .dlg p{margin:0 0 16px;color:var(--ink2)}
 .dlg .row{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
 .temp{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-radius:12px;background:#121417;color:#fff;font-size:22px;letter-spacing:.06em;font-family:ui-monospace,Menlo,Consolas,monospace;margin-bottom:16px}
-.toast{position:fixed;left:50%;bottom:24px;translate:-50% 0;z-index:60;background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:13.5px;box-shadow:0 14px 40px -12px rgba(0,0,0,.5);animation:pop .25s}
+.toast{position:fixed;left:50%;bottom:24px;translate:-50% 0;z-index:60;background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:14.5px;box-shadow:0 14px 40px -12px rgba(0,0,0,.5);animation:pop .25s}
 
 /* điện thoại */
 .mbar{display:none}
@@ -137,11 +137,24 @@ code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-size:12.5px}
   table.rsp tr{display:block;padding:12px 14px;border-bottom:1px solid var(--line)}
   table.rsp td{display:grid;grid-template-columns:92px minmax(0,1fr);column-gap:10px;padding:5px 0;border:0}
   table.rsp td>*{grid-column:2}
-  table.rsp td::before{content:attr(data-l);grid-column:1;grid-row:1/span 6;font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;padding-top:2px}
+  table.rsp td::before{content:attr(data-l);grid-column:1;grid-row:1/span 6;font-size:12.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;padding-top:2px}
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .kpi{padding:14px}.kpi b{font-size:26px}
   .msg{max-width:none}
 }
+
+/* hồ sơ khách + yêu cầu cập nhật */
+.dlg-in.wide{max-width:780px;max-height:min(92vh,960px);overflow:auto}
+.dl{display:grid;grid-template-columns:minmax(120px,auto) minmax(0,1fr);gap:8px 16px;margin:0 0 16px;font-size:14.5px}
+.dl dt{color:var(--mut)}.dl dd{margin:0;font-weight:500;word-break:break-word}
+.sec-t{margin:18px 0 10px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:600}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fgrid .full{grid-column:1/-1}
+.ev{display:grid;gap:2px;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+.ev small{color:var(--mut)}
+.t-pending{background:#fff1e6;color:#b4572a}.t-done{background:#e7f6ee;color:#23744e}.t-rejected{background:#f1f1f1;color:#666}.t-lock{background:#efeaf9;color:#5b3fa3}
+.req-msg{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--ink);margin-top:6px;max-width:520px}
+@media (max-width:600px){.fgrid{grid-template-columns:1fr}.dl{grid-template-columns:1fr}.dl dt{margin-top:6px}}
 </style>
 </head>
 <body>
@@ -177,9 +190,11 @@ const IC = {
   users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.6.8 2.6 2.6 3 5.2"/>',
   resets: '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/>',
   admins: '<path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  requests: '<path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M9 14l2 2 4-4"/>',
+  account: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
   settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/>'
 };
-const VIEWS = [['home', 'Tổng quan'], ['leads', 'Yêu cầu tư vấn'], ['users', 'Khách hàng'], ['resets', 'Quên mật khẩu'], ['admins', 'Quản trị viên'], ['settings', 'Cài đặt']];
+const VIEWS = [['home', 'Tổng quan'], ['leads', 'Yêu cầu tư vấn'], ['users', 'Khách hàng'], ['requests', 'Yêu cầu cập nhật'], ['resets', 'Quên mật khẩu'], ['admins', 'Quản trị viên'], ['account', 'Tài khoản của tôi'], ['settings', 'Cài đặt']];
 const BRAND = '<span class="brand">Hoàng Dũng <small>REAL ESTATE</small></span>';
 
 /* ---------- đăng nhập / khởi tạo ---------- */
@@ -209,7 +224,7 @@ function gate() {
 /* ---------- khung ---------- */
 function shell() {
   const st = S.stats || {};
-  const badge = { leads: st.leadsNew, resets: st.resets };
+  const badge = { leads: st.leadsNew, resets: st.resets, requests: st.requests };
   $('#root').innerHTML = `<div class="app"><aside class="side">${BRAND}
     <div class="mbar">${BRAND}<button class="btn sm ghost" style="color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)" id="out2">Đăng xuất</button></div>
     <nav class="nav">${VIEWS.map(([k, t]) => `<button data-v="${k}" class="${S.view === k ? 'on' : ''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>${t}${badge[k] ? `<span class="bd">${badge[k]}</span>` : ''}</button>`).join('')}</nav>
@@ -218,7 +233,7 @@ function shell() {
   $$('.nav button').forEach(b => b.onclick = () => { S.view = b.dataset.v; shell(); });
   const out = async () => { await api('logout', {}).catch(() => { }); S.admin = null; render(); };
   $('#out').onclick = out; $('#out2').onclick = out;
-  ({ home, leads, users, resets, admins, settings })[S.view]();
+  ({ home, leads, users, requests, resets, admins, account, settings })[S.view]();
 }
 async function refreshStats() { try { S.stats = await api('stats'); } catch (e) { } }
 
@@ -226,7 +241,7 @@ async function refreshStats() { try { S.stats = await api('stats'); } catch (e) 
 async function home() {
   const m = $('#main'); m.innerHTML = '<div class="empty">Đang tải…</div>';
   await refreshStats(); const s = S.stats; if (!s) return;
-  if (S.view === 'home') { const nb = $$('.nav .bd'); if (!nb.length && (s.leadsNew || s.resets)) return shell(); }
+  if (S.view === 'home') { const nb = $$('.nav .bd'); if (!nb.length && (s.leadsNew || s.resets || s.requests)) return shell(); }
   const days = []; for (let i = 13; i >= 0; i--) { const d = new Date(Date.now() + 7 * 3600e3 - i * 864e5).toISOString().slice(0, 10); days.push(d); }
   const map = Object.fromEntries((s.daily || []).map(r => [r.day, r.n])), mx = Math.max(1, ...days.map(d => map[d] || 0));
   m.innerHTML = `<div class="top"><div><h2>Xin chào, ${esc(S.admin.name.split(' ').pop())}</h2><p>Tình hình website hôm nay.</p></div><div class="tools"><button class="btn ghost" data-go="leads">Xem yêu cầu mới</button></div></div>
@@ -236,6 +251,8 @@ async function home() {
     <div class="card kpi"><span>Khách hàng có tài khoản</span><b>${s.users}</b><i>+${s.users7} trong 7 ngày</i></div>
     <div class="card kpi"><span>Hoạt động 30 ngày</span><b>${s.active30}</b><i>khách đã đăng nhập</i></div>
     <div class="card kpi ${s.resets ? 'hot' : ''}"><span>Chờ cấp lại mật khẩu</span><b>${s.resets}</b><i>${s.resets ? 'cần xử lý' : 'không có yêu cầu'}</i></div>
+    <div class="card kpi ${s.requests ? 'hot' : ''}"><span>Yêu cầu cập nhật thông tin</span><b>${s.requests ?? 0}</b><i>${s.requests ? 'cần xử lý' : 'không có yêu cầu'}</i></div>
+    <div class="card kpi"><span>Hồ sơ đã hoàn thiện</span><b>${s.profiles ?? 0}</b><i>khách đã lưu thông tin CCCD</i></div>
     <div class="card kpi"><span>Thiết bị đáng tin cậy</span><b>${s.trusted ?? 0}</b><i>khách đã xác nhận</i></div>
   </div>
   <div class="card chart"><h3>Yêu cầu tư vấn 14 ngày qua</h3>
@@ -297,16 +314,17 @@ async function usersLoad(append = false) {
   catch (e) { $('#ut').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
   const el = $('#ut'); if (!el) return;
   if (!UQ.rows.length) { el.innerHTML = `<div class="empty">${UQ.q ? 'Không tìm thấy khách hàng phù hợp.' : 'Chưa có khách hàng nào đăng ký.'}</div>`; return; }
-  el.innerHTML = `<table class="rsp"><thead><tr><th>Khách hàng</th><th>Điện thoại</th><th>Vai trò</th><th>Ngày tạo</th><th>Đăng nhập gần nhất</th><th>Trạng thái</th><th></th></tr></thead><tbody>${UQ.rows.map(u => `<tr data-id="${u.id}">
+  el.innerHTML = `<table class="rsp"><thead><tr><th>Khách hàng</th><th>Điện thoại</th><th>Hồ sơ</th><th>Ngày tạo</th><th>Đăng nhập gần nhất</th><th>Trạng thái</th><th></th></tr></thead><tbody>${UQ.rows.map(u => `<tr data-id="${u.id}">
     <td data-l="Khách" class="who"><b>${esc(u.name)}</b><span>${esc(u.email)} ${u.email_verified ? '<span class="tag t-ver">Email ✓</span>' : ''}</span></td>
     <td data-l="Điện thoại"><a href="tel:${esc(u.phone)}">${esc(u.phone)}</a> ${u.phone_verified ? '<span class="tag t-ver">SĐT ✓</span>' : ''}${u.devices ? `<div style="font-size:12px;color:var(--mut)">${u.devices} thiết bị tin cậy</div>` : ''}</td>
-    <td data-l="Vai trò">${esc(u.role || '—')}</td>
+    <td data-l="Hồ sơ">${u.profile_at ? '<span class="tag t-lock">🔒 Đã lưu</span>' : '<span class="tag t-spam">Chưa có</span>'}<div style="font-size:13px;color:var(--mut);margin-top:4px">${esc(u.role || '')}</div></td>
     <td data-l="Ngày tạo">${fmt(u.created_at)}</td>
     <td data-l="Gần nhất">${ago(u.last_login)}</td>
     <td data-l="Trạng thái"><span class="tag t-${u.status === 'active' ? 'active' : 'disabled'}">${u.status === 'active' ? 'Hoạt động' : 'Tạm khoá'}</span></td>
-    <td data-l="Thao tác"><div class="acts"><button class="btn sm ghost" data-a="temp-password">Cấp mật khẩu tạm</button>${u.email_verified ? '' : '<button class="btn sm ghost" data-a="verify">Xác minh email</button>'}${u.devices ? '<button class="btn sm ghost" data-a="revoke-devices">Gỡ thiết bị tin cậy</button>' : ''}<button class="btn sm ghost" data-a="${u.status === 'active' ? 'disable' : 'enable'}">${u.status === 'active' ? 'Khoá' : 'Mở khoá'}</button></div></td></tr>`).join('')}</tbody></table>
+    <td data-l="Thao tác"><div class="acts"><button class="btn sm" data-detail>Hồ sơ & sửa</button><button class="btn sm ghost" data-a="temp-password">Cấp mật khẩu tạm</button>${u.email_verified ? '' : '<button class="btn sm ghost" data-a="verify">Xác minh email</button>'}${u.devices ? '<button class="btn sm ghost" data-a="revoke-devices">Gỡ thiết bị tin cậy</button>' : ''}<button class="btn sm ghost" data-a="${u.status === 'active' ? 'disable' : 'enable'}">${u.status === 'active' ? 'Khoá' : 'Mở khoá'}</button></div></td></tr>`).join('')}</tbody></table>
     ${UQ.rows.length < UQ.total ? `<div class="more"><button class="btn ghost" id="umore">Xem thêm (${UQ.total - UQ.rows.length})</button></div>` : ''}`;
   $$('[data-a]', el).forEach(b => b.onclick = () => userAction(+b.closest('tr').dataset.id, b.dataset.a));
+  $$('[data-detail]', el).forEach(b => b.onclick = () => userDetail(+b.closest('tr').dataset.id));
   const mo = $('#umore'); if (mo) mo.onclick = () => usersLoad(true);
 }
 async function userAction(id, a) {
@@ -360,12 +378,88 @@ async function admins() {
   $('#af').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); try { await api('admins', d); toast('Đã thêm quản trị viên.'); admins(); } catch (err) { $('#ae').textContent = err.message; } };
 }
 
+
+/* ---------- hồ sơ khách: xem đầy đủ, sửa, mở khoá ---------- */
+const PF = [['fullName', 'Họ và tên theo CCCD', 1], ['dob', 'Ngày sinh', 1, 'date'], ['gender', 'Giới tính', 1, ['Nam', 'Nữ', 'Khác']], ['cccd', 'Số CCCD/Căn cước', 1], ['cccdDate', 'Ngày cấp', 1, 'date'], ['cccdPlace', 'Nơi cấp', 1], ['address', 'Địa chỉ thường trú', 1], ['currentAddress', 'Nơi ở hiện tại'], ['occupation', 'Nghề nghiệp'],
+  ['need', 'Nhu cầu chính', 0, ['Mua để ở', 'Mua đầu tư', 'Thuê nhà', 'Bán nhà', 'Cho thuê', 'Tìm hiểu thị trường']], ['budget', 'Ngân sách dự kiến', 0, ['Dưới 3 tỷ', '3 – 5 tỷ', '5 – 10 tỷ', '10 – 20 tỷ', 'Trên 20 tỷ', 'Thuê dưới 15 triệu/tháng', 'Thuê từ 15 triệu/tháng']], ['areas', 'Khu vực quan tâm'], ['contactTime', 'Thời gian liên hệ', 0, ['Giờ hành chính', 'Buổi tối (18h – 21h)', 'Cuối tuần', 'Bất kỳ lúc nào']]];
+const dIso = v => /^\d{4}-\d{2}-\d{2}$/.test(v || '') ? v.split('-').reverse().join('/') : (v || '');
+const EV = { name: 'Tên hiển thị', email: 'Email', phone: 'Số điện thoại', profile: 'Thông tin cá nhân', request: 'Yêu cầu', 'admin-update': 'Quản trị viên cập nhật' };
+async function userDetail(id, requestId) {
+  let j; try { j = await api('user?id=' + id); } catch (e) { toast(e.message); return; }
+  const u = j.user, p = j.profile || {};
+  const has = PF.some(([k]) => p[k]);
+  const d = dialog(`<h3>${esc(u.name)}</h3><p>${esc(u.email)} · <a href="tel:${esc(u.phone)}">${esc(u.phone)}</a></p>
+    <div class="row" style="justify-content:flex-start;margin-bottom:6px"><button class="btn sm" data-edit>Sửa thông tin</button>${u.profile_at ? '<button class="btn sm ghost" data-unlock>Mở khoá để khách tự sửa 1 lần</button>' : ''}${u.name_changes >= 1 ? '<button class="btn sm ghost" data-rename>Cho khách đổi tên thêm 1 lần</button>' : ''}</div>
+    <div class="sec-t">Tài khoản</div><dl class="dl"><dt>Tên hiển thị</dt><dd>${esc(u.name)} ${u.name_changes >= 1 ? '<span class="tag t-spam">đã tự đổi 1 lần</span>' : ''}</dd><dt>Email</dt><dd>${esc(u.email)} ${u.email_verified ? '<span class="tag t-ver">✓</span>' : '<span class="tag t-new">chưa xác minh</span>'}</dd><dt>Số điện thoại</dt><dd>${esc(u.phone)} ${u.phone_verified ? '<span class="tag t-ver">✓</span>' : '<span class="tag t-new">chưa xác minh</span>'}</dd><dt>Vai trò</dt><dd>${esc(u.role || '—')}</dd><dt>Ngày tạo</dt><dd>${fmt(u.created_at)}</dd><dt>Trạng thái</dt><dd>${u.status === 'active' ? 'Hoạt động' : 'Tạm khoá'}</dd></dl>
+    <div class="sec-t">Thông tin cá nhân ${u.profile_at ? `<span class="tag t-lock">🔒 khoá từ ${fmt(u.profile_at)}</span>` : ''}</div>
+    ${has ? `<dl class="dl">${PF.filter(([k]) => p[k]).map(([k, l, , t]) => `<dt>${l}</dt><dd>${esc(t === 'date' ? dIso(p[k]) : p[k])}</dd>`).join('')}${p.consentAt ? `<dt>Đồng ý xử lý dữ liệu</dt><dd>${fmt(Date.parse(p.consentAt))}</dd>` : ''}</dl>` : '<p>Khách chưa lưu thông tin cá nhân.</p>'}
+    ${j.requests.length ? `<div class="sec-t">Yêu cầu cập nhật</div>${j.requests.map(r => `<div class="ev"><b>${esc(r.topic)} <span class="tag t-${esc(r.status)}">${{ pending: 'Chờ xử lý', done: 'Đã xử lý', rejected: 'Từ chối' }[r.status] || esc(r.status)}</span></b><div class="req-msg">${esc(r.message)}</div><small>${fmt(r.created_at)}${r.handled_by ? ' · ' + esc(r.handled_by) : ''}${r.note ? ' · ' + esc(r.note) : ''}</small></div>`).join('')}` : ''}
+    ${j.events.length ? `<div class="sec-t">Lịch sử thay đổi</div>${j.events.map(e => `<div class="ev"><span><b>${esc(EV[e.kind] || e.kind)}</b> · ${esc(e.detail)}</span><small>${fmt(e.at)} · ${esc(e.actor)}</small></div>`).join('')}` : ''}
+    <div class="row" style="margin-top:18px"><button class="btn ghost" data-x>Đóng</button></div>`);
+  d.firstElementChild.classList.add('wide');
+  $('[data-edit]', d).onclick = () => { d.remove(); userEdit(u, p, requestId); };
+  const ul = $('[data-unlock]', d); if (ul) ul.onclick = async () => { if (!(await confirmBox('Mở khoá thông tin cá nhân?', `${u.name} sẽ được tự sửa và lưu lại thông tin cá nhân thêm 1 lần, sau đó hồ sơ khoá lại.`, 'Mở khoá'))) return; try { await api('user', { id, action: 'unlock-profile' }); toast('Đã mở khoá.'); d.remove(); userDetail(id, requestId); } catch (e) { toast(e.message); } };
+  const rn = $('[data-rename]', d); if (rn) rn.onclick = async () => { try { await api('user', { id, action: 'allow-rename' }); toast('Khách có thể tự đổi tên thêm 1 lần.'); d.remove(); userDetail(id, requestId); } catch (e) { toast(e.message); } };
+}
+function userEdit(u, p, requestId) {
+  const field = ([k, l, req, t]) => Array.isArray(t)
+    ? `<label class="f">${l}${req ? ' *' : ''}<select class="in" name="p_${k}"><option value="">—</option>${t.map(o => `<option${o === p[k] ? ' selected' : ''}>${esc(o)}</option>`).join('')}</select></label>`
+    : `<label class="f${k === 'address' || k === 'currentAddress' ? ' full' : ''}">${l}${req ? ' *' : ''}<input class="in" name="p_${k}" type="${t === 'date' ? 'date' : 'text'}" value="${esc(p[k] || '')}"${k === 'cccd' ? ' inputmode="numeric" maxlength="12"' : ''}></label>`;
+  const d = dialog(`<h3>Sửa thông tin khách hàng</h3><p>Chỉ cập nhật sau khi đã xác minh đúng chủ tài khoản. Mọi thay đổi được ghi vào lịch sử.</p>
+    <form id="uef" novalidate><div class="sec-t">Tài khoản</div><div class="fgrid"><label class="f">Tên hiển thị<input class="in" name="name" value="${esc(u.name)}" required></label><label class="f">Email<input class="in" name="email" type="email" value="${esc(u.email)}" required></label><label class="f">Số điện thoại (định dạng quốc tế, ví dụ +84901234567)<input class="in" name="phone" value="${esc(u.phone)}" required></label></div>
+    <div class="sec-t">Thông tin cá nhân <span style="text-transform:none;letter-spacing:0;font-weight:400">(bỏ trống toàn bộ nếu khách chưa cung cấp)</span></div><div class="fgrid">${PF.map(field).join('')}</div>
+    <div class="err" id="uee" style="margin-top:12px"></div><div class="row"><button type="button" class="btn ghost" data-x>Huỷ</button><button class="btn gold" type="submit">${requestId ? 'Lưu & đóng yêu cầu' : 'Lưu thay đổi'}</button></div></form>`);
+  d.firstElementChild.classList.add('wide');
+  $('#uef', d).onsubmit = async e => {
+    e.preventDefault(); const f = Object.fromEntries(new FormData(e.target)); const prof = {}; PF.forEach(([k]) => { if (f['p_' + k]) prof[k] = f['p_' + k].trim(); });
+    const b = $('#uef button[type=submit]', d); b.disabled = true;
+    try { await api('user', { id: u.id, action: 'update', name: f.name, email: f.email, phone: f.phone, profile: prof, requestId: requestId || undefined }); d.remove(); toast('Đã cập nhật thông tin khách hàng.'); refreshStats(); if (S.view === 'users') usersLoad(); else if (S.view === 'requests') requests(); userDetail(u.id); }
+    catch (err) { $('#uee', d).textContent = err.message; b.disabled = false; }
+  };
+}
+
+/* ---------- yêu cầu cập nhật thông tin (khách gửi từ trang tài khoản) ---------- */
+let RQ = 'pending';
+async function requests() {
+  const m = $('#main');
+  m.innerHTML = `<div class="top"><div><h2>Yêu cầu cập nhật thông tin</h2><p>Khách gửi khi hồ sơ đã khoá hoặc đã dùng hết lượt tự đổi tên. Gọi số đã đăng ký để xác minh trước khi sửa.</p></div></div>
+  <div class="chips" style="margin-bottom:14px"><button class="chip ${RQ === 'pending' ? 'on' : ''}" data-s="pending">Chờ xử lý</button><button class="chip ${RQ === 'done' ? 'on' : ''}" data-s="done">Đã xử lý</button></div>
+  <div class="card"><div class="tw" id="qt"><div class="empty">Đang tải…</div></div></div>`;
+  $$('.chip').forEach(c => c.onclick = () => { RQ = c.dataset.s; requests(); });
+  let rows; try { rows = (await api('requests?status=' + RQ)).rows; } catch (e) { $('#qt').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
+  if (!rows.length) { $('#qt').innerHTML = `<div class="empty">${RQ === 'pending' ? 'Không có yêu cầu nào đang chờ.' : 'Chưa có yêu cầu đã xử lý.'}</div>`; return; }
+  $('#qt').innerHTML = `<table class="rsp"><thead><tr><th>Thời gian</th><th>Khách</th><th>Nội dung yêu cầu</th><th>${RQ === 'pending' ? 'Thao tác' : 'Kết quả'}</th></tr></thead><tbody>${rows.map(r => `<tr data-id="${r.id}" data-uid="${r.user_id}">
+    <td data-l="Thời gian"><span title="${fmt(r.created_at)}">${ago(r.created_at)}</span></td>
+    <td data-l="Khách" class="who"><b>${esc(r.user_name || '—')}</b><span>${esc(r.user_email || '')}<br><a href="tel:${esc(r.user_phone || '')}">${esc(r.user_phone || '')}</a></span></td>
+    <td data-l="Nội dung"><b>${esc(r.topic)}</b><div class="req-msg">${esc(r.message)}</div></td>
+    <td data-l="${RQ === 'pending' ? 'Thao tác' : 'Kết quả'}">${RQ === 'pending' ? '<div class="acts"><button class="btn sm gold" data-open>Mở hồ sơ & cập nhật</button><button class="btn sm ghost" data-done>Đã xử lý</button><button class="btn sm ghost" data-reject>Từ chối</button></div>' : `<span class="tag t-${esc(r.status)}">${r.status === 'done' ? 'Đã xử lý' : 'Từ chối'}</span><div style="font-size:13px;color:var(--mut);margin-top:4px">${fmt(r.handled_at)} · ${esc(r.handled_by)}${r.note ? '<br>' + esc(r.note) : ''}</div>`}</td></tr>`).join('')}</tbody></table>`;
+  const close = async (b, status) => {
+    const tr = b.closest('tr'); const dd = dialog(`<h3>${status === 'done' ? 'Đánh dấu đã xử lý' : 'Từ chối yêu cầu'}</h3><p>Ghi chú nội bộ (tuỳ chọn).</p><textarea class="in" id="rqn" rows="3" placeholder="${status === 'done' ? 'Ví dụ: đã gọi xác minh và cập nhật địa chỉ' : 'Lý do từ chối'}"></textarea><div class="row" style="margin-top:12px"><button class="btn ghost" data-x>Huỷ</button><button class="btn ${status === 'done' ? '' : 'danger'}" id="rqok">Xác nhận</button></div>`);
+    $('#rqok', dd).onclick = async () => { try { await api('request', { id: +tr.dataset.id, status, note: $('#rqn', dd).value }); dd.remove(); toast('Đã cập nhật yêu cầu.'); refreshStats().then(() => shell()); } catch (e) { toast(e.message); } };
+  };
+  $$('[data-open]').forEach(b => b.onclick = () => { const tr = b.closest('tr'); userDetail(+tr.dataset.uid, +tr.dataset.id); });
+  $$('[data-done]').forEach(b => b.onclick = () => close(b, 'done'));
+  $$('[data-reject]').forEach(b => b.onclick = () => close(b, 'rejected'));
+}
+
+/* ---------- tài khoản quản trị của tôi ---------- */
+async function account() {
+  const m = $('#main');
+  let me = S.admin; try { me = (await api('me')).admin || me; } catch (e) { }
+  m.innerHTML = `<div class="top"><div><h2>Tài khoản của tôi</h2><p>Thông tin đăng nhập trang quản trị của bạn.</p></div></div>
+  <div class="grid2"><div class="card pad"><h3>Thông tin tài khoản</h3><p class="d">Tạo ngày ${fmt(me.created_at)} · đăng nhập gần nhất ${ago(me.last_login)}. Cần nhập mật khẩu hiện tại để lưu.</p>
+    <form id="mf" novalidate><label class="f">Tên hiển thị<input class="in" name="name" value="${esc(me.name)}" autocomplete="name" required></label><label class="f">Email đăng nhập<input class="in" name="email" type="email" value="${esc(me.email)}" autocomplete="username" required></label><label class="f">Mật khẩu hiện tại<input class="in" name="pass" type="password" autocomplete="current-password" required></label><div class="err" id="me"></div><button class="btn" type="submit">Lưu thông tin</button></form></div>
+  <div class="card pad"><h3>Đổi mật khẩu quản trị</h3><p class="d">Các phiên đăng nhập quản trị khác sẽ bị đăng xuất.</p>
+    <form id="pf" novalidate><label class="f">Mật khẩu hiện tại<input class="in" name="old" type="password" autocomplete="current-password" required></label><label class="f">Mật khẩu mới (tối thiểu 10 ký tự)<input class="in" name="pass" type="password" autocomplete="new-password" required></label><label class="f">Nhập lại mật khẩu mới<input class="in" name="pass2" type="password" autocomplete="new-password" required></label><div class="err" id="pe"></div><button class="btn" type="submit">Lưu mật khẩu mới</button></form></div></div>`;
+  $('#mf').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); if (!d.pass) { $('#me').textContent = 'Vui lòng nhập mật khẩu hiện tại.'; return; } try { const j = await api('me', d); S.admin = j.admin; toast('Đã lưu thông tin tài khoản.'); shell(); } catch (err) { $('#me').textContent = err.message; } };
+  $('#pf').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); if (d.pass !== d.pass2) { $('#pe').textContent = 'Hai mật khẩu mới chưa khớp.'; return; } try { await api('password', { old: d.old, pass: d.pass }); e.target.reset(); $('#pe').textContent = ''; toast('Đã đổi mật khẩu quản trị.'); } catch (err) { $('#pe').textContent = err.message; } };
+}
+
 /* ---------- cài đặt ---------- */
 function settings() {
   const m = $('#main');
-  m.innerHTML = `<div class="top"><div><h2>Cài đặt</h2><p>Bảo mật tài khoản quản trị và gửi email tự động.</p></div></div>
-  <div class="grid2"><div class="card pad"><h3>Đổi mật khẩu quản trị</h3><p class="d">Các phiên đăng nhập quản trị khác sẽ bị đăng xuất.</p>
-    <form id="pf" novalidate><label class="f">Mật khẩu hiện tại<input class="in" name="old" type="password" autocomplete="current-password" required></label><label class="f">Mật khẩu mới (tối thiểu 10 ký tự)<input class="in" name="pass" type="password" autocomplete="new-password" required></label><label class="f">Nhập lại mật khẩu mới<input class="in" name="pass2" type="password" autocomplete="new-password" required></label><div class="err" id="pe"></div><button class="btn" type="submit">Lưu mật khẩu mới</button></form></div>
+  m.innerHTML = `<div class="top"><div><h2>Cài đặt</h2><p>Gửi mã xác minh và email tự động.</p></div></div>
+  <div class="grid2"><div class="card pad"><h3>Tài khoản quản trị</h3><p class="d">Đổi tên, email đăng nhập và mật khẩu ở mục <b>Tài khoản của tôi</b>.</p><button class="btn ghost" data-go="account">Mở Tài khoản của tôi</button></div>
   <div class="card pad"><h3>Mã xác minh tự động</h3>
     <p class="d">SMS ${S.sms ? '<span class="tag t-active">Đang bật</span>' : '<span class="tag t-new">Chưa bật</span>'} · Email ${S.mail ? '<span class="tag t-active">Đang bật</span>' : '<span class="tag t-new">Chưa bật</span>'}</p>
     <div style="font-size:13px;line-height:1.75;color:var(--ink2)">Các khoá được thêm trong <b>Cloudflare → Workers &amp; Pages → hoangdung-realestate → Settings → Variables and Secrets</b> (chọn loại <b>Secret</b>), rồi bấm <b>Deploy</b>:<br>
@@ -376,11 +470,11 @@ function settings() {
     &nbsp;&nbsp;• <code>BREVO_API_KEY</code> — Brevo → SMTP &amp; API → API Keys<br>
     &nbsp;&nbsp;• <code>MAIL_FROM</code> — ví dụ <code>Hoàng Dũng Real Estate &lt;email-da-xac-minh@...&gt;</code><br>
     &nbsp;&nbsp;• <code>NOTIFY_EMAIL</code> — email nhận thông báo yêu cầu tư vấn mới (tuỳ chọn)</div></div></div>`;
-  $('#pf').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); if (d.pass !== d.pass2) { $('#pe').textContent = 'Hai mật khẩu mới chưa khớp.'; return; } try { await api('password', { old: d.old, pass: d.pass }); e.target.reset(); $('#pe').textContent = ''; toast('Đã đổi mật khẩu quản trị.'); } catch (err) { $('#pe').textContent = err.message; } };
+  $$('[data-go]').forEach(b => b.onclick = () => { S.view = b.dataset.go; shell(); });
 }
 
 /* ---------- khởi động ---------- */
-function render() { if (!S.admin) gate(); else { shell(); refreshStats().then(() => { if (S.view !== 'home' && S.stats) { const b = $$('.nav .bd'); if (!b.length && (S.stats.leadsNew || S.stats.resets)) shell(); } }); } }
+function render() { if (!S.admin) gate(); else { shell(); refreshStats().then(() => { if (S.view !== 'home' && S.stats) { const b = $$('.nav .bd'); if (!b.length && (S.stats.leadsNew || S.stats.resets || S.stats.requests)) shell(); } }); } }
 (async () => {
   try { const j = await (await fetch('/api/admin/state', { cache: 'no-store', credentials: 'same-origin' })).json(); S.setup = j.setup; S.admin = j.admin; S.mail = j.mail; S.sms = j.sms; }
   catch (e) { $('#root').innerHTML = '<div class="gate"><div class="gate-card"><h1>Không kết nối được máy chủ</h1><p class="lead">Vui lòng tải lại trang sau ít phút.</p></div></div>'; return; }
