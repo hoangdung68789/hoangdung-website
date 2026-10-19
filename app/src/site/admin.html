@@ -169,7 +169,7 @@ function confirmBox(title, text, okLabel = 'Đồng ý', danger = false) {
 }
 function copy(t) { try { navigator.clipboard.writeText(t).then(() => toast('Đã sao chép.')); } catch (e) { } }
 
-const S = { admin: null, setup: false, mail: false, view: 'home', stats: null };
+const S = { admin: null, setup: false, mail: false, sms: false, view: 'home', stats: null };
 const LEAD_ST = { new: 'Mới', contacted: 'Đã liên hệ', deal: 'Đang thương lượng', closed: 'Đã chốt', spam: 'Rác' };
 const IC = {
   home: '<path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/>',
@@ -236,11 +236,12 @@ async function home() {
     <div class="card kpi"><span>Khách hàng có tài khoản</span><b>${s.users}</b><i>+${s.users7} trong 7 ngày</i></div>
     <div class="card kpi"><span>Hoạt động 30 ngày</span><b>${s.active30}</b><i>khách đã đăng nhập</i></div>
     <div class="card kpi ${s.resets ? 'hot' : ''}"><span>Chờ cấp lại mật khẩu</span><b>${s.resets}</b><i>${s.resets ? 'cần xử lý' : 'không có yêu cầu'}</i></div>
+    <div class="card kpi"><span>Thiết bị đáng tin cậy</span><b>${s.trusted ?? 0}</b><i>khách đã xác nhận</i></div>
   </div>
   <div class="card chart"><h3>Yêu cầu tư vấn 14 ngày qua</h3>
     <div class="bars">${days.map(d => { const n = map[d] || 0; return `<div class="bar" style="height:${Math.max(2, n / mx * 100)}%" title="${d}: ${n}">${n ? `<em>${n}</em>` : ''}</div>`; }).join('')}</div>
     <div class="blabels">${days.map(d => `<span>${d.slice(8)}/${d.slice(5, 7)}</span>`).join('')}</div></div>
-  ${s.mail ? '<div class="note ok">Gửi email tự động đang bật: khách nhận email xác minh tài khoản và đường dẫn đặt lại mật khẩu.</div>' : '<div class="note">Gửi email tự động chưa bật. Khi khách quên mật khẩu, yêu cầu sẽ hiện ở mục <b>Quên mật khẩu</b> để bạn xác minh và cấp mật khẩu tạm. Xem cách bật ở mục <b>Cài đặt</b>.</div>'}`;
+  ${(s.mail || s.sms) ? `<div class="note ok">Mã xác minh tự động đang bật qua: ${[s.sms ? '<b>SMS</b>' : '', s.mail ? '<b>Email</b>' : ''].filter(Boolean).join(' và ')}. Khách nhận mã mỗi lần đăng nhập (trừ thiết bị đáng tin cậy) và tự khôi phục tài khoản.</div>` : '<div class="note">Gửi mã xác minh chưa bật. Khách đăng nhập bằng mật khẩu; khi quên mật khẩu, yêu cầu hiện ở mục <b>Quên mật khẩu</b> để bạn xác minh và cấp mật khẩu tạm. Xem cách bật ở mục <b>Cài đặt</b>.</div>'}`;
   $$('[data-go]').forEach(b => b.onclick = () => { S.view = b.dataset.go; shell(); });
 }
 
@@ -267,7 +268,7 @@ async function leadsLoad(append = false) {
   if (!LQ.rows.length) { el.innerHTML = '<div class="empty">Chưa có yêu cầu nào ở mục này.</div>'; return; }
   el.innerHTML = `<table class="rsp"><thead><tr><th>Thời gian</th><th>Khách</th><th>Loại</th><th>Nội dung</th><th>Trạng thái</th></tr></thead><tbody>${LQ.rows.map(r => `<tr data-id="${r.id}">
     <td data-l="Thời gian"><span title="${fmt(r.created_at)}">${ago(r.created_at)}</span></td>
-    <td data-l="Khách" class="who"><b>${esc(r.name)}</b><span><a href="tel:${telOf(r.phone)}">${esc(r.phone)}</a> · <a href="https://zalo.me/${telOf(r.phone)}" target="_blank" rel="noopener">Zalo</a></span></td>
+    <td data-l="Khách" class="who"><b>${esc(r.name)}</b><span><a href="tel:${telOf(r.phone)}">${esc(r.phone)}</a> · <a href="https://zalo.me/${telOf(r.phone).replace(/^84/, '0')}" target="_blank" rel="noopener">Zalo</a></span></td>
     <td data-l="Loại">${esc(r.kind)}</td>
     <td data-l="Nội dung"><div class="msg" title="Bấm để xem đầy đủ">${esc(r.text)}</div>
       <div class="lead-note"><textarea class="in" rows="1" placeholder="Ghi chú nội bộ…">${esc(r.note)}</textarea><button class="btn sm ghost" data-note>Lưu</button></div></td>
@@ -297,13 +298,13 @@ async function usersLoad(append = false) {
   const el = $('#ut'); if (!el) return;
   if (!UQ.rows.length) { el.innerHTML = `<div class="empty">${UQ.q ? 'Không tìm thấy khách hàng phù hợp.' : 'Chưa có khách hàng nào đăng ký.'}</div>`; return; }
   el.innerHTML = `<table class="rsp"><thead><tr><th>Khách hàng</th><th>Điện thoại</th><th>Vai trò</th><th>Ngày tạo</th><th>Đăng nhập gần nhất</th><th>Trạng thái</th><th></th></tr></thead><tbody>${UQ.rows.map(u => `<tr data-id="${u.id}">
-    <td data-l="Khách" class="who"><b>${esc(u.name)}</b><span>${esc(u.email)} ${u.email_verified ? '<span class="tag t-ver">Đã xác minh</span>' : ''}</span></td>
-    <td data-l="Điện thoại"><a href="tel:${telOf(u.phone)}">${esc(u.phone)}</a></td>
+    <td data-l="Khách" class="who"><b>${esc(u.name)}</b><span>${esc(u.email)} ${u.email_verified ? '<span class="tag t-ver">Email ✓</span>' : ''}</span></td>
+    <td data-l="Điện thoại"><a href="tel:${esc(u.phone)}">${esc(u.phone)}</a> ${u.phone_verified ? '<span class="tag t-ver">SĐT ✓</span>' : ''}${u.devices ? `<div style="font-size:12px;color:var(--mut)">${u.devices} thiết bị tin cậy</div>` : ''}</td>
     <td data-l="Vai trò">${esc(u.role || '—')}</td>
     <td data-l="Ngày tạo">${fmt(u.created_at)}</td>
     <td data-l="Gần nhất">${ago(u.last_login)}</td>
     <td data-l="Trạng thái"><span class="tag t-${u.status === 'active' ? 'active' : 'disabled'}">${u.status === 'active' ? 'Hoạt động' : 'Tạm khoá'}</span></td>
-    <td data-l="Thao tác"><div class="acts"><button class="btn sm ghost" data-a="temp-password">Cấp mật khẩu tạm</button>${u.email_verified ? '' : '<button class="btn sm ghost" data-a="verify">Xác minh email</button>'}<button class="btn sm ghost" data-a="${u.status === 'active' ? 'disable' : 'enable'}">${u.status === 'active' ? 'Khoá' : 'Mở khoá'}</button></div></td></tr>`).join('')}</tbody></table>
+    <td data-l="Thao tác"><div class="acts"><button class="btn sm ghost" data-a="temp-password">Cấp mật khẩu tạm</button>${u.email_verified ? '' : '<button class="btn sm ghost" data-a="verify">Xác minh email</button>'}${u.devices ? '<button class="btn sm ghost" data-a="revoke-devices">Gỡ thiết bị tin cậy</button>' : ''}<button class="btn sm ghost" data-a="${u.status === 'active' ? 'disable' : 'enable'}">${u.status === 'active' ? 'Khoá' : 'Mở khoá'}</button></div></td></tr>`).join('')}</tbody></table>
     ${UQ.rows.length < UQ.total ? `<div class="more"><button class="btn ghost" id="umore">Xem thêm (${UQ.total - UQ.rows.length})</button></div>` : ''}`;
   $$('[data-a]', el).forEach(b => b.onclick = () => userAction(+b.closest('tr').dataset.id, b.dataset.a));
   const mo = $('#umore'); if (mo) mo.onclick = () => usersLoad(true);
@@ -313,7 +314,8 @@ async function userAction(id, a) {
   const Q = { 'temp-password': ['Cấp mật khẩu tạm?', `Mật khẩu hiện tại của ${u.name} sẽ bị thay bằng mật khẩu tạm. Hãy chỉ cấp sau khi đã xác minh đúng chủ tài khoản (gọi số đã đăng ký).`, 'Cấp mật khẩu tạm', false],
     disable: ['Khoá tài khoản?', `${u.name} sẽ bị đăng xuất và không thể đăng nhập cho tới khi được mở khoá.`, 'Khoá tài khoản', true],
     enable: ['Mở khoá tài khoản?', `${u.name} có thể đăng nhập lại bình thường.`, 'Mở khoá', false],
-    verify: ['Đánh dấu đã xác minh email?', `Xác nhận email ${u.email} thuộc về khách hàng này.`, 'Xác nhận', false] }[a];
+    verify: ['Đánh dấu đã xác minh email?', `Xác nhận email ${u.email} thuộc về khách hàng này.`, 'Xác nhận', false],
+    'revoke-devices': ['Gỡ toàn bộ thiết bị tin cậy?', `Lần đăng nhập sau, ${u.name} sẽ phải nhập mã xác minh trên mọi thiết bị.`, 'Gỡ thiết bị', false] }[a];
   if (!(await confirmBox(...Q))) return;
   try {
     const j = await api('user', { id, action: a });
@@ -364,22 +366,23 @@ function settings() {
   m.innerHTML = `<div class="top"><div><h2>Cài đặt</h2><p>Bảo mật tài khoản quản trị và gửi email tự động.</p></div></div>
   <div class="grid2"><div class="card pad"><h3>Đổi mật khẩu quản trị</h3><p class="d">Các phiên đăng nhập quản trị khác sẽ bị đăng xuất.</p>
     <form id="pf" novalidate><label class="f">Mật khẩu hiện tại<input class="in" name="old" type="password" autocomplete="current-password" required></label><label class="f">Mật khẩu mới (tối thiểu 10 ký tự)<input class="in" name="pass" type="password" autocomplete="new-password" required></label><label class="f">Nhập lại mật khẩu mới<input class="in" name="pass2" type="password" autocomplete="new-password" required></label><div class="err" id="pe"></div><button class="btn" type="submit">Lưu mật khẩu mới</button></form></div>
-  <div class="card pad"><h3>Gửi email tự động ${S.mail ? '<span class="tag t-active">Đang bật</span>' : '<span class="tag t-new">Chưa bật</span>'}</h3>
-    <p class="d">Khi bật, khách nhận email xác minh khi đăng ký và tự đặt lại mật khẩu qua email; bạn nhận email báo khi có yêu cầu tư vấn mới.</p>
-    <div style="font-size:13px;line-height:1.7;color:var(--ink2)">Cách bật (miễn phí tới 3.000 email/tháng):<br>
-    1. Tạo tài khoản tại <b>resend.com</b>, thêm tên miền gửi thư và lấy <b>API key</b>.<br>
-    2. Trong phần <b>cài đặt website</b> trên Higgsfield, thêm các giá trị bí mật:<br>
-    &nbsp;&nbsp;• <code>RESEND_API_KEY</code> — khoá API của Resend<br>
-    &nbsp;&nbsp;• <code>MAIL_FROM</code> — ví dụ <code>Hoàng Dũng Real Estate &lt;no-reply@tenmien.vn&gt;</code><br>
-    &nbsp;&nbsp;• <code>NOTIFY_EMAIL</code> — email nhận thông báo yêu cầu mới (tuỳ chọn)<br>
-    3. Cập nhật lại website để áp dụng.</div></div></div>`;
+  <div class="card pad"><h3>Mã xác minh tự động</h3>
+    <p class="d">SMS ${S.sms ? '<span class="tag t-active">Đang bật</span>' : '<span class="tag t-new">Chưa bật</span>'} · Email ${S.mail ? '<span class="tag t-active">Đang bật</span>' : '<span class="tag t-new">Chưa bật</span>'}</p>
+    <div style="font-size:13px;line-height:1.75;color:var(--ink2)">Các khoá được thêm trong <b>Cloudflare → Workers &amp; Pages → hoangdung-realestate → Settings → Variables and Secrets</b> (chọn loại <b>Secret</b>), rồi bấm <b>Deploy</b>:<br>
+    <b>SMS (Twilio Verify, hỗ trợ số quốc tế):</b><br>
+    &nbsp;&nbsp;• <code>TWILIO_ACCOUNT_SID</code>, <code>TWILIO_AUTH_TOKEN</code> — trong trang chủ tài khoản Twilio<br>
+    &nbsp;&nbsp;• <code>TWILIO_VERIFY_SID</code> — tạo dịch vụ ở Twilio → Verify → Services (bắt đầu bằng VA…)<br>
+    <b>Email (miễn phí 300 thư/ngày với Brevo):</b><br>
+    &nbsp;&nbsp;• <code>BREVO_API_KEY</code> — Brevo → SMTP &amp; API → API Keys<br>
+    &nbsp;&nbsp;• <code>MAIL_FROM</code> — ví dụ <code>Hoàng Dũng Real Estate &lt;email-da-xac-minh@...&gt;</code><br>
+    &nbsp;&nbsp;• <code>NOTIFY_EMAIL</code> — email nhận thông báo yêu cầu tư vấn mới (tuỳ chọn)</div></div></div>`;
   $('#pf').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); if (d.pass !== d.pass2) { $('#pe').textContent = 'Hai mật khẩu mới chưa khớp.'; return; } try { await api('password', { old: d.old, pass: d.pass }); e.target.reset(); $('#pe').textContent = ''; toast('Đã đổi mật khẩu quản trị.'); } catch (err) { $('#pe').textContent = err.message; } };
 }
 
 /* ---------- khởi động ---------- */
 function render() { if (!S.admin) gate(); else { shell(); refreshStats().then(() => { if (S.view !== 'home' && S.stats) { const b = $$('.nav .bd'); if (!b.length && (S.stats.leadsNew || S.stats.resets)) shell(); } }); } }
 (async () => {
-  try { const j = await (await fetch('/api/admin/state', { cache: 'no-store', credentials: 'same-origin' })).json(); S.setup = j.setup; S.admin = j.admin; S.mail = j.mail; }
+  try { const j = await (await fetch('/api/admin/state', { cache: 'no-store', credentials: 'same-origin' })).json(); S.setup = j.setup; S.admin = j.admin; S.mail = j.mail; S.sms = j.sms; }
   catch (e) { $('#root').innerHTML = '<div class="gate"><div class="gate-card"><h1>Không kết nối được máy chủ</h1><p class="lead">Vui lòng tải lại trang sau ít phút.</p></div></div>'; return; }
   render();
 })();

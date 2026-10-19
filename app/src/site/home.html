@@ -1669,7 +1669,7 @@ async function setSceneTex(d) {
   else gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, 1, 1, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, new Uint8Array([90]));
   SC.mode = src.eq ? 0 : 1; SC.A = im.height / im.width;
   SC.H = src.eq ? Math.PI * 2 : clamp(1.55 / Math.sqrt(SC.A), .95, 1.75);   // độ rộng góc của ảnh trên mặt cong
-  SC.yaw = SC.tYaw = 0; sceneFov(); SC.ready = true; SC.key = ''; $('#sceneGL').classList.add('on');
+  SC.yaw = SC.tYaw = 0; SC.tPitch = SC.pitch = 0; sceneFov(); SC.ready = true; SC.key = ''; $('#sceneGL').classList.add('on');
   $('#scene').classList.toggle('eq', src.eq);
 }
 function sceneFov() { // góc nhìn vừa khít ảnh: không bao giờ lộ mép ảnh
@@ -1693,18 +1693,20 @@ function sceneSize() { // dự phòng khi máy không hỗ trợ WebGL
 /* Tour tự động: ảnh 360° → quay trọn một vòng (~26 giây); ảnh thường → lia trái–phải, ngửa–cúi và đẩy máy chậm (~16 giây), rồi tự sang cảnh kế */
 const AUTO_DUR = () => SC.ok && SC.mode === 0 ? 26000 : 16000;
 function setAuto(on) { SC.auto = on; SC.held = 0; }   // luôn tự chạy; người dùng chạm/kéo → tạm nhường, buông tay 4 giây → tự chạy tiếp
-function holdAuto() { SC.held = performance.now(); }   // người dùng thao tác → tạm nhường quyền điều khiển, 4 giây sau tự chạy tiếp
+function holdAuto() { sceneTouch(); }
 function openScene(i, auto) {
   SC.i = (i + PANO_DATA.length) % PANO_DATA.length; const d = PANO_DATA[SC.i], eq = !!ANH['p_' + d.img];
-  SC.turn = 0; SC.zoom = 1; if (auto !== undefined) setAuto(auto); else if (!SC.open) setAuto(true);
+  SC.turn = 0; SC.touched = false; SC.lastInput = 0; SC.vy = SC.vp = 0; SC.autoDir = 1; SC.gy = SC.gp = 0;
+  SC.z0 = SC.tZoom = eq ? 1 : .86; SC.zoom = Math.min(1, SC.tZoom * 1.08);   // ảnh thường mở hơi phóng to để có chỗ lia
+  if (auto !== undefined) setAuto(auto); else if (!SC.open) setAuto(true);
   $('#sceneTitle').textContent = d.t; $('#sceneDesc').textContent = d.d; $('#sceneTag').textContent = d.sub + (eq ? ' · 360°' : ' · 3D chiều sâu');
   $('#sceneCount').textContent = `${String(SC.i + 1).padStart(2, '0')} / ${String(PANO_DATA.length).padStart(2, '0')}`;
   if (!SC.open) { SC.open = true; $('#scene').hidden = false; document.body.style.overflow = 'hidden'; setTimeout(() => $('#sceneClose').focus(), 50); }
   if (!SC.gl) SC.ok = SC.gl === false ? false : initGL(); else SC.ok = true;
   if (!SC.ok) SC.gl = false;
   $('#scene').classList.toggle('gl', !!SC.ok);
-  SC.yaw = SC.tYaw = 0; SC.pitch = SC.tPitch = 0; SC.vel = 0; SC.a0 = null; SC.last = performance.now(); SC.dx = SC.dy = 0;
-  $('#sceneHintTxt').textContent = GYRO.on ? 'Nghiêng hoặc xoay điện thoại để nhìn quanh' : (TOUCH ? 'Vuốt để tự nhìn quanh · thả tay, cảnh tự lia tiếp' : 'Kéo chuột để tự nhìn quanh · thả tay, cảnh tự lia tiếp');
+  SC.yaw = SC.tYaw = 0; SC.pitch = SC.tPitch = 0; SC.vel = 0; SC.a0 = null; SC.last = performance.now(); SC.dx = SC.dy = 0; SC.drag = false;
+  $('#sceneHintTxt').textContent = GYRO.on ? 'Nghiêng hoặc xoay điện thoại để nhìn quanh' : (TOUCH ? 'Vuốt để nhìn quanh · chụm 2 ngón để phóng to' : 'Kéo để nhìn quanh · cuộn chuột hoặc nhấp đúp để phóng to');
   if (SC.ok) { SC.ready = false; $('#sceneGL').classList.remove('on'); setSceneTex(d).catch(() => { SC.ok = false; $('#scene').classList.remove('gl'); fallbackImg(d); }); }
   else fallbackImg(d);
   // tải sẵn ảnh cảnh kế tiếp để chuyển cảnh không bị khựng
@@ -1712,64 +1714,108 @@ function openScene(i, auto) {
 }
 function fallbackImg(d) { const img = $('#sceneImg'); img.style.animation = 'none'; void img.offsetWidth; img.style.animation = ''; img.onload = sceneSize; img.src = ANH[d.img]; img.alt = d.t; if (img.complete) sceneSize(); }
 function closeScene() { SC.open = false; SC.tok = {}; $('#scene').hidden = true; if ($('#modal').hidden) document.body.style.overflow = ''; $('#panoView').focus({ preventScroll: true }); }
+const ZMIN = .42;   // phóng to tối đa (góc nhìn hẹp nhất so với khung vừa ảnh)
+function sceneTouch() { SC.touched = true; SC.lastInput = performance.now(); }
 function initScene() {
-  const st = $('#sceneStage'); let px = 0, py = 0, lt = 0, dn = false;
-  st.addEventListener('pointerdown', e => { holdAuto(); dn = true; SC.drag = true; px = e.clientX; py = e.clientY; lt = performance.now(); SC.vel = 0; st.setPointerCapture(e.pointerId); });
-  st.addEventListener('pointermove', e => {
-    if (!dn) return; holdAuto(); const dx = e.clientX - px, dy = e.clientY - py, now = performance.now(); px = e.clientX; py = e.clientY;
-    if (SC.ok) { const k = SC.fov / st.clientHeight; SC.yaw -= dx * k; SC.vel = -dx * k / Math.max(8, now - lt) * 16; SC.tPitch = clamp(SC.tPitch + dy * k, -SC.pmax, SC.pmax); SC.pitch = SC.tPitch; }
-    else { SC.dx = clamp(SC.dx + dx, -SC.mx * 2, SC.mx * 2); SC.dy = clamp(SC.dy + dy, -SC.my * 2, SC.my * 2); }
-    lt = now; SC.last = now;
+  const st = $('#sceneStage'), P = new Map(); let lx = 0, ly = 0, pinch = null, samples = [];
+  const kk = () => (SC.ok ? SC.fov : 1) / Math.max(200, st.clientHeight);
+  st.addEventListener('pointerdown', e => {
+    try { st.setPointerCapture(e.pointerId); } catch (err) { }
+    P.set(e.pointerId, { x: e.clientX, y: e.clientY }); sceneTouch(); SC.vy = SC.vp = 0;
+    if (P.size === 1) { SC.drag = true; lx = e.clientX; ly = e.clientY; samples = []; }
+    if (P.size === 2) { const [a, c] = [...P.values()]; pinch = { d: Math.hypot(a.x - c.x, a.y - c.y), z: SC.tZoom }; samples = []; }
   });
-  ['pointerup', 'pointercancel'].forEach(t => st.addEventListener(t, () => { dn = false; SC.drag = false; SC.last = performance.now(); holdAuto(); }));
+  st.addEventListener('pointermove', e => {
+    if (!P.has(e.pointerId)) return; P.set(e.pointerId, { x: e.clientX, y: e.clientY }); sceneTouch();
+    if (P.size >= 2 && pinch) { const [a, c] = [...P.values()]; SC.tZoom = clamp(pinch.z * pinch.d / Math.max(30, Math.hypot(a.x - c.x, a.y - c.y)), ZMIN, 1); return; }
+    const now = performance.now(), dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY;
+    if (SC.ok) {
+      const k = kk(); let ny = SC.tYaw - dx * k, np = SC.tPitch + dy * k;
+      if (SC.mode === 1 && Math.abs(ny) > SC.yawMax) ny = SC.tYaw - dx * k * .3;   // kéo quá mép: lực cản như cao su
+      if (Math.abs(np) > SC.pmax) np = SC.tPitch + dy * k * .3;
+      SC.tYaw = ny; SC.tPitch = np;
+      samples.push([now, -dx * k, dy * k]); while (samples.length > 2 && now - samples[0][0] > 90) samples.shift();
+    } else { SC.dx = clamp(SC.dx + dx, -SC.mx * 2, SC.mx * 2); SC.dy = clamp(SC.dy + dy, -SC.my * 2, SC.my * 2); }
+  });
+  const up = e => {
+    P.delete(e.pointerId); if (P.size < 2) pinch = null;
+    if (P.size === 1) { const v = [...P.values()][0]; lx = v.x; ly = v.y; samples = []; return; }
+    if (P.size || !SC.drag) return;
+    SC.drag = false; sceneTouch();
+    if (samples.length > 1) {   // quán tính sau khi buông tay
+      const T = Math.max(16, samples[samples.length - 1][0] - samples[0][0]);
+      SC.vy = clamp(samples.reduce((t, x) => t + x[1], 0) / T, -.004, .004); SC.vp = clamp(samples.reduce((t, x) => t + x[2], 0) / T, -.003, .003);
+    }
+    samples = [];
+  };
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => st.addEventListener(t, up));
+  st.addEventListener('wheel', e => { e.preventDefault(); sceneTouch(); SC.tZoom = clamp(SC.tZoom * Math.exp(e.deltaY * .0012), ZMIN, 1); }, { passive: false });
+  st.addEventListener('dblclick', e => { e.preventDefault(); sceneTouch(); SC.tZoom = SC.tZoom > .68 ? .5 : .88; });
   $('#sceneClose').onclick = closeScene; $('#scenePrev').onclick = () => openScene(SC.i - 1); $('#sceneNext').onclick = () => openScene(SC.i + 1);
   $('#sceneListing').onclick = () => { const id = PANO_DATA[SC.i].id; closeScene(); openListing(id); };
   document.addEventListener('keydown', e => {
     if (!SC.open) return;
+    const step = { ArrowLeft: [-.14, 0], ArrowRight: [.14, 0], ArrowUp: [0, -.1], ArrowDown: [0, .1] }[e.key];
     if (e.key === 'Escape') closeScene();
-    if (e.key === 'ArrowLeft') { holdAuto(); SC.vel = -.03; SC.last = performance.now(); } if (e.key === 'ArrowRight') { holdAuto(); SC.vel = .03; SC.last = performance.now(); }
-    if (e.key === ' ') { e.preventDefault(); setAuto(!SC.auto); }
-    if (e.key === 'PageUp') openScene(SC.i - 1); if (e.key === 'PageDown') openScene(SC.i + 1);
+    else if (step) { e.preventDefault(); sceneTouch(); SC.tYaw += step[0]; SC.tPitch += step[1]; }
+    else if (e.key === '+' || e.key === '=') { sceneTouch(); SC.tZoom = clamp(SC.tZoom * .85, ZMIN, 1); }
+    else if (e.key === '-') { sceneTouch(); SC.tZoom = clamp(SC.tZoom / .85, ZMIN, 1); }
+    else if (e.key === ' ') { e.preventDefault(); SC.touched = false; setAuto(true); }
+    else if (e.key === 'PageUp') openScene(SC.i - 1); else if (e.key === 'PageDown') openScene(SC.i + 1);
   });
   addEventListener('resize', () => { if (!SC.open) return; SC.ok ? sceneFov() : sceneSize(); });
 }
 let lastSceneT = 0;
+const ease = (dt, tau) => 1 - Math.exp(-dt / tau);   // làm mượt không phụ thuộc tốc độ khung hình
 function sceneTick(now) {
   if (!SC.open) { lastSceneT = 0; return; }
   const dt = Math.min(50, now - (lastSceneT || now)); lastSceneT = now;
-  if (GYRO.on && (Math.abs(PTR.x) > .22 || Math.abs(PTR.y) > .3)) holdAuto();
-  const running = SC.auto && now - SC.held > 4000 && !SC.drag && (SC.ready || !SC.ok) && !document.hidden;
-  const dur = AUTO_DUR();
-  if (running) {
-    SC.turn += dt; const k = SC.turn / dur;
-    if (SC.ok && SC.mode === 0) { SC.yaw += Math.PI * 2 / dur * dt; SC.tYaw = SC.yaw; SC.tPitch = Math.sin(k * Math.PI * 2) * SC.pmax * .25; }
-    else if (SC.ok) { SC.tYaw = Math.sin(k * Math.PI * 2) * SC.yawMax; SC.tPitch = Math.sin(k * Math.PI * 4 + .6) * SC.pmax * .7; SC.zoom = 1 - .12 * Math.sin(k * Math.PI); }
-    else { SC.dx = Math.sin(k * Math.PI * 2) * SC.mx * .9; SC.dy = Math.sin(k * Math.PI * 4) * SC.my * .5; }
-    SC.autoPar = [Math.sin(now / 2300) * .55, Math.cos(now / 3100) * .4];
-    if (SC.turn >= dur) { openScene(SC.i + 1); return; }
-  } else { SC.autoPar = null; SC.zoom += (1 - SC.zoom) * .05; }
-  $('#sceneProg').style.transform = `scaleX(${Math.min(1, SC.turn / dur).toFixed(4)})`;
+  const idle = now - (SC.lastInput || 0), dur = AUTO_DUR();
+  // Tự động: chạy khi khách chưa chạm; khách chạm/kéo → dừng hẳn, nhường quyền điều khiển;
+  // khách để yên 9 giây → lia nhẹ tiếp từ đúng vị trí đang xem (không giật về chỗ cũ, không tự chuyển cảnh).
+  const ramp = SC.touched ? clamp((idle - 9000) / 2500) : 1;
+  const autoOn = SC.auto && !SC.drag && ramp > 0 && (SC.ready || !SC.ok) && !document.hidden;
+  if (!SC.touched && autoOn) SC.turn += dt;
+  if (!SC.touched && SC.turn >= dur) { openScene(SC.i + 1); return; }
+  const prog = $('#sceneProg'); prog.style.transform = `scaleX(${Math.min(1, SC.turn / dur).toFixed(4)})`; prog.parentElement.style.opacity = SC.touched ? 0 : 1;
+  SC.autoPar = autoOn && !SC.touched && !GYRO.on ? [Math.sin(now / 2300) * .55, Math.cos(now / 3100) * .4] : null;
   if (!SC.ok) {
+    if (autoOn && !SC.touched) { const k = SC.turn / dur; SC.dx = Math.sin(k * Math.PI * 2) * SC.mx * .9; SC.dy = Math.sin(k * Math.PI * 4) * SC.my * .5; }
     const tx = clamp(-PTR.x * SC.mx + SC.dx, -SC.mx, SC.mx), ty = clamp(-PTR.y * SC.my + SC.dy, -SC.my, SC.my);
-    SC.x += (tx - SC.x) * .08; SC.y += (ty - SC.y) * .08;
+    SC.x += (tx - SC.x) * ease(dt, 90); SC.y += (ty - SC.y) * ease(dt, 90);
     $('#sceneImg').style.transform = `translate3d(${SC.x.toFixed(1)}px, ${SC.y.toFixed(1)}px, 0)`; return;
   }
   if (!SC.ready) return;
-  sceneFov();
-  if (!SC.drag) {
-    if (running && SC.mode === 1) SC.yaw += (SC.tYaw - SC.yaw) * .04;
-    else { SC.yaw += SC.vel; SC.vel *= .93; }
-    if (GYRO.on) {
-      if (GYRO.alpha != null) { if (SC.a0 != null) SC.yaw -= norm180(GYRO.alpha - SC.a0) * Math.PI / 180; SC.a0 = GYRO.alpha; }   // xoay người = nhìn quanh
-      if (Math.abs(PTR.x) > .16) SC.yaw += (PTR.x - Math.sign(PTR.x) * .16) * .028;   // nghiêng trái/phải = lia ngang
-      if (!running) SC.tPitch = clamp(-PTR.y * SC.pmax * 1.2, -SC.pmax, SC.pmax);     // ngửa/cúi = nhìn lên/xuống
+  if (autoOn) {
+    if (SC.mode === 0) { SC.tYaw += Math.PI * 2 / dur * dt * ramp; SC.tPitch += (Math.sin(now / 5200) * SC.pmax * .25 - SC.tPitch) * ease(dt, 900) * ramp; }
+    else {
+      const spd = Math.max(.00002, 4 * SC.yawMax / dur);
+      SC.tYaw += SC.autoDir * spd * dt * ramp;
+      if (SC.tYaw > SC.yawMax * .9) SC.autoDir = -1; else if (SC.tYaw < -SC.yawMax * .9) SC.autoDir = 1;
+      SC.tPitch += (Math.sin(now / 4200) * SC.pmax * .6 - SC.tPitch) * ease(dt, 900) * ramp;
+      if (!SC.touched) SC.tZoom = SC.z0 - .07 * Math.sin(SC.turn / dur * Math.PI);
     }
   }
-  if (SC.mode === 1) { const y = clamp(SC.yaw, -SC.yawMax, SC.yawMax); if (y !== SC.yaw) { SC.yaw = y; SC.vel = 0; } }
-  SC.tPitch = clamp(SC.tPitch, -SC.pmax, SC.pmax);
-  SC.pitch += (SC.tPitch - SC.pitch) * .1;
+  if (!SC.drag) {   // quán tính + bật nảy mềm khi chạm mép
+    SC.tYaw += SC.vy * dt; SC.tPitch += SC.vp * dt; const dec = Math.exp(-dt / 350); SC.vy *= dec; SC.vp *= dec;
+    if (SC.mode === 1) { const o = SC.tYaw - clamp(SC.tYaw, -SC.yawMax, SC.yawMax); if (o) { SC.tYaw -= o * ease(dt, 110); if (Math.sign(SC.vy) === Math.sign(o)) SC.vy = 0; } }
+    const op = SC.tPitch - clamp(SC.tPitch, -SC.pmax, SC.pmax); if (op) { SC.tPitch -= op * ease(dt, 110); if (Math.sign(SC.vp) === Math.sign(op)) SC.vp = 0; }
+  }
+  // con quay hồi chuyển: xoay người / nghiêng máy = nhìn lệch quanh vị trí đang xem (không trôi liên tục)
+  let gy = 0, gp = 0;
+  if (GYRO.on) {
+    if (GYRO.alpha != null) { if (SC.a0 == null) SC.a0 = GYRO.alpha; gy = norm180(GYRO.alpha - SC.a0) * Math.PI / 180; if (SC.mode === 1) gy = clamp(gy * .6, -.35, .35); if (Math.abs(gy) > .2) SC.lastInput = now; }
+    gp = clamp(-PTR.y * .5, -.5, .5) * SC.pmax;
+  }
+  SC.gy = (SC.gy || 0) + (gy - (SC.gy || 0)) * ease(dt, 140); SC.gp = (SC.gp || 0) + (gp - (SC.gp || 0)) * ease(dt, 140);
+  SC.zoom += (SC.tZoom - SC.zoom) * ease(dt, 120);
+  sceneFov();
+  let vy = SC.tYaw - SC.gy, vp = SC.tPitch + SC.gp;
+  if (SC.mode === 1) vy = clamp(vy, -SC.yawMax * 1.04 - .01, SC.yawMax * 1.04 + .01);
+  vp = clamp(vp, -SC.pmax - .02, SC.pmax + .02);
+  SC.yaw += (vy - SC.yaw) * ease(dt, SC.drag ? 35 : 60); SC.pitch += (vp - SC.pitch) * ease(dt, SC.drag ? 35 : 60);
   const gl = SC.gl, c = gl.canvas;
-  const px = SC.autoPar && !GYRO.on ? SC.autoPar[0] : PTR.x, py = SC.autoPar && !GYRO.on ? SC.autoPar[1] : PTR.y;
+  const px = SC.autoPar ? SC.autoPar[0] : PTR.x, py = SC.autoPar ? SC.autoPar[1] : PTR.y;
   const key = [SC.yaw.toFixed(4), SC.pitch.toFixed(4), px.toFixed(3), py.toFixed(3), c.width, c.height, SC.fov.toFixed(4), SC.tok && SC.ready].join();
   if (key === SC.key) return; SC.key = key;      // chỉ vẽ lại khi góc nhìn thay đổi → tiết kiệm pin
   gl.viewport(0, 0, c.width, c.height);
@@ -1780,6 +1826,7 @@ function sceneTick(now) {
 }
 function frame(t) {
   if (MENU_OPEN && performance.now() - MENU_AT > 700) { requestAnimationFrame(frame); return; }   // menu đã che kín trang → tạm dừng hiệu ứng bên dưới
+  if (SC.open) { sceneTick(t); PTR.x += (PTR.tx - PTR.x) * .08; PTR.y += (PTR.ty - PTR.y) * .08; requestAnimationFrame(frame); return; }   // cảnh 3D phủ kín màn hình → chỉ vẽ cảnh
   panoTick(t); sceneTick(t);
   idleDrift(t);
   PTR.x += (PTR.tx - PTR.x) * .06; PTR.y += (PTR.ty - PTR.y) * .06;
