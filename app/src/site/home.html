@@ -448,7 +448,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .acct-ic{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:#fff;font-weight:600;font-size:13px;overflow:hidden}
 .acct-ic.in{background:linear-gradient(135deg,#e9a27a,#b86a45)}
 @media (max-width:980px){.acct-lbl{display:none}.acct-btn{padding:0 4px}}
-@media (max-width:440px){.nav-in{gap:8px}.nav .logo{flex-direction:column;align-items:flex-start;gap:3px;line-height:1;font-size:18px}.nav .logo small{font-size:8.5px;letter-spacing:.2em}.nav-right{gap:4px}.saved-btn{padding:8px}}
 .modal-panel.auth{padding:0;width:min(940px,100%);overflow:hidden;max-height:min(92vh,760px)}
 .auth #modalBody{display:grid;grid-template-columns:1fr 1.05fr;min-height:min(640px,88vh)}
 .auth .modal-x{position:absolute;right:16px;top:16px;float:none;margin:0;z-index:5}
@@ -525,6 +524,10 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .pano-view:focus-visible{box-shadow:inset 0 0 0 2px var(--sun)}
 .pano-ring{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;will-change:transform}
 .pano-panel{position:absolute;left:0;top:0;border-radius:18px;overflow:hidden;backface-visibility:hidden;background:#151a21;box-shadow:0 40px 80px -30px rgba(0,0,0,.8),inset 0 0 0 1px rgba(255,255,255,.08);cursor:pointer;padding:0}
+.pano-panel{transition:box-shadow .4s}
+.pano-panel::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 2px rgba(233,162,122,0);transition:box-shadow .35s;pointer-events:none}
+.pano-panel:hover::after,.pano-panel.press::after{box-shadow:inset 0 0 0 2px rgba(233,162,122,.85)}
+.pano-panel.press{filter:brightness(1.08)}
 .pano-panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
 .pano-panel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(5,7,10,.78));pointer-events:none}
 .b360{position:absolute;top:14px;right:14px;z-index:2;font-size:11px;font-weight:600;letter-spacing:.06em;padding:5px 9px;border-radius:999px;background:rgba(10,12,15,.55);color:#fff;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
@@ -532,16 +535,16 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .pano-cap b{display:block;font-size:clamp(17px,1.6vw,22px);font-weight:600;letter-spacing:-.02em}
 .pano-cap i{font-style:normal;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sun)}
 .pano-vignette{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0b0d10,rgba(11,13,16,0) 18%,rgba(11,13,16,0) 82%,#0b0d10)}
-.pano-ui{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-block:22px clamp(60px,8vw,100px)}
+.pano-ui{display:flex;flex-direction:column;align-items:center;gap:18px;padding-block:22px clamp(60px,8vw,100px);text-align:center}
+.pano-nav{display:flex;align-items:center;gap:22px}
+.pano-nav button{width:52px;height:52px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);color:#fff;font-size:18px;transition:background .3s,color .3s,transform .3s var(--ease)}
+.pano-nav button:hover{background:#fff;color:var(--ink)}
+.pano-nav button:active{transform:scale(.92)}
 .compass{display:flex;align-items:center;gap:12px;color:#fff}
 .compass svg{width:48px;height:48px}
 .compass b{font-weight:500;font-variant-numeric:tabular-nums;min-width:4ch}
 .pano-hint{display:flex;align-items:center;gap:10px;color:#aeb4bb;font-size:14px}
-.pano-btns{display:flex;gap:8px}
-.pano-btns button{height:46px;min-width:46px;padding:0 16px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);color:#fff;font-size:14px;transition:background .3s,color .3s}
-.pano-btns button:hover{background:#fff;color:var(--ink)}
-#panoOpen{background:#fff;color:var(--ink)}
-@media (max-width:700px){.pano-ui{justify-content:center}.pano-hint{order:-1;width:100%;justify-content:center;text-align:center}}
+@media (max-width:700px){.pano-hint{justify-content:center}}
 .scene{position:fixed;inset:0;z-index:85;background:#07090c;color:#fff;overflow:hidden;animation:fade .4s both}
 .scene-stage{position:absolute;inset:0;perspective:1200px;cursor:grab;touch-action:none}
 .scene-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .6s}
@@ -554,16 +557,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .scene-prog{position:absolute;z-index:3;left:0;right:0;top:0;height:3px;background:rgba(255,255,255,.12)}
 .scene-prog i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,#ffe2b8,#e9a27a);box-shadow:0 0 12px rgba(233,162,122,.8)}
 .scene-auto{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.auto-btn,.tour-btn{display:inline-flex;align-items:center;gap:9px}
-.auto-btn{height:38px;padding:0 14px 0 10px;border-radius:999px;background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;font-size:13px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);transition:background .3s}
-.auto-btn[aria-pressed="true"]{background:rgba(233,162,122,.9);color:#1a120c}
-.ai{position:relative;width:12px;height:12px;flex:none}
-.ai::before,.ai::after{content:"";position:absolute;top:0;bottom:0;width:4px;border-radius:1px;background:currentColor}
-.ai::before{left:1px}.ai::after{right:1px}
-[aria-pressed="false"] .ai::before,.tour-btn .ai::before{left:2px;width:0;height:0;border-style:solid;border-width:6px 0 6px 10px;border-color:transparent transparent transparent currentColor;background:none;border-radius:0}
-[aria-pressed="false"] .ai::after,.tour-btn .ai::after{display:none}
-.tour-btn{background:linear-gradient(90deg,#ffe2b8,#e9a27a)!important;color:#1a120c!important;font-weight:600}
-.scene.auto-on .scene-hint{display:none}
 .scene-count{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#cfd4da}
 .scene-x{opacity:1;transform:none}
 .scene-info{position:absolute;z-index:2;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:0 var(--gut-r) calc(env(safe-area-inset-bottom,0px) + 26px) var(--gut)}
@@ -643,6 +636,17 @@ html.static .mask{display:none}
 html.hosted .totop{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 html.hosted .scene-info{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 70px)}
 html.hosted .gyro-btn{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+/* Điện thoại / máy tính bảng: logo bên trái, cụm nút gọn bên phải, cùng cỡ 42px, cách đều */
+@media (max-width:980px){
+  .nav-right{margin-left:auto;gap:12px}
+  .saved-btn{position:relative;width:42px;height:42px;padding:0;justify-content:center;border-radius:50%;background:rgba(18,20,23,.06)}
+  .saved-btn b{position:absolute;top:-4px;right:-4px;min-width:19px;height:19px;font-size:10.5px;box-shadow:0 0 0 2px var(--paper)}
+  .acct-btn{width:42px;height:42px;padding:0;justify-content:center;border-radius:50%}
+  .acct-ic{width:42px;height:42px}
+  .burger{width:42px;height:42px}
+}
+@media (max-width:440px){.nav-in{gap:10px}.nav .logo{flex-direction:column;align-items:flex-start;gap:3px;line-height:1;font-size:18px}.nav .logo small{font-size:8.5px;letter-spacing:.2em}.nav-right{gap:10px}}
+@media (max-width:350px){.nav-right{gap:7px}.saved-btn,.acct-btn,.acct-ic,.burger{width:38px;height:38px}}
 img[data-pan]{position:absolute;left:-7%;top:-7%;width:114%;height:114%;max-width:none;object-fit:cover}
 img{image-rendering:auto}
 </style>
@@ -764,16 +768,15 @@ img{image-rendering:auto}
     <div class="pano-vignette"></div>
   </div>
   <div class="wrap pano-ui">
-    <div class="compass" aria-hidden="true"><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="27" fill="none" stroke="currentColor" stroke-opacity=".25"/><g id="cmpNeedle"><path d="M30 6 L35 30 L30 27 L25 30 Z" fill="#e9a27a"/></g></svg><b id="cmpDeg">0°</b></div>
-    <div class="pano-hint"><span class="gy-ic"></span><span id="panoHint">Kéo để xoay · trên điện thoại hãy nghiêng máy</span></div>
-    <div class="pano-btns"><button type="button" id="panoPrev" aria-label="Xoay sang trái">←</button><button type="button" id="panoTour" class="tour-btn"><span class="ai"></span>Tour tự động 360°</button><button type="button" id="panoOpen">Bước vào cảnh này</button><button type="button" id="panoNext" aria-label="Xoay sang phải">→</button></div>
+    <div class="pano-hint"><span class="gy-ic"></span><span id="panoHint">Kéo để xoay · bấm vào ảnh để xem 3D</span></div>
+    <div class="pano-nav"><button type="button" id="panoPrev" aria-label="Xoay sang trái">←</button><div class="compass" aria-hidden="true"><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="27" fill="none" stroke="currentColor" stroke-opacity=".25"/><g id="cmpNeedle"><path d="M30 6 L35 30 L30 27 L25 30 Z" fill="#e9a27a"/></g></svg><b id="cmpDeg">0°</b></div><button type="button" id="panoNext" aria-label="Xoay sang phải">→</button></div>
   </div>
 </section>
 
 <div class="scene" id="scene" hidden role="dialog" aria-modal="true" aria-label="Xem cảnh toàn màn hình">
   <div class="scene-stage" id="sceneStage"><canvas id="sceneGL" aria-hidden="true"></canvas><img id="sceneImg" alt=""></div>
   <div class="scene-prog"><i id="sceneProg"></i></div>
-  <div class="scene-top"><div class="scene-auto"><button type="button" class="auto-btn" id="sceneAuto" aria-pressed="true"><span class="ai"></span><span class="al">Tour tự động</span></button><span class="scene-count" id="sceneCount"></span></div><button type="button" class="mclose scene-x" id="sceneClose" aria-label="Đóng"><i></i><i></i></button></div>
+  <div class="scene-top"><div class="scene-auto"><span class="scene-count" id="sceneCount"></span></div><button type="button" class="mclose scene-x" id="sceneClose" aria-label="Đóng"><i></i><i></i></button></div>
   <div class="scene-info">
     <div><span class="tag-note" id="sceneTag"></span><h3 id="sceneTitle"></h3><p id="sceneDesc"></p></div>
     <div class="scene-act"><button type="button" class="btn light" id="sceneListing">Xem chi tiết tin <span class="arr">→</span></button><button type="button" class="btn ghost" id="scenePrev" aria-label="Cảnh trước">←</button><button type="button" class="btn ghost" id="sceneNext" aria-label="Cảnh sau">→</button></div>
@@ -1510,7 +1513,7 @@ const PANO = { rot: 0, vel: 0, pitch: 0, tPitch: 0, drag: false, vis: false, las
 function panoLayout() {
   const v = $('#panoView'); if (!v) return;
   const W = v.clientWidth, H = v.clientHeight;
-  const disp = clamp(W * .25, 210, 380);              // bề rộng hiển thị của ảnh ở giữa
+  const disp = clamp(W * .25, 210, 380); PANO.disp = disp;   // bề rộng hiển thị của ảnh ở giữa
   const t = Math.tan(Math.PI / PANO_DATA.length);
   PANO.R = disp / (2 * t * .72); PANO.P = PANO.R * .72;  // tỉ lệ P/R = 0,72 → ảnh luôn hiển thị nhỏ hơn kích thước thật, không bị mờ
   const pw = 2 * PANO.R * t + 2, ph = Math.min(H * .86 / .72, 1100);
@@ -1531,13 +1534,18 @@ function initPano() {
     PANO.rot -= dx * k; PANO.vel = -dx * k / Math.max(8, now - lt) * 16; lt = now; PANO.last = now;
   });
   const end = e => { if (!PANO.drag) return; PANO.drag = false; v.classList.remove('drag'); PANO.last = performance.now(); };
-  v.addEventListener('pointerup', e => { if (!PANO.drag) return; const was = PANO.moved; end(e); if (was < 6) { const p = document.elementsFromPoint(e.clientX, e.clientY).find(x => x.classList && x.classList.contains('pano-panel')); if (p) openScene(+p.dataset.pi, true); } });
+  v.addEventListener('pointerup', e => {
+    if (!PANO.drag) return; const was = PANO.moved; end(e); if (was >= 8) return;
+    // chạm (không kéo): ảnh ở giữa → mở xem 3D; ảnh hai bên → xoay ảnh đó vào giữa
+    const r = v.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2);
+    if (Math.abs(dx) <= (PANO.disp || 260) * .55) { const c = panoCenter(); const el = $$('.pano-panel')[c]; el && el.classList.add('press'); setTimeout(() => openScene(c, true), 120); }
+    else panoGo(dx > 0 ? 1 : -1);
+  });
   v.addEventListener('pointercancel', end);
-  v.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') { panoGo(-1); e.preventDefault(); } if (e.key === 'ArrowRight') { panoGo(1); e.preventDefault(); } if (e.key === 'Enter') openScene(panoCenter()); });
+  v.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') { panoGo(-1); e.preventDefault(); } if (e.key === 'ArrowRight') { panoGo(1); e.preventDefault(); } if (e.key === 'Enter') openScene(panoCenter(), true); });
   $('#panoPrev').onclick = () => panoGo(-1); $('#panoNext').onclick = () => panoGo(1);
-  $('#panoOpen').onclick = () => openScene(panoCenter(), false);
-  $('#panoTour').onclick = () => openScene(panoCenter(), true);
-  if (TOUCH) $('#panoHint').textContent = 'Nghiêng điện thoại hoặc vuốt để xoay 360°';
+  if (TOUCH) $('#panoHint').textContent = 'Vuốt hoặc nghiêng máy để xoay · chạm vào ảnh để xem 3D';
+  v.addEventListener('pointerup', () => setTimeout(() => $$('.pano-panel.press').forEach(p => p.classList.remove('press')), 400));
 }
 const norm180 = a => ((a % 360) + 540) % 360 - 180;
 function panoCenter() { let best = 0, bd = 999; PANO_DATA.forEach((_, i) => { const d = Math.abs(norm180(i * PANO.step + PANO.rot)); if (d < bd) { bd = d; best = i; } }); return best; }
@@ -1650,7 +1658,7 @@ function sceneSize() { // dự phòng khi máy không hỗ trợ WebGL
 }
 /* Tour tự động: ảnh 360° → quay trọn một vòng (~26 giây); ảnh thường → lia trái–phải, ngửa–cúi và đẩy máy chậm (~16 giây), rồi tự sang cảnh kế */
 const AUTO_DUR = () => SC.ok && SC.mode === 0 ? 26000 : 16000;
-function setAuto(on) { SC.auto = on; SC.held = 0; const b = $('#sceneAuto'); b.setAttribute('aria-pressed', on); b.querySelector('.al').textContent = on ? 'Đang tự động' : 'Tour tự động'; $('#scene').classList.toggle('auto-on', on); }
+function setAuto(on) { SC.auto = on; SC.held = 0; }   // luôn tự chạy; người dùng chạm/kéo → tạm nhường, buông tay 4 giây → tự chạy tiếp
 function holdAuto() { SC.held = performance.now(); }   // người dùng thao tác → tạm nhường quyền điều khiển, 4 giây sau tự chạy tiếp
 function openScene(i, auto) {
   SC.i = (i + PANO_DATA.length) % PANO_DATA.length; const d = PANO_DATA[SC.i], eq = !!ANH['p_' + d.img];
@@ -1662,7 +1670,7 @@ function openScene(i, auto) {
   if (!SC.ok) SC.gl = false;
   $('#scene').classList.toggle('gl', !!SC.ok);
   SC.yaw = SC.tYaw = 0; SC.pitch = SC.tPitch = 0; SC.vel = 0; SC.a0 = null; SC.last = performance.now(); SC.dx = SC.dy = 0;
-  $('#sceneHintTxt').textContent = GYRO.on ? 'Nghiêng hoặc xoay điện thoại để nhìn quanh' : (TOUCH ? 'Vuốt để nhìn quanh · nghiêng máy để thấy chiều sâu' : 'Kéo chuột để nhìn quanh · Space: bật/tắt tour');
+  $('#sceneHintTxt').textContent = GYRO.on ? 'Nghiêng hoặc xoay điện thoại để nhìn quanh' : (TOUCH ? 'Vuốt để tự nhìn quanh · thả tay, cảnh tự lia tiếp' : 'Kéo chuột để tự nhìn quanh · thả tay, cảnh tự lia tiếp');
   if (SC.ok) { SC.ready = false; $('#sceneGL').classList.remove('on'); setSceneTex(d).catch(() => { SC.ok = false; $('#scene').classList.remove('gl'); fallbackImg(d); }); }
   else fallbackImg(d);
   // tải sẵn ảnh cảnh kế tiếp để chuyển cảnh không bị khựng
@@ -1681,7 +1689,6 @@ function initScene() {
   });
   ['pointerup', 'pointercancel'].forEach(t => st.addEventListener(t, () => { dn = false; SC.drag = false; SC.last = performance.now(); holdAuto(); }));
   $('#sceneClose').onclick = closeScene; $('#scenePrev').onclick = () => openScene(SC.i - 1); $('#sceneNext').onclick = () => openScene(SC.i + 1);
-  $('#sceneAuto').onclick = () => setAuto(!SC.auto);
   $('#sceneListing').onclick = () => { const id = PANO_DATA[SC.i].id; closeScene(); openListing(id); };
   document.addEventListener('keydown', e => {
     if (!SC.open) return;
