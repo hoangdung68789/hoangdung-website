@@ -194,7 +194,7 @@ details[open] .msub>*:nth-child(4){animation-delay:.18s}
 .hero-copy p{margin-top:16px;font-size:clamp(15.5px,1.3vw,18px);color:var(--ink-2)}
 .hero-copy p b{color:var(--ink);font-weight:500}
 .hero-copy .btn{margin-top:26px}
-@media (max-width:760px){.hero-hint{display:none}}
+@media (max-width:760px){.hero-hint{display:none!important}}
 @media (max-width:700px){.hero-copy{top:14vh}.sky{object-position:50% 30%}}
 .mask{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:5;pointer-events:none;perspective:900px;overflow:hidden}
 .mask-3d{position:relative;display:flex;justify-content:center;transform-style:preserve-3d;will-change:transform}
@@ -820,7 +820,8 @@ html[data-theme="dark"] .warnbox{background:#3d2b17;color:#f6cfa4}
 /* ================= v16: điểm tin trên ảnh đầu trang ================= */
 .fcard{cursor:pointer;pointer-events:auto;transition:opacity .38s ease,transform .45s var(--ease),box-shadow .3s,background .3s;color:#fff;max-width:min(300px,62vw)}
 .fcard:empty{display:none}
-.fcard span{min-width:0}
+.fcard span{min-width:0;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:760px){.fcard span{max-width:150px}}
 .fcard b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
 .fcard:hover,.fcard:focus-visible{background:rgba(255,255,255,.26);box-shadow:inset 0 0 0 1px rgba(255,255,255,.5),0 18px 40px -16px rgba(0,0,0,.55)}
 .fcard .fc-go{font-style:normal;margin-left:2px;opacity:.75;transition:transform .3s var(--ease)}
