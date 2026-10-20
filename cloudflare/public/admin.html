@@ -35,7 +35,7 @@ label.f{display:grid;gap:6px;font-size:13.5px;color:var(--ink2);font-weight:500}
 .gate{min-height:100vh;min-height:100dvh;box-sizing:border-box;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(60% 50% at 20% 10%,rgba(233,162,122,.18),transparent 70%),radial-gradient(50% 40% at 90% 90%,rgba(120,160,230,.12),transparent 70%),var(--night)}
 .gate-card{width:100%;max-width:400px;background:#fff;border-radius:20px;padding:30px 26px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7)}
 .brand{font-weight:800;font-size:19px;letter-spacing:-.03em;display:flex;align-items:baseline;gap:7px}
-.brand small{font-size:10px;letter-spacing:.18em;font-weight:600;color:var(--gold2)}
+.brand small{font-size:12.5px;letter-spacing:.18em;font-weight:600;color:var(--gold2)}
 .gate h1{font-size:22px;margin:18px 0 4px;letter-spacing:-.02em}
 .gate p.lead{margin:0 0 18px;color:var(--ink2)}
 .gate form{display:grid;gap:14px}
@@ -43,7 +43,7 @@ label.f{display:grid;gap:6px;font-size:13.5px;color:var(--ink2);font-weight:500}
 .gate .foot{margin-top:16px;font-size:13px;color:var(--mut);text-align:center}
 
 /* ---- khung ứng dụng ---- */
-.app{display:grid;grid-template-columns:240px 1fr;min-height:100%}
+.app{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100%;background:linear-gradient(90deg,var(--night) 240px,transparent 240px)}
 .side{background:var(--night);color:#e9eaec;padding:22px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:22px}
 .side .brand{color:#fff;padding:0 8px;flex-direction:column;align-items:flex-start;gap:3px;line-height:1.1}
 .nav{display:grid;gap:3px}
@@ -72,10 +72,10 @@ label.f{display:grid;gap:6px;font-size:13.5px;color:var(--ink2);font-weight:500}
 .kpi.hot b{color:var(--gold2)}
 .chart{padding:18px 18px 12px}
 .chart h3{margin:0 0 14px;font-size:15px}
-.bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;align-items:end;height:140px}
+.bars{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;align-items:end;height:140px}
 .bar{position:relative;background:linear-gradient(180deg,#f3c9a3,var(--gold));border-radius:6px 6px 2px 2px;min-height:3px}
 .bar em{position:absolute;top:-18px;left:0;right:0;text-align:center;font-style:normal;font-size:12.5px;color:var(--ink2)}
-.blabels{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;margin-top:6px;font-size:12px;color:var(--mut);text-align:center}
+.blabels{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;margin-top:6px;font-size:12.5px;white-space:nowrap;color:var(--mut);text-align:center}
 .note{padding:14px 16px;border-radius:12px;background:#fff7f0;color:#7a4a2b;font-size:14px;line-height:1.6;margin-top:18px}
 .note.ok{background:#eef8f2;color:#245c40}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
@@ -141,7 +141,9 @@ code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-size:13.5px}
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .kpi{padding:14px}.kpi b{font-size:26px}
   .msg{max-width:none}
+  .app{background:none}
 }
+@media (max-width:640px){.blabels span:nth-child(even){visibility:hidden}.bars{gap:3px}.blabels{gap:3px}}
 
 /* hồ sơ khách + yêu cầu cập nhật */
 .dlg-in.wide{max-width:780px;max-height:min(92vh,960px);overflow:auto}
@@ -155,6 +157,130 @@ code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-size:13.5px}
 .t-pending{background:#fff1e6;color:#b4572a}.t-done{background:#e7f6ee;color:#23744e}.t-rejected{background:#f1f1f1;color:#666}.t-lock{background:#efeaf9;color:#5b3fa3}
 .req-msg{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--ink);margin-top:6px;max-width:520px}
 @media (max-width:600px){.fgrid{grid-template-columns:1fr}.dl{grid-template-columns:1fr}.dl dt{margin-top:6px}}
+
+/* ===== v16: vai trò quản trị — chữ 3D có màu ===== */
+.rb{--a:#ffe2b8;--b:#e9a27a;--c:#c97a52;--d:#6a3518;--e:#2a160a;--g1:#3d2817;--g2:#1c120a;--bd:rgba(233,162,122,.55);display:inline-flex;align-items:center;gap:6px;height:27px;padding:0 12px 0 9px;border-radius:999px;background:radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.10),transparent 60%),linear-gradient(180deg,var(--g1),var(--g2));box-shadow:inset 0 0 0 1px var(--bd),inset 0 1px 0 rgba(255,255,255,.14),0 3px 8px -3px rgba(0,0,0,.45);vertical-align:middle;white-space:nowrap;line-height:1;flex:none}
+.rb-manager{--a:#cfe3ff;--b:#8fbfe4;--c:#3b6fd8;--d:#13306e;--e:#07142f;--g1:#1a2944;--g2:#0a1325;--bd:rgba(143,191,228,.55)}
+.rb-assistant{--a:#c9f2dc;--b:#5fcf97;--c:#2f9e6b;--d:#0f4a2f;--e:#052014;--g1:#163728;--g2:#0a1d14;--bd:rgba(95,207,151,.55)}
+.rb svg{width:14px;height:14px;flex:none;color:var(--b);filter:drop-shadow(0 1px 0 var(--d)) drop-shadow(0 1px 1px rgba(0,0,0,.5))}
+.rbt{display:inline-grid;font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;line-height:1}
+.rbt>*{grid-area:1/1;font-style:normal;font-weight:inherit;white-space:nowrap;padding:.32em 0 .12em;margin:-.32em 0 -.12em}
+.rbt i{color:var(--d);text-shadow:0 1px 0 var(--d),0 2px 0 var(--e),0 3px 3px rgba(0,0,0,.55)}
+.rbt b{color:transparent;background:linear-gradient(180deg,var(--a) 8%,var(--b) 52%,var(--c) 96%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 -.5px 0 rgba(255,255,255,.18))}
+.rb.lg{height:31px;padding:0 14px 0 11px;gap:7px}.rb.lg .rbt{font-size:13.5px}.rb.lg svg{width:16px;height:16px}
+.side .me .rb{margin:7px 0 5px}
+.side .me .em{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hi{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mbar .r{display:flex;align-items:center;gap:8px}
+@media (max-width:420px){.mbar .brand small{display:none}.mbar .rb{height:25px;padding:0 9px 0 7px}.mbar .rb svg{display:none}}
+
+/* chung */
+.mut{color:var(--mut)}.sm{font-size:13px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.btn.dz{color:var(--bad);box-shadow:inset 0 0 0 1px #f0c9c5}
+.btn.on{background:linear-gradient(90deg,#f3c9a3,var(--gold));color:#1a120c;box-shadow:none}
+label.ck{display:flex;align-items:center;gap:10px;font-size:14.5px;color:var(--ink);font-weight:500;cursor:pointer}
+label.ck input{width:18px;height:18px;accent-color:var(--gold2)}
+label.f small{font-weight:400;color:var(--mut);font-size:12.5px}
+.kpi.link{cursor:pointer;text-align:left;width:100%;transition:transform .2s,box-shadow .2s}.kpi.link:hover{transform:translateY(-2px)}
+.perm{display:grid;gap:7px;margin:0;padding:0;list-style:none;font-size:14px}
+.perm li{display:flex;gap:9px;align-items:flex-start;line-height:1.45}
+.perm li::before{content:"✓";color:var(--ok);font-weight:800;width:14px;flex:none}
+.perm li.no{color:#9aa0a8}.perm li.no::before{content:"✕";color:#c5c9ce;font-weight:600}
+.rl{display:grid;gap:6px;padding:12px 0;border-top:1px solid var(--line)}.rl:first-of-type{border-top:0;padding-top:4px}
+.rl p{margin:0;font-size:14px;color:var(--ink2)}.rl>.rb{justify-self:start}
+.pv{gap:5px;background:#f1f3f5;color:var(--ink2);margin:2px 4px 2px 0}
+.pv i{width:17px;height:17px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12.5px;font-weight:800;color:#fff;line-height:1}
+.pv-google i{background:conic-gradient(#ea4335 0 25%,#fbbc05 0 50%,#34a853 0 75%,#4285f4 0)}.pv-facebook i{background:#1877f2}
+.t-creator{background:linear-gradient(90deg,#fff0de,#ffe1c7);color:#94491d}.t-crp{background:#fff6dc;color:#8a6510}
+.t-published{background:#e7f6ee;color:#23744e}.t-draft{background:#eef0f2;color:#555b63}.t-hidden{background:#f1f1f1;color:#666}.t-sold{background:#efeaf9;color:#5b3fa3}
+.t-ban{background:#fff1e6;color:#a4501f}.t-thue{background:#e9f0ff;color:#2f57b0}
+.t-approved{background:#e7f6ee;color:#23744e}.t-feat{background:#fdf4d8;color:#8a6510}
+.okt{color:var(--ok);font-weight:600}.bad{color:var(--bad);font-weight:600}
+tr.fail td{background:#fff6f5}
+.st-role{max-width:100%}
+.cpy{display:flex;gap:8px;align-items:center;margin:8px 0}.cpy code{flex:1;min-width:0;overflow-wrap:anywhere;line-height:1.5;padding:6px 9px}
+.box-t{font-size:14px;line-height:1.75;color:var(--ink2)}
+
+/* tin đăng */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,272px),1fr));gap:16px}
+.lc{overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.lc .ph{position:relative;aspect-ratio:16/10;background:#e9ebee;overflow:hidden;flex:none}
+.lc .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.lc .ph>.tag{position:absolute;left:10px;top:10px;box-shadow:0 2px 8px -2px rgba(0,0,0,.25)}
+.lc .ph .cnt{position:absolute;left:10px;bottom:10px;height:24px;padding:0 9px;border-radius:999px;background:rgba(12,13,15,.62);color:#fff;font-size:12.5px;display:grid;place-items:center}
+.fav{position:absolute;right:10px;top:10px;height:30px;padding:0 11px;border-radius:999px;background:rgba(12,13,15,.62);color:#fff;font-size:13px;font-weight:600;display:inline-flex;gap:5px;align-items:center;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .2s}
+.fav:hover{background:rgba(12,13,15,.8)}
+.fav.on{background:linear-gradient(90deg,#f8dcc0,var(--gold));color:#1a120c}
+.lc .lb{padding:14px 16px 16px;display:grid;gap:6px;flex:1;align-content:start}
+.lc h4{margin:0;font-size:15.5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc .pr{font-size:19px;font-weight:700;color:var(--gold2);letter-spacing:-.01em}
+.mt{font-size:13px;color:var(--mut);display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px}
+.lc .acts{padding-top:6px;align-self:end}
+.imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px;min-height:60px;border-radius:12px;transition:box-shadow .2s}
+.imgs.drop{box-shadow:0 0 0 2px var(--gold)}
+.imgs-empty{grid-column:1/-1;padding:22px 14px;border:1.5px dashed #d5d9de;border-radius:12px;text-align:center;color:var(--mut);font-size:14px}
+.im{position:relative;border-radius:12px;overflow:hidden;background:#eef0f2;aspect-ratio:4/3;cursor:grab;box-shadow:inset 0 0 0 1px var(--line)}
+.im img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.im .cv{position:absolute;left:6px;top:6px;height:22px;padding:0 8px;border-radius:999px;background:linear-gradient(90deg,#f8dcc0,var(--gold));color:#1a120c;font-size:12.5px;font-weight:700;display:grid;place-items:center}
+.im .ib{position:absolute;left:6px;right:6px;bottom:6px;display:flex;gap:4px;justify-content:flex-end}
+.im .ib button{width:30px;height:30px;border-radius:8px;background:rgba(12,13,15,.72);color:#fff;font-size:14px;display:grid;place-items:center}
+.im .ib button:disabled{opacity:.35;cursor:default}
+.im .ib button[data-rm]{background:rgba(194,70,61,.9)}
+.im.drag{opacity:.4}.im.over{box-shadow:0 0 0 3px var(--gold)}
+.prog{height:6px;border-radius:99px;background:#eef0f2;overflow:hidden;margin:10px 0 4px}.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f3c9a3,var(--gold2));transition:width .25s}
+.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px;margin-top:10px;padding:10px;border-radius:12px;background:var(--bg)}
+.pick button{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:4/3;box-shadow:inset 0 0 0 1px var(--line);background:#ddd}
+.pick button img{width:100%;height:100%;object-fit:cover;display:block}
+.pick button span{position:absolute;left:0;right:0;bottom:0;padding:3px 6px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff;font-size:12.5px;text-align:left}
+.pick button[aria-pressed=true]{box-shadow:0 0 0 3px var(--gold)}
+.pick button[aria-pressed=true]::after{content:"✓";position:absolute;right:6px;top:6px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#1a120c;font-weight:800;display:grid;place-items:center;font-size:13px}
+.hint{font-size:13px;color:var(--ok);font-weight:600;min-height:20px}
+.dlg .row.l{justify-content:flex-start;align-items:center}
+
+/* creator */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:16px}
+.cc{padding:18px;display:grid;gap:10px;align-content:start;min-width:0}
+.cc .hd{display:flex;gap:12px;align-items:center;min-width:0}
+.cc .hd .who{min-width:0;flex:1}.cc .hd .who b,.cc .hd .who span{overflow:hidden;text-overflow:ellipsis}
+.av{width:48px;height:48px;border-radius:50%;flex:none;object-fit:cover;background:linear-gradient(135deg,#f3c9a3,var(--gold2));color:#fff;display:grid;place-items:center;font-weight:700;font-size:19px}
+.cc .cov{width:100%;aspect-ratio:16/7;object-fit:cover;border-radius:12px;display:block}
+.links{display:flex;gap:6px;flex-wrap:wrap}
+.lk{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:var(--bg);font-size:13.5px;text-decoration:none;font-weight:500;color:var(--ink)}
+.lk:hover{background:#e6e8eb}
+.lk-tiktok::before,.lk-youtube::before,.lk-facebook::before,.lk-video::before{content:"";width:8px;height:8px;border-radius:50%;background:#121417}
+.lk-youtube::before{background:#e62117}.lk-facebook::before{background:#1877f2}.lk-video::before{background:var(--gold2)}
+.cc .intro{margin:0;font-size:14px;color:var(--ink2);white-space:pre-wrap;word-break:break-word}
+.cc .ctc{font-size:13.5px;color:var(--ink2);word-break:break-word}
+.cvp{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.cvp img{width:180px;max-width:100%;aspect-ratio:16/7;object-fit:cover;border-radius:10px;box-shadow:inset 0 0 0 1px var(--line);background:#eee}
+
+/* lượt truy cập */
+.ana{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:18px;margin-top:18px}
+.hb{display:grid;gap:12px}
+.hb .r{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 12px;font-size:14px}
+.hb .r span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb .r em{font-style:normal;color:var(--ink2);font-variant-numeric:tabular-nums}
+.hb .r .b{grid-column:1/-1;height:6px;border-radius:99px;background:#eef0f2;overflow:hidden}
+.hb .r .b i{display:block;height:100%;border-radius:99px;background:#c97a52}
+.lgd{display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px;color:var(--ink2);margin:0 0 10px}
+.lgd span{display:inline-flex;align-items:center;gap:7px}
+.lgd .sw{width:12px;height:12px;border-radius:3px;background:#c97a52}.lgd .ln{width:16px;height:3px;border-radius:2px;background:#3b6fd8}
+.chart-wrap{position:relative}
+.chart-wrap svg{display:block;width:100%;overflow:visible}
+.chart-wrap text{font-family:var(--font);font-size:12.5px;fill:#6f7680}
+.chart-wrap .hit{fill:transparent}.chart-wrap .hit:hover{fill:rgba(18,20,23,.05)}
+.chart-empty{position:absolute;inset:0 0 30px 40px;display:grid;place-items:center;color:var(--mut);font-size:14px;pointer-events:none}
+details.tbl{margin-top:10px;font-size:14px}details.tbl summary{cursor:pointer;color:var(--ink2);padding:4px 0}
+details.tbl .tw{max-height:300px;overflow:auto;margin-top:6px}
+details.tbl td,details.tbl th{padding:7px 10px}
+
+/* thiết bị đăng nhập */
+.sess .s{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:11px 0;border-top:1px solid var(--line);font-size:14px}
+.sess .s:first-child{border-top:0}
+.sess .s>div{min-width:0}.sess .s small{display:block;color:var(--mut);font-size:13px;word-break:break-word}
+.t-alert{background:#fdeceb;color:#a3352d;box-shadow:inset 0 0 0 1px #f3c4bf}
+tr.alert td{background:#fff8f7}tr.alert td:first-child{box-shadow:inset 3px 0 0 var(--bad)}
+.head-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -175,14 +301,98 @@ async function api(path, body) {
   if (!r.ok) throw new Error(j.error || 'Có lỗi xảy ra.');
   return j;
 }
-function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
-function dialog(html) { const d = document.createElement('div'); d.className = 'dlg'; d.innerHTML = `<div class="dlg-in" role="dialog" aria-modal="true">${html}</div>`; document.body.appendChild(d); d.addEventListener('click', e => { if (e.target === d || e.target.closest('[data-x]')) d.remove(); }); const f = d.querySelector('button:not([data-x]),input'); f && f.focus(); return d; }
+function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.setAttribute('role', 'status'); d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
+/* opts.wide: hộp thoại rộng, cuộn bên trong · opts.keep: không đóng khi bấm ra ngoài (biểu mẫu dài) */
+function dialog(html, opts = {}) {
+  const d = document.createElement('div'); d.className = 'dlg'; d.innerHTML = `<div class="dlg-in${opts.wide ? ' wide' : ''}" role="dialog" aria-modal="true">${html}</div>`; document.body.appendChild(d);
+  d.addEventListener('click', e => { if ((e.target === d && !opts.keep) || e.target.closest('[data-x]')) d.remove(); });
+  d.addEventListener('keydown', e => { if (e.key === 'Escape') { e.stopPropagation(); const x = d.querySelector('[data-x]'); x ? x.click() : d.remove(); } });
+  const f = d.querySelector('button:not([data-x]),input'); f && f.focus(); return d;
+}
 function confirmBox(title, text, okLabel = 'Đồng ý', danger = false) {
   return new Promise(res => { const d = dialog(`<h3>${esc(title)}</h3><p>${esc(text)}</p><div class="row"><button class="btn ghost" data-x>Huỷ</button><button class="btn ${danger ? 'danger' : ''}" id="dlgOk">${esc(okLabel)}</button></div>`); d.addEventListener('click', e => { if (e.target.closest('[data-x]') || e.target === d) res(false); }); $('#dlgOk', d).onclick = () => { d.remove(); res(true); }; });
 }
 function copy(t) { try { navigator.clipboard.writeText(t).then(() => toast('Đã sao chép.')); } catch (e) { } }
 
-const S = { admin: null, setup: false, mail: false, sms: false, view: 'home', stats: null };
+const S = { admin: null, setup: false, mail: false, sms: false, google: false, facebook: false, view: 'home', stats: null };
+/* quyền: máy chủ gửi sẵn S.admin.can — giao diện chỉ ẩn/hiện, máy chủ vẫn chặn 403 */
+const can = k => !!(S.admin && S.admin.can && S.admin.can[k]);
+const ROLE_L = { director: 'Giám đốc', manager: 'Quản lý', assistant: 'Trợ lý' };
+const ROLE_ORDER = ['director', 'manager', 'assistant'];
+const ROLE_D = {
+  director: 'Toàn quyền: thêm, phân quyền và xoá quản trị viên; tải dữ liệu Excel; cài đặt hệ thống; xem lịch sử đăng nhập của mọi quản trị viên.',
+  manager: 'Toàn bộ quyền của Trợ lý, thêm: xoá tin, quản lý tài khoản khách, xem đủ số CCCD, xử lý yêu cầu và quên mật khẩu, duyệt Creator, xem lượt truy cập.',
+  assistant: 'Đăng và sửa tin, tải ảnh; xem khách hàng, yêu cầu tư vấn, yêu cầu cập nhật và đơn Creator. Số CCCD được che một phần.'
+};
+const ROLE_IC = {
+  director: '<path d="M3 8.5l4.6 3.6L12 5l4.4 7.1L21 8.5 19.2 18H4.8z"/><rect x="4.8" y="19.2" width="14.4" height="1.8" rx=".9"/>',
+  manager: '<path d="M12 2.8l8 3v6.1c0 4.6-3.4 8.4-8 9.3-4.6-.9-8-4.7-8-9.3V5.8z"/>',
+  assistant: '<path d="M12 2.8l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.6l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/>'
+};
+function roleBadge(role, lg) { const r = ROLE_L[role] ? role : 'assistant', t = ROLE_L[r]; return `<span class="rb rb-${r}${lg ? ' lg' : ''}" title="Vai trò: ${t}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${ROLE_IC[r]}</svg><span class="rbt"><i aria-hidden="true">${t}</i><b>${t}</b></span></span>`; }
+const PERM_L = [['stats', 'Xem tổng quan'], ['leads', 'Xem và xử lý yêu cầu tư vấn'], ['listings.edit', 'Đăng, sửa, ẩn tin đăng'], ['media', 'Tải ảnh lên'], ['users.view', 'Xem danh sách và hồ sơ khách hàng'], ['requests.view', 'Xem yêu cầu cập nhật thông tin'], ['creators.view', 'Xem đơn Creator'],
+  ['listings.delete', 'Xoá tin đăng'], ['users.manage', 'Sửa, khoá tài khoản khách, cấp mật khẩu tạm, đổi vai trò khách'], ['users.cccd', 'Xem đầy đủ số CCCD'], ['requests.handle', 'Xử lý yêu cầu cập nhật thông tin'], ['resets', 'Xử lý yêu cầu quên mật khẩu'], ['creators.manage', 'Duyệt, sửa, thu hồi Creator'], ['analytics', 'Xem lượt truy cập website'], ['logins.users', 'Xem lịch sử đăng nhập của khách'],
+  ['admins.manage', 'Thêm, phân quyền, xoá quản trị viên'], ['export', 'Tải dữ liệu Excel (CSV)'], ['settings', 'Xem cài đặt hệ thống'], ['logins.admins', 'Xem lịch sử đăng nhập của mọi quản trị viên']];
+const METHOD_L = { password: 'Mật khẩu', trusted: 'Thiết bị tin cậy', email: 'Mã email', sms: 'Mã SMS', register: 'Đăng ký', google: 'Google', facebook: 'Facebook' };
+const PV = { google: ['Google', 'G'], facebook: ['Facebook', 'f'] };
+const pvTag = p => PV[p] ? `<span class="tag pv pv-${p}"><i aria-hidden="true">${PV[p][1]}</i>${PV[p][0]}</span>` : '';
+const NEED = l => `Cần vai trò ${l} trở lên`;
+const numVi = n => (Number(n) || 0).toLocaleString('vi-VN', { maximumFractionDigits: 2 });
+const safeUrl = u => /^https:\/\/[^\s"'<>]+$/i.test(u || '') ? u : '';
+const imgSrc = u => (safeUrl(u) || /^\/(img|api\/media)\/[A-Za-z0-9_./-]+$/.test(u || '')) ? u : '';
+function avatarHtml(url, name) { const s = imgSrc(url); if (s) return `<img class="av" src="${esc(s)}" alt="" referrerpolicy="no-referrer" loading="lazy">`; const w = String(name || '?').trim().split(/\s+/).pop() || '?'; return `<span class="av" aria-hidden="true">${esc(w[0].toUpperCase())}</span>`; }
+/* bảng lịch sử đăng nhập dùng chung: của tôi, của khách, của mọi quản trị viên */
+function loginTable(events, withAdmin) {
+  if (!events || !events.length) return '<div class="empty">Chưa có lần đăng nhập nào được ghi lại.</div>';
+  return `<table class="rsp"><thead><tr><th>Thời gian</th>${withAdmin ? '<th>Quản trị viên</th>' : ''}<th>Kết quả</th><th>Cách đăng nhập</th><th>Thiết bị</th><th>IP</th><th>Vị trí</th></tr></thead><tbody>${events.map(e => `<tr class="${e.ok ? '' : 'fail'}">
+    <td data-l="Thời gian"><span title="${fmt(e.at)}">${fmt(e.at)}</span>${e.current ? ' <span class="tag t-active">Phiên này</span>' : ''}</td>
+    ${withAdmin ? `<td data-l="Quản trị" class="who"><b>${esc(e.name || '(đã xoá)')}</b><span>${esc(e.email || '')}${e.role ? ' · ' + esc(ROLE_L[e.role] || e.role) : ''}</span></td>` : ''}
+    <td data-l="Kết quả">${e.ok ? '<span class="okt">Thành công</span>' : '<span class="bad">Sai mật khẩu</span>'}</td>
+    <td data-l="Cách">${esc(METHOD_L[e.method] || e.method || '—')}</td>
+    <td data-l="Thiết bị">${esc(e.label || '—')}</td>
+    <td data-l="IP"><code>${esc(e.ip || '—')}</code></td>
+    <td data-l="Vị trí">${esc(e.loc || '—')}</td></tr>`).join('')}</tbody></table>`;
+}
+function sessionList(sessions, mine) {
+  if (!sessions || !sessions.length) return '<div class="empty" style="padding:16px">Không có thiết bị nào đang đăng nhập.</div>';
+  return `<div class="sess">${sessions.map(s => `<div class="s"><div><b>${esc(s.label || 'Thiết bị không rõ')}</b> ${s.current ? '<span class="tag t-active">Thiết bị này</span>' : ''}<small>${esc([s.ip, s.loc].filter(Boolean).join(' · ') || '—')} · hoạt động ${ago(s.last_seen || s.created_at)} · đăng nhập ${fmt(s.created_at)}</small></div>${mine && !s.current ? `<button class="btn sm ghost" data-sid="${esc(s.sid)}">Đăng xuất</button>` : ''}</div>`).join('')}</div>`;
+}
+/* ảnh: nén trên trình duyệt (cạnh dài ≤1600px, WebP 0.82 → JPEG 0.85, giảm tiếp nếu >1,2MB) rồi gửi base64 */
+async function decodeImage(file) {
+  if (window.createImageBitmap) { try { return await createImageBitmap(file, { imageOrientation: 'from-image' }); } catch (e) { try { return await createImageBitmap(file); } catch (e2) { } } }
+  return await new Promise((res, rej) => { const u = URL.createObjectURL(file), im = new Image(); im.onload = () => { URL.revokeObjectURL(u); res(im); }; im.onerror = () => { URL.revokeObjectURL(u); rej(new Error('Không đọc được ảnh (hãy dùng JPG, PNG hoặc WebP).')); }; im.src = u; });
+}
+async function compressImage(file) {
+  if (!/^image\//.test(file.type || 'image/')) throw new Error('Tệp không phải ảnh.');
+  const src = await decodeImage(file), W0 = src.width || src.naturalWidth, H0 = src.height || src.naturalHeight;
+  if (!W0 || !H0) throw new Error('Không đọc được ảnh.');
+  let max = 1600, wq = 0.82, jq = 0.85;
+  for (let i = 0; i < 7; i++) {
+    const sc = Math.min(1, max / Math.max(W0, H0)), w = Math.max(1, Math.round(W0 * sc)), h = Math.max(1, Math.round(H0 * sc));
+    const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d');
+    x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.drawImage(src, 0, 0, w, h);
+    let blob = await new Promise(r => c.toBlob(r, 'image/webp', wq)), mime = 'image/webp';
+    if (!blob || blob.type !== 'image/webp') { blob = await new Promise(r => c.toBlob(r, 'image/jpeg', jq)); mime = 'image/jpeg'; }
+    if (blob && blob.size <= 1.2e6) { if (src.close) src.close(); return { blob, mime }; }
+    wq = Math.max(.5, wq - .1); jq = Math.max(.5, jq - .1); max = Math.round(max * .82);
+  }
+  throw new Error('Ảnh quá lớn, chưa nén được dưới 1,2 MB.');
+}
+const blobB64 = b => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = () => rej(new Error('Không đọc được ảnh.')); r.readAsDataURL(b); });
+async function uploadImage(file) { const { blob, mime } = await compressImage(file); return (await api('media', { mime, data: await blobB64(blob) })).url; }
+const BUILTIN = [['mansion', 'Biệt thự'], ['penthouse', 'Penthouse'], ['starry', 'Căn hộ trần sao'], ['ocean', 'Biệt thự biển'], ['mountain', 'Duplex'], ['mall', 'Mặt bằng TTTM'], ['atrium', 'Văn phòng'], ['fallmall', 'Khối đế'], ['villa', 'Villa sân vườn']].map(([k, t]) => ['/img/' + k + '.webp', t]);
+const AREAS = [['Quận', ['Quận 1', 'Quận 3', 'Quận 4', 'Quận 5', 'Quận 6', 'Quận 7', 'Quận 8', 'Quận 10', 'Quận 11', 'Quận 12', 'Bình Tân', 'Bình Thạnh', 'Gò Vấp', 'Phú Nhuận', 'Tân Bình', 'Tân Phú']], ['Thành phố', ['TP. Thủ Đức']], ['Huyện', ['Bình Chánh', 'Cần Giờ', 'Củ Chi', 'Hóc Môn', 'Nhà Bè']]];
+const L_ST = { published: 'Đang hiển thị', draft: 'Bản nháp', hidden: 'Đã ẩn', sold: 'Đã giao dịch' };
+const L_TYPE = { ban: 'Bán', thue: 'Cho thuê' };
+/* giá lưu theo triệu đồng (bán) hoặc triệu đồng/tháng (thuê) */
+function priceText(type, price) {
+  const p = Number(price) || 0; if (!(p > 0)) return '—';
+  if (type === 'thue') return numVi(p) + ' triệu/tháng';
+  return p >= 1000 ? (p / 1000).toLocaleString('vi-VN', { maximumFractionDigits: 2 }) + ' tỷ' : numVi(p) + ' triệu';
+}
+const COUNTRY = { VN: 'Việt Nam', US: 'Hoa Kỳ', JP: 'Nhật Bản', KR: 'Hàn Quốc', SG: 'Singapore', AU: 'Úc', CA: 'Canada', DE: 'Đức', FR: 'Pháp', GB: 'Anh', TW: 'Đài Loan', CN: 'Trung Quốc', TH: 'Thái Lan', MY: 'Malaysia' };
+const DEVICE_L = { mobile: 'Điện thoại', desktop: 'Máy tính', tablet: 'Máy tính bảng' };
+const goLinks = r => $$('[data-go]', r).forEach(b => b.onclick = () => { S.view = b.dataset.go; shell(); });
 const LEAD_ST = { new: 'Mới', contacted: 'Đã liên hệ', deal: 'Đang thương lượng', closed: 'Đã chốt', spam: 'Rác' };
 const IC = {
   home: '<path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/>',
@@ -192,9 +402,16 @@ const IC = {
   admins: '<path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
   requests: '<path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M9 14l2 2 4-4"/>',
   account: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+  listings: '<path d="M3 10.5L12 4l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1z"/><path d="M9 21v-6h6v6"/><circle cx="12" cy="10.5" r="1.4"/>',
+  creators: '<rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="M16 10.5l5-3v9l-5-3"/><path d="M8.2 9.6l.9 1.8 2 .3-1.4 1.4.3 2-1.8-.9-1.8.9.3-2-1.4-1.4 2-.3z"/>',
+  analytics: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/>'
 };
-const VIEWS = [['home', 'Tổng quan'], ['leads', 'Yêu cầu tư vấn'], ['users', 'Khách hàng'], ['requests', 'Yêu cầu cập nhật'], ['resets', 'Quên mật khẩu'], ['admins', 'Quản trị viên'], ['account', 'Tài khoản của tôi'], ['settings', 'Cài đặt']];
+/* [mã, tên, quyền cần có ('' = ai cũng xem)] */
+const VIEWS = [['home', 'Tổng quan', 'stats'], ['leads', 'Yêu cầu tư vấn', 'leads'], ['listings', 'Tin đăng', 'listings.edit'], ['users', 'Khách hàng', 'users.view'], ['creators', 'Creator', 'creators.view'], ['requests', 'Yêu cầu cập nhật', 'requests.view'], ['resets', 'Quên mật khẩu', 'resets'], ['analytics', 'Lượt truy cập', 'analytics'], ['admins', 'Quản trị viên', ''], ['account', 'Tài khoản của tôi', ''], ['settings', 'Cài đặt', 'settings']];
+const navViews = () => VIEWS.filter(v => !v[2] || can(v[2]));
+const badgeMap = () => { const st = S.stats || {}; return { leads: st.leadsNew, resets: st.resets, requests: st.requests, creators: st.creatorsPending }; };
+const badgeCount = () => { const b = badgeMap(); return navViews().filter(([k]) => b[k]).length; };
 const BRAND = '<span class="brand">Hoàng Dũng <small>REAL ESTATE</small></span>';
 
 /* ---------- đăng nhập / khởi tạo ---------- */
@@ -223,17 +440,18 @@ function gate() {
 
 /* ---------- khung ---------- */
 function shell() {
-  const st = S.stats || {};
-  const badge = { leads: st.leadsNew, resets: st.resets, requests: st.requests };
+  const badge = badgeMap(), vs = navViews();
+  if (!vs.some(v => v[0] === S.view)) S.view = vs[0] ? vs[0][0] : 'account';
   $('#root').innerHTML = `<div class="app"><aside class="side">${BRAND}
-    <div class="mbar">${BRAND}<button class="btn sm ghost" style="color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)" id="out2">Đăng xuất</button></div>
-    <nav class="nav">${VIEWS.map(([k, t]) => `<button data-v="${k}" class="${S.view === k ? 'on' : ''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>${t}${badge[k] ? `<span class="bd">${badge[k]}</span>` : ''}</button>`).join('')}</nav>
-    <div class="me"><b>${esc(S.admin.name)}</b>${esc(S.admin.email)}<div class="row"><a href="/" target="_blank" rel="noopener">Xem website</a><button id="out">Đăng xuất</button></div></div>
+    <div class="mbar">${BRAND}<div class="r">${roleBadge(S.admin.role)}<button class="btn sm ghost" style="color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)" id="out2">Đăng xuất</button></div></div>
+    <nav class="nav" aria-label="Mục quản trị">${vs.map(([k, t]) => `<button data-v="${k}" class="${S.view === k ? 'on' : ''}"${S.view === k ? ' aria-current="page"' : ''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>${t}${badge[k] ? `<span class="bd" aria-label="${badge[k]} mục chờ">${badge[k]}</span>` : ''}</button>`).join('')}</nav>
+    <div class="me"><b>${esc(S.admin.name)}</b>${roleBadge(S.admin.role)}<span class="em" title="${esc(S.admin.email)}">${esc(S.admin.email)}</span><div class="row"><a href="/" target="_blank" rel="noopener">Xem website</a><button id="out">Đăng xuất</button></div></div>
   </aside><main class="main" id="main"></main></div>`;
   $$('.nav button').forEach(b => b.onclick = () => { S.view = b.dataset.v; shell(); });
   const out = async () => { await api('logout', {}).catch(() => { }); S.admin = null; render(); };
   $('#out').onclick = out; $('#out2').onclick = out;
-  ({ home, leads, users, requests, resets, admins, account, settings })[S.view]();
+  const on = $('.nav button.on'); if (on && on.scrollIntoView && matchMedia('(max-width:900px)').matches) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  ({ home, leads, listings, users, creators, requests, resets, analytics, admins, account, settings })[S.view]();
 }
 async function refreshStats() { try { S.stats = await api('stats'); } catch (e) { } }
 
@@ -241,16 +459,21 @@ async function refreshStats() { try { S.stats = await api('stats'); } catch (e) 
 async function home() {
   const m = $('#main'); m.innerHTML = '<div class="empty">Đang tải…</div>';
   await refreshStats(); const s = S.stats; if (!s) return;
-  if (S.view === 'home') { const nb = $$('.nav .bd'); if (!nb.length && (s.leadsNew || s.resets || s.requests)) return shell(); }
+  if (S.view === 'home' && $$('.nav .bd').length !== badgeCount()) return shell();
+  if (S.view !== 'home' || !$('#main')) return;
   const days = []; for (let i = 13; i >= 0; i--) { const d = new Date(Date.now() + 7 * 3600e3 - i * 864e5).toISOString().slice(0, 10); days.push(d); }
   const map = Object.fromEntries((s.daily || []).map(r => [r.day, r.n])), mx = Math.max(1, ...days.map(d => map[d] || 0));
-  m.innerHTML = `<div class="top"><div><h2>Xin chào, ${esc(S.admin.name.split(' ').pop())}</h2><p>Tình hình website hôm nay.</p></div><div class="tools"><button class="btn ghost" data-go="leads">Xem yêu cầu mới</button></div></div>
+  const vt = s.visitsToday || { views: 0, visitors: 0 };
+  m.innerHTML = `<div class="top"><div><h2 class="hi"><span>Xin chào, ${esc(S.admin.name.split(' ').pop())}</span>${roleBadge(S.admin.role, true)}</h2><p>Tình hình website hôm nay.</p></div><div class="tools">${can('leads') ? '<button class="btn ghost" data-go="leads">Xem yêu cầu mới</button>' : ''}${can('listings.edit') ? '<button class="btn gold" data-go="listings">Quản lý tin đăng</button>' : ''}</div></div>
   <div class="kpis">
     <div class="card kpi hot"><span>Yêu cầu tư vấn mới</span><b>${s.leadsNew}</b><i>${s.leads7} yêu cầu trong 7 ngày</i></div>
+    ${can('analytics') ? `<button class="card kpi link" data-go="analytics" title="Xem chi tiết lượt truy cập"><span>Lượt truy cập hôm nay</span><b>${numVi(vt.views)}</b><i>${numVi(vt.visitors)} khách · xem chi tiết →</i></button>` : ''}
+    ${can('listings.edit') ? `<button class="card kpi link" data-go="listings" title="Mở mục Tin đăng"><span>Tin đang hiển thị</span><b>${numVi(s.listingsLive ?? 0)}</b><i>trên website · quản lý →</i></button>` : ''}
+    ${can('creators.view') ? `<button class="card kpi link ${s.creatorsPending ? 'hot' : ''}" data-go="creators" title="Mở mục Creator"><span>Creator chờ duyệt</span><b>${s.creatorsPending ?? 0}</b><i>${s.creatorsPending ? 'cần xem xét →' : 'không có đơn mới'}</i></button>` : ''}
     <div class="card kpi"><span>Tổng yêu cầu</span><b>${s.leads}</b><i>từ các form trên website</i></div>
     <div class="card kpi"><span>Khách hàng có tài khoản</span><b>${s.users}</b><i>+${s.users7} trong 7 ngày</i></div>
     <div class="card kpi"><span>Hoạt động 30 ngày</span><b>${s.active30}</b><i>khách đã đăng nhập</i></div>
-    <div class="card kpi ${s.resets ? 'hot' : ''}"><span>Chờ cấp lại mật khẩu</span><b>${s.resets}</b><i>${s.resets ? 'cần xử lý' : 'không có yêu cầu'}</i></div>
+    ${can('resets') ? `<div class="card kpi ${s.resets ? 'hot' : ''}"><span>Chờ cấp lại mật khẩu</span><b>${s.resets}</b><i>${s.resets ? 'cần xử lý' : 'không có yêu cầu'}</i></div>` : ''}
     <div class="card kpi ${s.requests ? 'hot' : ''}"><span>Yêu cầu cập nhật thông tin</span><b>${s.requests ?? 0}</b><i>${s.requests ? 'cần xử lý' : 'không có yêu cầu'}</i></div>
     <div class="card kpi"><span>Hồ sơ đã hoàn thiện</span><b>${s.profiles ?? 0}</b><i>khách đã lưu thông tin CCCD</i></div>
     <div class="card kpi"><span>Thiết bị đáng tin cậy</span><b>${s.trusted ?? 0}</b><i>khách đã xác nhận</i></div>
@@ -268,7 +491,7 @@ async function leads(append = false) {
   const m = $('#main');
   if (!append) {
     m.innerHTML = `<div class="top"><div><h2>Yêu cầu tư vấn</h2><p>Mọi form khách gửi trên website: tư vấn, đặt lịch xem nhà, ký gửi, ứng tuyển.</p></div>
-    <div class="tools"><input class="in" id="lq" type="search" placeholder="Tìm tên, số điện thoại, nội dung…" value="${esc(LQ.q)}"><a class="btn ghost" href="/api/admin/export?what=leads">Tải Excel (CSV)</a></div></div>
+    <div class="tools"><input class="in" id="lq" type="search" placeholder="Tìm tên, số điện thoại, nội dung…" value="${esc(LQ.q)}">${can('export') ? '<a class="btn ghost" href="/api/admin/export?what=leads" download>Tải Excel (CSV)</a>' : ''}</div></div>
     <div class="chips" style="margin-bottom:14px">${[['', 'Tất cả'], ...Object.entries(LEAD_ST)].map(([k, t]) => `<button class="chip ${LQ.status === k ? 'on' : ''}" data-s="${k}">${t}</button>`).join('')}</div>
     <div class="card"><div class="tw" id="lt"><div class="empty">Đang tải…</div></div></div>`;
     $$('.chip').forEach(c => c.onclick = () => { LQ.status = c.dataset.s; leads(); });
@@ -297,13 +520,256 @@ async function leadsLoad(append = false) {
   const mo = $('#lmore'); if (mo) mo.onclick = () => leadsLoad(true);
 }
 
+/* ---------- tin đăng ---------- */
+const LS = { status: '', q: '', rows: [] };
+async function listings() {
+  const m = $('#main');
+  m.innerHTML = `<div class="top"><div><h2>Tin đăng</h2><p>Tin hiển thị trên website. Ảnh đầu tiên là ảnh bìa; tin gắn ⭐ được ưu tiên hiện trên ảnh đầu trang chủ.</p></div>
+    <div class="tools"><label class="vh" for="lsq">Tìm tin đăng</label><input class="in" id="lsq" type="search" placeholder="Tìm tiêu đề, khu vực, mô tả…" value="${esc(LS.q)}"><button class="btn gold" id="lnew">+ Đăng tin mới</button></div></div>
+    <div class="chips" style="margin-bottom:14px" role="group" aria-label="Lọc theo trạng thái">${[['', 'Tất cả'], ...Object.entries(L_ST)].map(([k, t]) => `<button class="chip ${LS.status === k ? 'on' : ''}" data-s="${k}" aria-pressed="${LS.status === k}">${t}</button>`).join('')}</div>
+    <div id="lsg"><div class="empty">Đang tải…</div></div>`;
+  $$('.chip', m).forEach(c => c.onclick = () => { LS.status = c.dataset.s; listings(); });
+  let t; $('#lsq').oninput = e => { clearTimeout(t); t = setTimeout(() => { LS.q = e.target.value.trim(); listingsLoad(); }, 300); };
+  $('#lnew').onclick = () => listingEdit(null);
+  listingsLoad();
+}
+async function listingsLoad() {
+  let rows; try { rows = (await api(`listings?status=${encodeURIComponent(LS.status)}&q=${encodeURIComponent(LS.q)}`)).rows; } catch (e) { const g = $('#lsg'); if (g) g.innerHTML = `<div class="card empty">${esc(e.message)}</div>`; return; }
+  LS.rows = rows; const el = $('#lsg'); if (!el || S.view !== 'listings') return;
+  if (!rows.length) { el.innerHTML = `<div class="card empty">${LS.q || LS.status ? 'Không có tin nào phù hợp bộ lọc.' : 'Chưa có tin đăng nào. Bấm “Đăng tin mới” để bắt đầu.'}</div>`; return; }
+  const del = can('listings.delete');
+  el.innerHTML = `<div class="lgrid">${rows.map(l => { const cv = imgSrc(l.images[0]); return `<article class="card lc" data-id="${l.id}">
+    <div class="ph">${cv ? `<img src="${esc(cv)}" alt="" loading="lazy">` : ''}<span class="tag t-${l.type === 'thue' ? 'thue' : 'ban'}">${L_TYPE[l.type] || 'Bán'}</span>
+      <button class="fav ${l.featured ? 'on' : ''}" data-fav aria-pressed="${!!l.featured}" title="${l.featured ? 'Bỏ ưu tiên trên ảnh đầu trang chủ' : 'Ưu tiên hiện trên ảnh đầu trang chủ'}">⭐ Đầu trang</button>
+      <span class="cnt">${l.images.length} ảnh</span></div>
+    <div class="lb"><h4 title="${esc(l.title)}">${esc(l.title)}</h4><div class="pr">${priceText(l.type, l.price)}</div>
+      <div class="mt"><span>📍 ${esc(l.area || '—')}</span>${l.size ? `<span>${numVi(l.size)} m²</span>` : ''}${l.beds ? `<span>${l.beds} phòng ngủ</span>` : ''}</div>
+      <div class="mt"><span class="tag t-${esc(l.status)}">${L_ST[l.status] || esc(l.status)}</span><span>${numVi(l.opens)} lượt mở</span><span title="${fmt(l.updated_at)}">sửa ${ago(l.updated_at)}</span></div>
+      <div class="acts"><button class="btn sm" data-edit>Sửa</button>
+        ${l.status === 'published' ? '<button class="btn sm ghost" data-st="hidden">Ẩn</button>' : `<button class="btn sm ghost" data-st="published">${l.status === 'draft' ? 'Đăng' : 'Hiện'}</button>`}
+        ${l.status !== 'sold' ? '<button class="btn sm ghost" data-st="sold">Đánh dấu đã giao dịch</button>' : ''}
+        ${del ? '<button class="btn sm ghost dz" data-del>Xoá</button>' : ''}</div></div></article>`; }).join('')}</div>`;
+  const row = b => LS.rows.find(x => x.id === +b.closest('[data-id]').dataset.id);
+  $$('[data-edit]', el).forEach(b => b.onclick = () => listingEdit(row(b)));
+  $$('[data-fav]', el).forEach(b => b.onclick = async () => { const l = row(b); b.disabled = true; try { await api('listing', { id: l.id, action: 'feature', featured: !l.featured }); toast(l.featured ? 'Đã bỏ ưu tiên đầu trang.' : 'Đã ưu tiên hiện trên ảnh đầu trang chủ.'); listingsLoad(); } catch (e) { toast(e.message); b.disabled = false; } });
+  $$('[data-st]', el).forEach(b => b.onclick = async () => {
+    const l = row(b), s = b.dataset.st;
+    if (s === 'sold' && !(await confirmBox('Đánh dấu đã giao dịch?', `“${l.title}” sẽ hiện nhãn Đã giao dịch trên website.`, 'Đánh dấu'))) return;
+    try { await api('listing', { id: l.id, action: 'status', status: s }); toast('Đã chuyển sang “' + L_ST[s] + '”.'); refreshStats(); listingsLoad(); } catch (e) { toast(e.message); }
+  });
+  $$('[data-del]', el).forEach(b => b.onclick = async () => { const l = row(b); if (!(await confirmBox('Xoá tin đăng?', `“${l.title}” sẽ bị xoá vĩnh viễn. Nếu chỉ muốn tạm ngừng, hãy chọn Ẩn.`, 'Xoá tin', true))) return; try { await api('listing', { id: l.id, action: 'delete' }); toast('Đã xoá tin.'); refreshStats(); listingsLoad(); } catch (e) { toast(e.message); } });
+}
+function listingEdit(l) {
+  const v = l || { type: 'ban', title: '', area: '', price: '', size: '', dim: '', beds: '', floors: '', legal: '', note: '', images: [], status: 'published', featured: 0, sort: 0 };
+  let imgs = (v.images || []).slice();
+  const opt = (val, t, cur) => `<option value="${esc(val)}"${val === cur ? ' selected' : ''}>${esc(t)}</option>`;
+  const inAreas = AREAS.some(([, a]) => a.includes(v.area));
+  const d = dialog(`<h3>${l ? 'Sửa tin đăng' : 'Đăng tin mới'}</h3><p>Các mục có dấu * là bắt buộc. Ảnh được nén tự động trước khi tải lên.</p>
+  <form id="lef" novalidate>
+    <div class="sec-t">Hình ảnh * <span class="mut" style="text-transform:none;letter-spacing:0;font-weight:400">(tối đa 12 ảnh — ảnh đầu tiên là ảnh bìa)</span></div>
+    <div class="imgs" id="imgs"></div>
+    <div class="row l" style="margin-top:10px"><label class="btn sm" for="lfile" tabindex="0" role="button" id="lup">Tải ảnh lên</label><input type="file" id="lfile" accept="image/jpeg,image/png,image/webp,image/heic,image/*" multiple class="vh"><button type="button" class="btn sm ghost" id="lpick" aria-expanded="false">Chọn ảnh có sẵn</button></div>
+    <div id="lprog" hidden><div class="prog"><i></i></div><div class="sm mut" id="lprogt"></div></div>
+    <div class="pick" id="pick" hidden>${BUILTIN.map(([u, t]) => `<button type="button" data-u="${u}" aria-pressed="${imgs.includes(u)}" title="${esc(t)}"><img src="${u}" alt="" loading="lazy"><span>${esc(t)}</span></button>`).join('')}</div>
+    <div class="sec-t">Thông tin tin đăng</div>
+    <div class="fgrid">
+      <label class="f">Hình thức *<select class="in" name="type">${opt('ban', 'Bán', v.type)}${opt('thue', 'Cho thuê', v.type)}</select></label>
+      <label class="f">Khu vực *<select class="in" name="area"><option value="">— Chọn khu vực —</option>${v.area && !inAreas ? opt(v.area, v.area, v.area) : ''}${AREAS.map(([g, a]) => `<optgroup label="${g}">${a.map(x => opt(x, x, v.area)).join('')}</optgroup>`).join('')}</select></label>
+      <label class="f full">Tiêu đề * <small>(ít nhất 5 ký tự)</small><input class="in" name="title" maxlength="120" value="${esc(v.title)}" placeholder="Ví dụ: Nhà phố 4 tầng hẻm xe hơi Tân Phú"></label>
+      <label class="f"><span id="lprl">${v.type === 'thue' ? 'Giá thuê (triệu đồng/tháng) *' : 'Giá bán (triệu đồng) *'}</span><input class="in" name="price" type="number" inputmode="decimal" min="0" step="any" value="${esc(v.price)}" placeholder="${v.type === 'thue' ? 'Ví dụ: 25' : 'Ví dụ: 8500'}"><span class="hint" id="lph" aria-live="polite"></span></label>
+      <label class="f">Diện tích (m²)<input class="in" name="size" type="number" inputmode="decimal" min="0" step="any" value="${esc(v.size)}"></label>
+      <label class="f">Kích thước<input class="in" name="dim" maxlength="40" value="${esc(v.dim)}" placeholder="Ví dụ: 4 × 18 m"></label>
+      <label class="f">Pháp lý<input class="in" name="legal" maxlength="80" value="${esc(v.legal)}" placeholder="Ví dụ: Sổ hồng riêng"></label>
+      <label class="f">Số phòng ngủ<input class="in" name="beds" type="number" inputmode="numeric" min="0" max="99" value="${esc(v.beds)}"></label>
+      <label class="f">Số tầng<input class="in" name="floors" type="number" inputmode="numeric" min="0" max="200" value="${esc(v.floors)}"></label>
+      <label class="f full">Mô tả<textarea class="in" name="note" rows="4" maxlength="2000" placeholder="Điểm nổi bật, tiện ích, hướng nhà…">${esc(v.note)}</textarea></label>
+      <label class="f">Trạng thái<select class="in" name="status">${Object.entries(L_ST).map(([k, t]) => opt(k, t, v.status)).join('')}</select></label>
+      <label class="f">Thứ tự ưu tiên <small>(số nhỏ hiện trước)</small><input class="in" name="sort" type="number" inputmode="numeric" value="${esc(v.sort || 0)}"></label>
+      <label class="ck full"><input type="checkbox" name="featured"${v.featured ? ' checked' : ''}> ⭐ Ưu tiên hiện trên ảnh đầu trang chủ</label>
+    </div>
+    <div class="err" id="lee" style="margin-top:12px" role="alert"></div>
+    <div class="row"><button type="button" class="btn ghost" data-x>Huỷ</button><button class="btn gold" type="submit" id="lsave">${l ? 'Lưu thay đổi' : 'Đăng tin'}</button></div>
+  </form>`, { wide: true, keep: true });
+  const f = $('#lef', d), box = $('#imgs', d);
+  const drawImgs = () => {
+    box.innerHTML = imgs.length ? imgs.map((u, i) => `<div class="im" draggable="true" data-i="${i}"><img src="${esc(imgSrc(u))}" alt="Ảnh ${i + 1}">${i === 0 ? '<span class="cv">Ảnh bìa</span>' : ''}<div class="ib"><button type="button" data-mv="-1" aria-label="Chuyển ảnh ${i + 1} sang trái" ${i === 0 ? 'disabled' : ''}>←</button><button type="button" data-mv="1" aria-label="Chuyển ảnh ${i + 1} sang phải" ${i === imgs.length - 1 ? 'disabled' : ''}>→</button><button type="button" data-rm aria-label="Bỏ ảnh ${i + 1}">✕</button></div></div>`).join('')
+      : '<div class="imgs-empty">Chưa có ảnh. Bấm “Tải ảnh lên” hoặc “Chọn ảnh có sẵn”.</div>';
+    $$('.pick button', d).forEach(b => b.setAttribute('aria-pressed', imgs.includes(b.dataset.u)));
+  };
+  box.onclick = e => {
+    const b = e.target.closest('button'); if (!b) return; const i = +b.closest('.im').dataset.i;
+    if (b.hasAttribute('data-rm')) imgs.splice(i, 1);
+    else { const j = i + +b.dataset.mv; if (j < 0 || j >= imgs.length) return; [imgs[i], imgs[j]] = [imgs[j], imgs[i]]; }
+    drawImgs();
+  };
+  let dragI = -1;
+  box.addEventListener('dragstart', e => { const im = e.target.closest('.im'); if (!im) return; dragI = +im.dataset.i; im.classList.add('drag'); e.dataTransfer.effectAllowed = 'move'; });
+  box.addEventListener('dragover', e => { const im = e.target.closest('.im'); if (dragI < 0 || !im) return; e.preventDefault(); $$('.im.over', box).forEach(x => x.classList.remove('over')); im.classList.add('over'); });
+  box.addEventListener('drop', e => { const im = e.target.closest('.im'); if (dragI < 0 || !im) return; e.preventDefault(); const j = +im.dataset.i; const [x] = imgs.splice(dragI, 1); imgs.splice(j, 0, x); dragI = -1; drawImgs(); });
+  box.addEventListener('dragend', () => { dragI = -1; $$('.im', box).forEach(x => x.classList.remove('drag', 'over')); });
+  drawImgs();
+  $('#lpick', d).onclick = e => { const p = $('#pick', d); p.hidden = !p.hidden; e.currentTarget.setAttribute('aria-expanded', !p.hidden); };
+  $('#pick', d).onclick = e => { const b = e.target.closest('button'); if (!b) return; const u = b.dataset.u, k = imgs.indexOf(u); if (k >= 0) imgs.splice(k, 1); else { if (imgs.length >= 12) return toast('Tối đa 12 ảnh cho mỗi tin.'); imgs.push(u); } drawImgs(); };
+  $('#lup', d).onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('#lfile', d).click(); } };
+  let busy = false;
+  $('#lfile', d).onchange = async e => {
+    const files = [...e.target.files]; e.target.value = ''; if (!files.length) return;
+    if (!can('media')) return toast('Vai trò của bạn chưa được tải ảnh lên.');
+    const room = 12 - imgs.length; if (room <= 0) return toast('Tối đa 12 ảnh cho mỗi tin.');
+    const list = files.slice(0, room); if (files.length > room) toast(`Chỉ thêm được ${room} ảnh nữa (tối đa 12).`);
+    const pw = $('#lprog', d), bar = $('.prog i', pw), pt = $('#lprogt', d), sv = $('#lsave', d);
+    busy = true; sv.disabled = true; pw.hidden = false; let ok = 0; const errs = [];
+    for (let i = 0; i < list.length; i++) {
+      pt.textContent = `Đang nén và tải ảnh ${i + 1}/${list.length}: ${list[i].name}`; bar.style.width = (i / list.length * 100) + '%';
+      try { imgs.push(await uploadImage(list[i])); ok++; drawImgs(); } catch (err) { errs.push(`${list[i].name}: ${err.message}`); }
+    }
+    bar.style.width = '100%'; pt.textContent = `Đã tải ${ok}/${list.length} ảnh.` + (errs.length ? ' Lỗi — ' + errs.join(' · ') : '');
+    busy = false; sv.disabled = false; if (!errs.length) setTimeout(() => { pw.hidden = true; }, 1500);
+  };
+  const ph = () => { const ty = f.type.value, p = parseFloat(String(f.price.value).replace(',', '.')); $('#lprl', d).textContent = ty === 'thue' ? 'Giá thuê (triệu đồng/tháng) *' : 'Giá bán (triệu đồng) *'; f.price.placeholder = ty === 'thue' ? 'Ví dụ: 25' : 'Ví dụ: 8500'; $('#lph', d).textContent = p > 0 ? '= ' + priceText(ty, p) : ''; };
+  f.price.oninput = ph; f.type.onchange = ph; ph();
+  f.onsubmit = async e => {
+    e.preventDefault(); if (busy) return; const er = $('#lee', d); er.textContent = '';
+    const g = n => f[n].value.trim(), num = n => g(n) === '' ? 0 : Number(g(n).replace(',', '.'));
+    const body = { type: g('type'), title: g('title'), area: g('area'), price: num('price'), size: num('size'), dim: g('dim'), beds: num('beds'), floors: num('floors'), legal: g('legal'), note: g('note'), images: imgs, status: g('status'), featured: f.featured.checked, sort: Math.round(num('sort')) || 0 };
+    if (l) body.id = l.id;
+    const bad = !imgs.length ? 'Tin đăng cần ít nhất 1 ảnh.' : body.title.length < 5 ? 'Tiêu đề cần ít nhất 5 ký tự.' : !body.area ? 'Vui lòng chọn khu vực.' : !(body.price > 0) ? 'Vui lòng nhập giá lớn hơn 0.' : [body.size, body.beds, body.floors].some(x => !Number.isFinite(x) || x < 0) ? 'Diện tích, số phòng ngủ hoặc số tầng chưa hợp lệ.' : '';
+    if (bad) { er.textContent = bad; return; }
+    const b = $('#lsave', d); b.disabled = true;
+    try { await api('listing', body); d.remove(); toast(l ? 'Đã lưu tin đăng.' : 'Đã đăng tin mới.'); refreshStats(); if (S.view === 'listings') listingsLoad(); }
+    catch (err) { er.textContent = err.message; b.disabled = false; }
+  };
+  const x = $('[data-x]', d); x.onclick = async ev => { ev.stopPropagation(); if (busy) return toast('Đang tải ảnh, vui lòng đợi.'); d.remove(); };
+}
+
+/* ---------- creator ---------- */
+let CQ = 'pending';
+const CR_ST = { pending: ['Chờ duyệt', 't-pending'], approved: ['Đã duyệt', 't-approved'], rejected: ['Từ chối', 't-rejected'] };
+async function creators() {
+  const m = $('#main');
+  m.innerHTML = `<div class="top"><div><h2>Creator</h2><p>Khách đăng ký danh hiệu Creator (làm nội dung về bất động sản). Creator đã duyệt hiện ở mục “Creator nổi bật” trên website.</p></div></div>
+  <div class="chips" style="margin-bottom:14px" role="group" aria-label="Lọc đơn Creator">${[['pending', 'Chờ duyệt'], ['approved', 'Đã duyệt'], ['rejected', 'Từ chối'], ['', 'Tất cả']].map(([k, t]) => `<button class="chip ${CQ === k ? 'on' : ''}" data-s="${k}" aria-pressed="${CQ === k}">${t}</button>`).join('')}</div>
+  <div id="cg"><div class="empty">Đang tải…</div></div>`;
+  $$('.chip', m).forEach(c => c.onclick = () => { CQ = c.dataset.s; creators(); });
+  let rows; try { rows = (await api('creators?status=' + CQ)).rows; } catch (e) { $('#cg').innerHTML = `<div class="card empty">${esc(e.message)}</div>`; return; }
+  const el = $('#cg'); if (!el || S.view !== 'creators') return;
+  if (!rows.length) { el.innerHTML = `<div class="card empty">${CQ === 'pending' ? 'Không có đơn nào đang chờ duyệt.' : 'Chưa có Creator nào ở mục này.'}</div>`; return; }
+  const man = can('creators.manage');
+  const lk = (u, k, t) => safeUrl(u) ? `<a class="lk lk-${k}" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t}</a>` : '';
+  el.innerHTML = `<div class="cgrid">${rows.map(c => { const st = CR_ST[c.status] || [esc(c.status), 't-spam'], cov = imgSrc(c.cover); return `<article class="card cc" data-uid="${c.user_id}">
+    ${cov ? `<img class="cov" src="${esc(cov)}" alt="" loading="lazy">` : ''}
+    <div class="hd">${avatarHtml(c.avatar, c.display_name || c.user_name)}<div class="who"><b>${esc(c.display_name || c.user_name)}</b><span>Tài khoản: ${esc(c.user_name || '—')}</span></div></div>
+    <div class="mt"><span class="tag ${st[1]}">${st[0]}</span>${c.featured ? '<span class="tag t-feat">⭐ Nổi bật</span>' : ''}${c.followers ? `<span>👥 ${esc(c.followers)} người theo dõi</span>` : ''}</div>
+    <div class="ctc">${esc(c.user_email || '')}${c.user_phone ? ` · <a href="tel:${esc(c.user_phone)}">${esc(c.user_phone)}</a>` : ''}</div>
+    <div class="links">${lk(c.tiktok, 'tiktok', 'TikTok')}${lk(c.youtube, 'youtube', 'YouTube')}${lk(c.facebook, 'facebook', 'Facebook')}${lk(c.video, 'video', 'Video tiêu biểu')}</div>
+    ${c.intro ? `<p class="intro">${esc(c.intro)}</p>` : ''}
+    <div class="sm mut">Gửi ${fmt(c.created_at)}${c.reviewed_at ? ` · xét ${fmt(c.reviewed_at)} bởi ${esc(c.reviewed_by || '')}` : ''}${c.note ? `<br>Ghi chú: ${esc(c.note)}` : ''}</div>
+    <div class="acts">${man ? (c.status === 'pending' ? '<button class="btn sm gold" data-a="approve">Duyệt</button><button class="btn sm ghost" data-a="reject">Từ chối</button>'
+      : c.status === 'approved' ? `<button class="btn sm ${c.featured ? 'on' : 'ghost'}" data-feat aria-pressed="${!!c.featured}">⭐ Nổi bật</button><button class="btn sm ghost dz" data-a="revoke">Thu hồi</button>`
+      : '<button class="btn sm ghost" data-a="approve">Duyệt lại</button>') + '<button class="btn sm ghost" data-edit>Sửa</button>'
+      : `<button class="btn sm ghost" disabled title="${NEED('Quản lý')} để duyệt Creator">Duyệt / sửa</button>`}</div></article>`; }).join('')}</div>`;
+  const row = b => rows.find(x => x.user_id === +b.closest('[data-uid]').dataset.uid);
+  const done = msg => { toast(msg); refreshStats().then(() => { if (S.view === 'creators') { syncBadges(); creators(); } }); };
+  $$('[data-a]', el).forEach(b => b.onclick = async () => {
+    const c = row(b), a = b.dataset.a, nm = c.display_name || c.user_name;
+    if (a === 'approve') { if (!(await confirmBox('Duyệt Creator?', `${nm} sẽ nhận danh hiệu Creator và có thể hiện trên website.`, 'Duyệt'))) return; try { await api('creator', { userId: c.user_id, action: 'approve' }); done('Đã duyệt Creator.'); } catch (e) { toast(e.message); } return; }
+    const rv = a === 'revoke';
+    const dd = dialog(`<h3>${rv ? 'Thu hồi danh hiệu Creator' : 'Từ chối đơn Creator'}</h3><p>${esc(nm)} — ${rv ? 'sẽ không còn hiện ở mục Creator trên website.' : 'đơn chuyển sang mục Từ chối.'}</p><label class="f">Lý do / ghi chú (khách có thể thấy)<textarea class="in" id="crn" rows="3" maxlength="400"></textarea></label><div class="row" style="margin-top:12px"><button class="btn ghost" data-x>Huỷ</button><button class="btn danger" id="crok">${rv ? 'Thu hồi' : 'Từ chối'}</button></div>`);
+    $('#crok', dd).onclick = async () => { try { await api('creator', { userId: c.user_id, action: a, note: $('#crn', dd).value.trim() }); dd.remove(); done(rv ? 'Đã thu hồi danh hiệu.' : 'Đã từ chối đơn.'); } catch (e) { toast(e.message); } };
+  });
+  $$('[data-feat]', el).forEach(b => b.onclick = async () => { const c = row(b); try { await api('creator', { userId: c.user_id, action: 'feature', featured: !c.featured }); done(c.featured ? 'Đã bỏ nổi bật.' : 'Đã đặt nổi bật.'); } catch (e) { toast(e.message); } });
+  $$('[data-edit]', el).forEach(b => b.onclick = () => creatorEdit(row(b)));
+}
+function creatorEdit(c) {
+  let cover = c.cover || '';
+  const d = dialog(`<h3>Sửa thông tin Creator</h3><p>Thông tin hiển thị công khai ở mục Creator trên website.</p>
+  <form id="cef" novalidate><div class="fgrid">
+    <label class="f">Tên hiển thị<input class="in" name="displayName" maxlength="60" value="${esc(c.display_name)}"></label>
+    <label class="f">Số người theo dõi<input class="in" name="followers" maxlength="40" value="${esc(c.followers)}" placeholder="Ví dụ: 120 nghìn"></label>
+    <label class="f">TikTok<input class="in" name="tiktok" inputmode="url" value="${esc(c.tiktok)}" placeholder="https://www.tiktok.com/@…"></label>
+    <label class="f">YouTube<input class="in" name="youtube" inputmode="url" value="${esc(c.youtube)}" placeholder="https://www.youtube.com/@…"></label>
+    <label class="f">Facebook<input class="in" name="facebook" inputmode="url" value="${esc(c.facebook)}" placeholder="https://www.facebook.com/…"></label>
+    <label class="f">Video tiêu biểu<input class="in" name="video" inputmode="url" value="${esc(c.video)}" placeholder="Đường dẫn TikTok / YouTube / Facebook"></label>
+    <label class="f full">Giới thiệu<textarea class="in" name="intro" rows="3" maxlength="400">${esc(c.intro)}</textarea></label>
+    <label class="f">Thứ tự hiển thị <small>(số nhỏ hiện trước)</small><input class="in" name="sort" type="number" inputmode="numeric" value="${esc(c.sort || 0)}"></label>
+    <div class="f full"><span>Ảnh bìa</span><div class="cvp"><img id="cvi" alt="Ảnh bìa hiện tại" ${imgSrc(cover) ? `src="${esc(imgSrc(cover))}"` : 'hidden'}><div class="row l"><label class="btn sm" for="cvf" tabindex="0" role="button" id="cvb">Tải ảnh bìa</label><input type="file" id="cvf" accept="image/*" class="vh"><button type="button" class="btn sm ghost" id="cvr" ${cover ? '' : 'hidden'}>Bỏ ảnh bìa</button></div></div><span class="sm mut" id="cvt" aria-live="polite"></span></div>
+  </div><div class="err" id="cee" role="alert" style="margin-top:12px"></div>
+  <div class="row"><button type="button" class="btn ghost" data-x>Huỷ</button><button class="btn gold" type="submit" id="cesv">Lưu</button></div></form>`, { wide: true, keep: true });
+  const f = $('#cef', d), im = $('#cvi', d);
+  const setCover = u => { cover = u; if (imgSrc(u)) { im.src = imgSrc(u); im.hidden = false; } else { im.removeAttribute('src'); im.hidden = true; } $('#cvr', d).hidden = !u; };
+  $('#cvb', d).onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('#cvf', d).click(); } };
+  $('#cvr', d).onclick = () => setCover('');
+  $('#cvf', d).onchange = async e => { const file = e.target.files[0]; e.target.value = ''; if (!file) return; const sv = $('#cesv', d); sv.disabled = true; $('#cvt', d).textContent = 'Đang nén và tải ảnh…'; try { setCover(await uploadImage(file)); $('#cvt', d).textContent = 'Đã tải ảnh bìa.'; } catch (err) { $('#cvt', d).textContent = err.message; } sv.disabled = false; };
+  f.onsubmit = async e => {
+    e.preventDefault(); const g = n => f[n].value.trim(), b = $('#cesv', d); b.disabled = true;
+    try { await api('creator', { userId: c.user_id, action: 'update', displayName: g('displayName'), tiktok: g('tiktok'), youtube: g('youtube'), facebook: g('facebook'), intro: g('intro'), video: g('video'), followers: g('followers'), cover, sort: Math.round(Number(g('sort'))) || 0 }); d.remove(); toast('Đã lưu thông tin Creator.'); if (S.view === 'creators') creators(); }
+    catch (err) { $('#cee', d).textContent = err.message; b.disabled = false; }
+  };
+}
+
+/* ---------- lượt truy cập ---------- */
+let AD = 30;
+async function analytics() {
+  const m = $('#main');
+  m.innerHTML = `<div class="top"><div><h2>Lượt truy cập</h2><p>Số người xem website, nguồn truy cập và tin được mở nhiều nhất.</p></div>
+    <div class="chips" role="group" aria-label="Khoảng thời gian">${[7, 30, 90].map(n => `<button class="chip ${AD === n ? 'on' : ''}" data-d="${n}" aria-pressed="${AD === n}">${n} ngày</button>`).join('')}</div></div>
+  <div id="an"><div class="empty">Đang tải…</div></div>`;
+  $$('.chip', m).forEach(c => c.onclick = () => { AD = +c.dataset.d; analytics(); });
+  let a; try { a = await api('analytics?days=' + AD); } catch (e) { $('#an').innerHTML = `<div class="card empty">${esc(e.message)}</div>`; return; }
+  const el = $('#an'); if (!el || S.view !== 'analytics') return;
+  /* đủ mọi ngày từ since đến hôm nay, ngày thiếu = 0 */
+  const map = Object.fromEntries((a.daily || []).map(r => [r.day, r])), days = [];
+  const t0 = Date.parse((a.since || '') + 'T00:00:00Z') || (Date.now() - (AD - 1) * 864e5);
+  for (let i = 0; i < (a.days || AD); i++) { const k = new Date(t0 + i * 864e5).toISOString().slice(0, 10); const r = map[k] || {}; days.push({ day: k, views: Number(r.views) || 0, visitors: Number(r.visitors) || 0 }); }
+  const hb = (rows, label, n, total) => rows.length ? `<div class="hb">${rows.map(r => { const v = n(r), pc = total ? Math.round(v / total * 100) : 0; return `<div class="r"><span title="${esc(label(r))}">${esc(label(r))}</span><em>${numVi(v)}${total ? ` · ${pc}%` : ''}</em><div class="b"><i style="width:${Math.max(2, v / Math.max(1, ...rows.map(n)) * 100)}%"></i></div></div>`; }).join('')}</div>` : '<div class="empty" style="padding:18px">Chưa có dữ liệu.</div>';
+  const refHost = r => { try { return new URL(/^https?:/.test(r) ? r : 'https://' + r).hostname.replace(/^www\./, ''); } catch (e) { return r; } };
+  const devTotal = (a.devices || []).reduce((s, r) => s + Number(r.n), 0), ctTotal = (a.countries || []).reduce((s, r) => s + Number(r.n), 0);
+  el.innerHTML = `<div class="kpis">
+    <div class="card kpi hot"><span>Hôm nay</span><b>${numVi(a.today?.views)}</b><i>lượt xem · ${numVi(a.today?.visitors)} khách</i></div>
+    <div class="card kpi"><span>Đang online</span><b>${numVi(a.online)}</b><i>khách trong 5 phút qua</i></div>
+    <div class="card kpi"><span>Tổng lượt xem</span><b>${numVi(a.views)}</b><i>${AD} ngày qua</i></div>
+    <div class="card kpi"><span>Tổng khách</span><b>${numVi(a.visitors)}</b><i>cộng theo từng ngày</i></div></div>
+  <div class="card chart"><div class="head-row"><h3 style="margin:0">Lượt xem & khách theo ngày</h3><div class="lgd" style="margin:0"><span><i class="sw" aria-hidden="true"></i>Lượt xem</span><span><i class="ln" aria-hidden="true"></i>Khách</span></div></div>
+    <div class="chart-wrap" id="ach"></div>
+    <details class="tbl"><summary>Xem dạng bảng</summary><div class="tw"><table><thead><tr><th>Ngày</th><th>Lượt xem</th><th>Khách</th></tr></thead><tbody>${days.slice().reverse().map(r => `<tr><td>${r.day.slice(8)}/${r.day.slice(5, 7)}/${r.day.slice(0, 4)}</td><td>${numVi(r.views)}</td><td>${numVi(r.visitors)}</td></tr>`).join('')}</tbody></table></div></details></div>
+  <div class="ana">
+    <div class="card pad"><h3>Nguồn truy cập</h3><p class="d">Trang dẫn khách đến website (không tính truy cập trực tiếp).</p>${hb(a.refs || [], r => refHost(r.ref), r => Number(r.n))}</div>
+    <div class="card pad"><h3>Quốc gia</h3><p class="d">Số khách theo vị trí gần đúng.</p>${hb(a.countries || [], r => COUNTRY[String(r.country).toUpperCase()] || r.country, r => Number(r.n), ctTotal)}</div>
+    <div class="card pad"><h3>Thiết bị</h3><p class="d">Tỷ lệ khách theo loại thiết bị.</p>${hb(a.devices || [], r => DEVICE_L[r.device] || r.device, r => Number(r.n), devTotal)}</div>
+    <div class="card pad"><h3>Tin được mở nhiều nhất</h3><p class="d">Số lần khách mở xem chi tiết tin.</p>${hb(a.top || [], r => r.title || ('Tin #' + r.id + ' (đã xoá)'), r => Number(r.n))}</div>
+  </div>
+  <div class="note">Đếm ẩn danh, không lưu địa chỉ IP; một người xem nhiều ngày được tính mỗi ngày một lần.</div>`;
+  const draw = () => { const w = $('#ach'); if (w) w.innerHTML = dayChart(days, w.clientWidth || 600); };
+  draw();
+  clearTimeout(analytics.t); window.removeEventListener('resize', analytics.rz);
+  analytics.rz = () => { clearTimeout(analytics.t); analytics.t = setTimeout(() => { if (!$('#ach')) return window.removeEventListener('resize', analytics.rz); draw(); }, 150); };
+  window.addEventListener('resize', analytics.rz);
+}
+/* biểu đồ SVG: cột = lượt xem, đường = khách */
+function dayChart(days, W) {
+  W = Math.max(280, Math.round(W)); const H = W < 520 ? 210 : 250, pl = 38, pr = 8, pt = 14, pb = 28, cw = W - pl - pr, ch = H - pt - pb, n = days.length;
+  const mx = Math.max(1, ...days.map(d => Math.max(d.views, d.visitors))), step = Math.pow(10, Math.floor(Math.log10(mx))), nice = [1, 2, 2.5, 5, 10].map(k => k * step).find(v => mx / v <= 4) || mx, top = Math.ceil(mx / nice) * nice;
+  const x = i => pl + (i + .5) * cw / n, y = v => pt + ch - v / top * ch, bw = Math.max(2, Math.min(28, cw / n * .62));
+  let g = '';
+  for (let v = 0; v <= top + 1e-9; v += nice) g += `<line x1="${pl}" x2="${W - pr}" y1="${y(v)}" y2="${y(v)}" stroke="#e6e8eb" ${v ? 'stroke-dasharray="3 4"' : ''}/><text x="${pl - 6}" y="${y(v) + 4}" text-anchor="end">${numVi(v)}</text>`;
+  const every = Math.max(1, Math.ceil(n / Math.floor(cw / 46)));
+  const bars = days.map((d, i) => `<rect x="${x(i) - bw / 2}" y="${y(d.views)}" width="${bw}" height="${Math.max(0, pt + ch - y(d.views))}" rx="${Math.min(4, bw / 3)}" fill="#c97a52" opacity=".85"/>`).join('');
+  const line = days.map((d, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(d.visitors).toFixed(1)}`).join('');
+  const dots = n <= 31 ? days.map((d, i) => `<circle cx="${x(i)}" cy="${y(d.visitors)}" r="3" fill="#fff" stroke="#3b6fd8" stroke-width="2"/>`).join('') : '';
+  const labs = days.map((d, i) => (n - 1 - i) % every === 0 ? `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${d.day.slice(8)}/${d.day.slice(5, 7)}</text>` : '').join('');
+  const hits = days.map((d, i) => `<rect class="hit" x="${pl + i * cw / n}" y="${pt}" width="${cw / n}" height="${ch}"><title>${d.day.slice(8)}/${d.day.slice(5, 7)}/${d.day.slice(0, 4)}: ${numVi(d.views)} lượt xem · ${numVi(d.visitors)} khách</title></rect>`).join('');
+  const empty = days.every(d => !d.views) ? '<div class="chart-empty">Chưa có lượt truy cập trong khoảng này.</div>' : '';
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Biểu đồ lượt xem và số khách theo ngày">${g}${bars}<path d="${line}" fill="none" stroke="#3b6fd8" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>${dots}${labs}${hits}</svg>${empty}`;
+}
+
 /* ---------- khách hàng ---------- */
-const UQ = { q: '', rows: [], total: 0 };
+const UQ ={ q: '', rows: [], total: 0 };
+const USER_ROLES = ['Khách mua / thuê nhà', 'Chủ nhà cần bán / cho thuê', 'Môi giới / đối tác'];
 async function users(append = false) {
   const m = $('#main');
   if (!append) {
     m.innerHTML = `<div class="top"><div><h2>Khách hàng</h2><p>Tài khoản khách đăng ký trên website. Mật khẩu được mã hoá, không ai xem được.</p></div>
-    <div class="tools"><input class="in" id="uq" type="search" placeholder="Tìm tên, email, số điện thoại…" value="${esc(UQ.q)}"><a class="btn ghost" href="/api/admin/export?what=users">Tải Excel (CSV)</a></div></div>
+    <div class="tools"><input class="in" id="uq" type="search" placeholder="Tìm tên, email, số điện thoại…" value="${esc(UQ.q)}">${can('export') ? '<a class="btn ghost" href="/api/admin/export?what=users" download>Tải Excel (CSV)</a>' : ''}</div></div>
     <div class="card"><div class="tw" id="ut"><div class="empty">Đang tải…</div></div></div>`;
     let t; $('#uq').oninput = e => { clearTimeout(t); t = setTimeout(() => { UQ.q = e.target.value.trim(); usersLoad(); }, 300); };
   }
@@ -314,16 +780,23 @@ async function usersLoad(append = false) {
   catch (e) { $('#ut').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
   const el = $('#ut'); if (!el) return;
   if (!UQ.rows.length) { el.innerHTML = `<div class="empty">${UQ.q ? 'Không tìm thấy khách hàng phù hợp.' : 'Chưa có khách hàng nào đăng ký.'}</div>`; return; }
-  el.innerHTML = `<table class="rsp"><thead><tr><th>Khách hàng</th><th>Điện thoại</th><th>Hồ sơ</th><th>Ngày tạo</th><th>Đăng nhập gần nhất</th><th>Trạng thái</th><th></th></tr></thead><tbody>${UQ.rows.map(u => `<tr data-id="${u.id}">
-    <td data-l="Khách" class="who"><b>${esc(u.name)}</b><span>${esc(u.email)} ${u.email_verified ? '<span class="tag t-ver">Email ✓</span>' : ''}</span></td>
-    <td data-l="Điện thoại"><a href="tel:${esc(u.phone)}">${esc(u.phone)}</a> ${u.phone_verified ? '<span class="tag t-ver">SĐT ✓</span>' : ''}${u.devices ? `<div style="font-size:12px;color:var(--mut)">${u.devices} thiết bị tin cậy</div>` : ''}</td>
-    <td data-l="Hồ sơ">${u.profile_at ? '<span class="tag t-lock">🔒 Đã lưu</span>' : '<span class="tag t-spam">Chưa có</span>'}<div style="font-size:13px;color:var(--mut);margin-top:4px">${esc(u.role || '')}</div></td>
+  const man = can('users.manage');
+  el.innerHTML = `<table class="rsp"><thead><tr><th>Khách hàng</th><th>Điện thoại</th><th>Hồ sơ & vai trò</th><th>Ngày tạo</th><th>Đăng nhập gần nhất</th><th>Trạng thái</th><th></th></tr></thead><tbody>${UQ.rows.map(u => `<tr data-id="${u.id}">
+    <td data-l="Khách" class="who"><b>${esc(u.name)}${u.creator === 'approved' ? ' <span class="tag t-creator" title="Đã được duyệt danh hiệu Creator">★ Creator</span>' : u.creator === 'pending' ? ' <span class="tag t-crp">Chờ duyệt Creator</span>' : ''}</b><span>${esc(u.email)} ${u.email_verified ? '<span class="tag t-ver">Email ✓</span>' : ''}</span>${u.providers ? `<div style="margin-top:4px">${[...new Set(String(u.providers).split(','))].map(pvTag).join('')}</div>` : ''}</td>
+    <td data-l="Điện thoại"><a href="tel:${esc(u.phone)}">${esc(u.phone)}</a> ${u.phone_verified ? '<span class="tag t-ver">SĐT ✓</span>' : ''}${u.devices ? `<div style="font-size:12.5px;color:var(--mut)">${u.devices} thiết bị tin cậy</div>` : ''}</td>
+    <td data-l="Hồ sơ">${u.profile_at ? '<span class="tag t-lock">🔒 Đã lưu</span>' : '<span class="tag t-spam">Chưa có</span>'}<div style="font-size:13px;color:var(--mut);margin-top:6px">${man ? `<select class="st st-role" data-role aria-label="Vai trò của ${esc(u.name)}">${USER_ROLES.includes(u.role) ? '' : '<option value="" selected>— Chưa chọn —</option>'}${USER_ROLES.map(r => `<option${r === u.role ? ' selected' : ''}>${esc(r)}</option>`).join('')}</select>` : esc(u.role || '—')}</div></td>
     <td data-l="Ngày tạo">${fmt(u.created_at)}</td>
     <td data-l="Gần nhất">${ago(u.last_login)}</td>
     <td data-l="Trạng thái"><span class="tag t-${u.status === 'active' ? 'active' : 'disabled'}">${u.status === 'active' ? 'Hoạt động' : 'Tạm khoá'}</span></td>
-    <td data-l="Thao tác"><div class="acts"><button class="btn sm" data-detail>Hồ sơ & sửa</button><button class="btn sm ghost" data-a="temp-password">Cấp mật khẩu tạm</button>${u.email_verified ? '' : '<button class="btn sm ghost" data-a="verify">Xác minh email</button>'}${u.devices ? '<button class="btn sm ghost" data-a="revoke-devices">Gỡ thiết bị tin cậy</button>' : ''}<button class="btn sm ghost" data-a="${u.status === 'active' ? 'disable' : 'enable'}">${u.status === 'active' ? 'Khoá' : 'Mở khoá'}</button></div></td></tr>`).join('')}</tbody></table>
+    <td data-l="Thao tác"><div class="acts">${man ? `<button class="btn sm" data-detail>Hồ sơ & sửa</button><button class="btn sm ghost" data-a="temp-password">Cấp mật khẩu tạm</button>${u.email_verified ? '' : '<button class="btn sm ghost" data-a="verify">Xác minh email</button>'}${u.devices ? '<button class="btn sm ghost" data-a="revoke-devices">Gỡ thiết bị tin cậy</button>' : ''}<button class="btn sm ghost" data-a="${u.status === 'active' ? 'disable' : 'enable'}">${u.status === 'active' ? 'Khoá' : 'Mở khoá'}</button>` : `<button class="btn sm" data-detail>Xem hồ sơ</button><button class="btn sm ghost" disabled title="${NEED('Quản lý')} để sửa, khoá hoặc cấp mật khẩu tạm">Sửa / khoá</button>`}</div></td></tr>`).join('')}</tbody></table>
     ${UQ.rows.length < UQ.total ? `<div class="more"><button class="btn ghost" id="umore">Xem thêm (${UQ.total - UQ.rows.length})</button></div>` : ''}`;
   $$('[data-a]', el).forEach(b => b.onclick = () => userAction(+b.closest('tr').dataset.id, b.dataset.a));
+  $$('[data-role]', el).forEach(s => s.onchange = async () => {
+    const id = +s.closest('tr').dataset.id, u = UQ.rows.find(x => x.id === id);
+    if (!s.value) return;
+    try { await api('user', { id, action: 'set-role', role: s.value }); if (u) u.role = s.value; const o = $('option[value=""]', s); if (o) o.remove(); toast('Đã đổi vai trò khách hàng.'); }
+    catch (e) { toast(e.message); s.value = u && USER_ROLES.includes(u.role) ? u.role : ''; }
+  });
   $$('[data-detail]', el).forEach(b => b.onclick = () => userDetail(+b.closest('tr').dataset.id));
   const mo = $('#umore'); if (mo) mo.onclick = () => usersLoad(true);
 }
@@ -360,7 +833,7 @@ async function resets() {
   $('#rt').innerHTML = `<table class="rsp"><thead><tr><th>Thời gian</th><th>Khách</th><th>Liên hệ xác minh</th><th>${RS === 'pending' ? '' : 'Ghi chú'}</th></tr></thead><tbody>${rows.map(r => `<tr data-id="${r.id}" data-uid="${r.user_id}">
     <td data-l="Thời gian">${ago(r.created_at)}</td>
     <td data-l="Khách" class="who"><b>${esc(r.user_name || '—')}</b><span>${esc(r.email)}</span></td>
-    <td data-l="Liên hệ"><a href="tel:${telOf(r.phone || r.user_phone)}">${esc(r.phone || r.user_phone || '—')}</a>${r.phone && r.user_phone && telOf(r.phone) !== telOf(r.user_phone) ? `<div style="color:var(--bad);font-size:12px">Khác số đã đăng ký (${esc(r.user_phone)})</div>` : ''}</td>
+    <td data-l="Liên hệ"><a href="tel:${telOf(r.phone || r.user_phone)}">${esc(r.phone || r.user_phone || '—')}</a>${r.phone && r.user_phone && telOf(r.phone) !== telOf(r.user_phone) ? `<div style="color:var(--bad);font-size:12.5px">Khác số đã đăng ký (${esc(r.user_phone)})</div>` : ''}</td>
     <td data-l="${RS === 'pending' ? 'Thao tác' : 'Ghi chú'}">${RS === 'pending' ? '<div class="acts"><button class="btn sm gold" data-t>Cấp mật khẩu tạm</button><button class="btn sm ghost" data-c>Đóng yêu cầu</button></div>' : esc(r.note)}</td></tr>`).join('')}</tbody></table>`;
   $$('[data-t]').forEach(b => b.onclick = async () => { const tr = b.closest('tr'), r = rows.find(x => x.id === +tr.dataset.id); UQ.rows = [{ id: r.user_id, name: r.user_name, email: r.email }]; await userAction(r.user_id, 'temp-password'); });
   $$('[data-c]').forEach(b => b.onclick = async () => { if (!(await confirmBox('Đóng yêu cầu?', 'Yêu cầu sẽ chuyển sang mục đã xử lý.', 'Đóng yêu cầu'))) return; try { await api('reset', { id: +b.closest('tr').dataset.id }); toast('Đã đóng yêu cầu.'); refreshStats(); resets(); } catch (e) { toast(e.message); } });
@@ -368,16 +841,41 @@ async function resets() {
 
 /* ---------- quản trị viên ---------- */
 async function admins() {
-  const m = $('#main');
-  m.innerHTML = `<div class="top"><div><h2>Quản trị viên</h2><p>Tài khoản quản trị tách riêng hoàn toàn với tài khoản khách hàng.</p></div></div>
+  const m = $('#main'), man = can('admins.manage');
+  const roleOpts = cur => ROLE_ORDER.map(r => `<option value="${r}"${r === cur ? ' selected' : ''}>${ROLE_L[r]}</option>`).join('');
+  m.innerHTML = `<div class="top"><div><h2>Quản trị viên</h2><p>Tài khoản quản trị tách riêng hoàn toàn với tài khoản khách hàng. Mỗi người có một vai trò: Giám đốc, Quản lý hoặc Trợ lý.</p></div></div>
   <div class="grid2"><div class="card"><div class="tw" id="at"><div class="empty">Đang tải…</div></div></div>
-  <div class="card pad"><h3>Thêm quản trị viên</h3><p class="d">Người được thêm có toàn quyền xem khách hàng và yêu cầu tư vấn.</p>
-    <form id="af" novalidate><label class="f">Họ và tên<input class="in" name="name" required></label><label class="f">Email<input class="in" name="email" type="email" required></label><label class="f">Mật khẩu ban đầu (tối thiểu 10 ký tự)<input class="in" name="pass" type="password" autocomplete="new-password" required></label><div class="err" id="ae"></div><button class="btn" type="submit">Thêm quản trị viên</button></form></div></div>`;
-  try { const rows = (await api('admins')).rows; $('#at').innerHTML = `<table class="rsp"><thead><tr><th>Quản trị viên</th><th>Ngày tạo</th><th>Đăng nhập gần nhất</th></tr></thead><tbody>${rows.map(a => `<tr><td data-l="Tên" class="who"><b>${esc(a.name)}${a.id === S.admin.id ? ' (bạn)' : ''}</b><span>${esc(a.email)}</span></td><td data-l="Ngày tạo">${fmt(a.created_at)}</td><td data-l="Gần nhất">${ago(a.last_login)}</td></tr>`).join('')}</tbody></table>`; }
-  catch (e) { $('#at').innerHTML = `<div class="empty">${esc(e.message)}</div>`; }
-  $('#af').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); try { await api('admins', d); toast('Đã thêm quản trị viên.'); admins(); } catch (err) { $('#ae').textContent = err.message; } };
+  ${man ? `<div class="card pad"><h3>Thêm quản trị viên</h3><p class="d">Chọn vai trò phù hợp — có thể đổi lại bất cứ lúc nào.</p>
+    <form id="af" novalidate><label class="f">Họ và tên<input class="in" name="name" autocomplete="off" required></label><label class="f">Email<input class="in" name="email" type="email" autocomplete="off" required></label><label class="f">Mật khẩu ban đầu (tối thiểu 10 ký tự)<input class="in" name="pass" type="password" autocomplete="new-password" required></label>
+    <label class="f">Vai trò<select class="in" name="role" id="arole">${roleOpts('assistant')}</select><small id="ardesc">${esc(ROLE_D.assistant)}</small></label>
+    <div class="err" id="ae" role="alert"></div><button class="btn" type="submit">Thêm quản trị viên</button></form></div>`
+    : `<div class="card pad"><h3>Các vai trò</h3><p class="d">Chỉ Giám đốc thêm, đổi vai trò hoặc xoá quản trị viên.</p>${ROLE_ORDER.map(r => `<div class="rl">${roleBadge(r)}<p>${esc(ROLE_D[r])}</p></div>`).join('')}</div>`}</div>
+  ${can('logins.admins') ? `<div class="card" style="margin-top:18px"><div class="pad" style="padding-bottom:6px"><h3>Lịch sử đăng nhập quản trị</h3><p class="d" style="margin:0">150 lần đăng nhập gần nhất của mọi quản trị viên. Dòng đỏ là đăng nhập sai mật khẩu.</p></div><div class="tw" id="alog"><div class="empty">Đang tải…</div></div></div>` : ''}`;
+  let rows; try { rows = (await api('admins')).rows; } catch (e) { $('#at').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
+  const at = $('#at'); if (!at) return;
+  at.innerHTML = `<table class="rsp"><thead><tr><th>Quản trị viên</th><th>Vai trò</th><th>Đăng nhập gần nhất</th>${man ? '<th></th>' : ''}</tr></thead><tbody>${rows.map(a => `<tr data-id="${a.id}">
+    <td data-l="Tên" class="who"><b>${esc(a.name)}${a.id === S.admin.id ? ' <span class="mut sm">(bạn)</span>' : ''}</b><span>${esc(a.email)}</span><span style="display:block;font-size:12.5px">Tạo ${fmt(a.created_at)}</span></td>
+    <td data-l="Vai trò"><div>${roleBadge(a.role)}</div>${man ? `<select class="st st-role" data-role aria-label="Vai trò của ${esc(a.name)}" style="margin-top:8px">${roleOpts(a.role)}</select>` : ''}</td>
+    <td data-l="Gần nhất"><span title="${fmt(a.last_login)}">${ago(a.last_login)}</span></td>
+    ${man ? `<td data-l="Thao tác">${a.id === S.admin.id ? '<span class="mut sm">—</span>' : '<button class="btn sm ghost dz" data-rm>Xoá</button>'}</td>` : ''}</tr>`).join('')}</tbody></table>`;
+  $$('[data-role]', at).forEach(s => s.onchange = async () => {
+    const a = rows.find(x => x.id === +s.closest('tr').dataset.id), r = s.value, self = a.id === S.admin.id;
+    if (!(await confirmBox('Đổi vai trò?', `${a.name}: ${ROLE_L[a.role] || a.role} → ${ROLE_L[r]}. ${self ? 'Bạn đang đổi vai trò của chính mình — quyền sẽ thay đổi ngay.' : 'Quyền mới áp dụng ngay ở lần thao tác tiếp theo.'}`, 'Đổi vai trò', self))) { s.value = a.role; return; }
+    try { await api('admin', { id: a.id, action: 'set-role', role: r }); toast('Đã đổi vai trò.'); if (self) { try { S.admin = (await api('me')).admin || S.admin; } catch (e) { } shell(); } else admins(); }
+    catch (e) { s.value = a.role; dialog(`<h3>Không đổi được vai trò</h3><p>${esc(e.message)}</p><div class="row"><button class="btn" data-x>Đã hiểu</button></div>`); }
+  });
+  $$('[data-rm]', at).forEach(b => b.onclick = async () => {
+    const a = rows.find(x => x.id === +b.closest('tr').dataset.id);
+    if (!(await confirmBox('Xoá quản trị viên?', `${a.name} (${a.email}) sẽ bị đăng xuất và không thể vào trang quản trị nữa.`, 'Xoá', true))) return;
+    try { await api('admin', { id: a.id, action: 'remove' }); toast('Đã xoá quản trị viên.'); admins(); } catch (e) { toast(e.message); }
+  });
+  const af = $('#af');
+  if (af) {
+    $('#arole').onchange = e => { $('#ardesc').textContent = ROLE_D[e.target.value]; };
+    af.onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); $('#ae').textContent = ''; if (d.pass.length < 10) { $('#ae').textContent = 'Mật khẩu ban đầu cần tối thiểu 10 ký tự.'; return; } const b = $('button[type=submit]', af); b.disabled = true; try { await api('admins', d); toast(`Đã thêm ${ROLE_L[d.role]} ${d.name}.`); admins(); } catch (err) { $('#ae').textContent = err.message; b.disabled = false; } };
+  }
+  if (can('logins.admins')) { try { const L = await api('logins?admin=all'); const el = $('#alog'); if (el) el.innerHTML = loginTable(L.events, true); } catch (e) { const el = $('#alog'); if (el) el.innerHTML = `<div class="empty">${esc(e.message)}</div>`; } }
 }
-
 
 /* ---------- hồ sơ khách: xem đầy đủ, sửa, mở khoá ---------- */
 const PF = [['fullName', 'Họ và tên theo CCCD', 1], ['dob', 'Ngày sinh', 1, 'date'], ['gender', 'Giới tính', 1, ['Nam', 'Nữ', 'Khác']], ['cccd', 'Số CCCD/Căn cước', 1], ['cccdDate', 'Ngày cấp', 1, 'date'], ['cccdPlace', 'Nơi cấp', 1], ['address', 'Địa chỉ thường trú', 1], ['currentAddress', 'Nơi ở hiện tại'], ['occupation', 'Nghề nghiệp'],
@@ -386,20 +884,38 @@ const dIso = v => /^\d{4}-\d{2}-\d{2}$/.test(v || '') ? v.split('-').reverse().j
 const EV = { name: 'Tên hiển thị', email: 'Email', phone: 'Số điện thoại', profile: 'Thông tin cá nhân', request: 'Yêu cầu', 'admin-update': 'Quản trị viên cập nhật' };
 async function userDetail(id, requestId) {
   let j; try { j = await api('user?id=' + id); } catch (e) { toast(e.message); return; }
-  const u = j.user, p = j.profile || {};
+  const u = j.user, p = j.profile || {}, man = can('users.manage'), ids = j.identities || [];
   const has = PF.some(([k]) => p[k]);
+  const CRL = { pending: '<span class="tag t-crp">Chờ duyệt</span>', approved: '<span class="tag t-creator">★ Đã duyệt</span>', rejected: '<span class="tag t-rejected">Chưa được duyệt</span>' };
   const d = dialog(`<h3>${esc(u.name)}</h3><p>${esc(u.email)} · <a href="tel:${esc(u.phone)}">${esc(u.phone)}</a></p>
-    <div class="row" style="justify-content:flex-start;margin-bottom:6px"><button class="btn sm" data-edit>Sửa thông tin</button>${u.profile_at ? '<button class="btn sm ghost" data-unlock>Mở khoá để khách tự sửa 1 lần</button>' : ''}${u.name_changes >= 1 ? '<button class="btn sm ghost" data-rename>Cho khách đổi tên thêm 1 lần</button>' : ''}</div>
-    <div class="sec-t">Tài khoản</div><dl class="dl"><dt>Tên hiển thị</dt><dd>${esc(u.name)} ${u.name_changes >= 1 ? '<span class="tag t-spam">đã tự đổi 1 lần</span>' : ''}</dd><dt>Email</dt><dd>${esc(u.email)} ${u.email_verified ? '<span class="tag t-ver">✓</span>' : '<span class="tag t-new">chưa xác minh</span>'}</dd><dt>Số điện thoại</dt><dd>${esc(u.phone)} ${u.phone_verified ? '<span class="tag t-ver">✓</span>' : '<span class="tag t-new">chưa xác minh</span>'}</dd><dt>Vai trò</dt><dd>${esc(u.role || '—')}</dd><dt>Ngày tạo</dt><dd>${fmt(u.created_at)}</dd><dt>Trạng thái</dt><dd>${u.status === 'active' ? 'Hoạt động' : 'Tạm khoá'}</dd></dl>
+    ${man ? `<div class="row" style="justify-content:flex-start;margin-bottom:6px"><button class="btn sm" data-edit>Sửa thông tin</button>${u.profile_at ? '<button class="btn sm ghost" data-unlock>Mở khoá để khách tự sửa 1 lần</button>' : ''}${u.name_changes >= 1 ? '<button class="btn sm ghost" data-rename>Cho khách đổi tên thêm 1 lần</button>' : ''}</div>` : `<div class="note" style="margin:0 0 6px">Bạn đang xem ở vai trò <b>${esc(ROLE_L[S.admin.role] || 'Trợ lý')}</b>: chỉ xem, không sửa được hồ sơ khách. ${NEED('Quản lý')} để chỉnh sửa.</div>`}
+    <div class="sec-t">Tài khoản</div><dl class="dl"><dt>Tên hiển thị</dt><dd>${esc(u.name)} ${u.name_changes >= 1 ? '<span class="tag t-spam">đã tự đổi 1 lần</span>' : ''}</dd><dt>Email</dt><dd>${esc(u.email)} ${u.email_verified ? '<span class="tag t-ver">✓</span>' : '<span class="tag t-new">chưa xác minh</span>'}</dd><dt>Số điện thoại</dt><dd>${esc(u.phone)} ${u.phone_verified ? '<span class="tag t-ver">✓</span>' : '<span class="tag t-new">chưa xác minh</span>'}</dd><dt>Vai trò</dt><dd>${esc(u.role || '—')}</dd>${u.creator ? `<dt>Creator</dt><dd>${CRL[u.creator] || esc(u.creator)}</dd>` : ''}<dt>Ngày tạo</dt><dd>${fmt(u.created_at)}</dd><dt>Trạng thái</dt><dd>${u.status === 'active' ? 'Hoạt động' : 'Tạm khoá'}</dd>
+    <dt>Liên kết đăng nhập</dt><dd>${ids.length ? ids.map(x => `<div>${pvTag(x.provider) || esc(x.provider)} <span class="mut sm">${esc(x.email || '')} · từ ${fmt(x.created_at)}</span></div>`).join('') : '<span class="mut">Chưa liên kết Google / Facebook</span>'}</dd>
+    <dt>Mật khẩu</dt><dd>${u.has_pass === 0 ? '<span class="mut">Chưa đặt (chỉ đăng nhập bằng mạng xã hội)</span>' : 'Đã đặt'}</dd></dl>
     <div class="sec-t">Thông tin cá nhân ${u.profile_at ? `<span class="tag t-lock">🔒 khoá từ ${fmt(u.profile_at)}</span>` : ''}</div>
+    ${p.cccd && !can('users.cccd') ? '<div class="note" style="margin:0 0 12px">Số CCCD được che một phần theo vai trò Trợ lý. Quản lý hoặc Giám đốc xem được đầy đủ.</div>' : ''}
     ${has ? `<dl class="dl">${PF.filter(([k]) => p[k]).map(([k, l, , t]) => `<dt>${l}</dt><dd>${esc(t === 'date' ? dIso(p[k]) : p[k])}</dd>`).join('')}${p.consentAt ? `<dt>Đồng ý xử lý dữ liệu</dt><dd>${fmt(Date.parse(p.consentAt))}</dd>` : ''}</dl>` : '<p>Khách chưa lưu thông tin cá nhân.</p>'}
-    ${j.requests.length ? `<div class="sec-t">Yêu cầu cập nhật</div>${j.requests.map(r => `<div class="ev"><b>${esc(r.topic)} <span class="tag t-${esc(r.status)}">${{ pending: 'Chờ xử lý', done: 'Đã xử lý', rejected: 'Từ chối' }[r.status] || esc(r.status)}</span></b><div class="req-msg">${esc(r.message)}</div><small>${fmt(r.created_at)}${r.handled_by ? ' · ' + esc(r.handled_by) : ''}${r.note ? ' · ' + esc(r.note) : ''}</small></div>`).join('')}` : ''}
+    ${j.requests.length ? `<div class="sec-t">Yêu cầu cập nhật</div>${j.requests.map(r => `<div class="ev"><b>${r.topic === 'Cảnh báo đăng nhập lạ' ? '<span class="tag t-alert">⚠ Cảnh báo đăng nhập lạ</span>' : esc(r.topic)} <span class="tag t-${esc(r.status)}">${{ pending: 'Chờ xử lý', done: 'Đã xử lý', rejected: 'Từ chối' }[r.status] || esc(r.status)}</span></b><div class="req-msg">${esc(r.message)}</div><small>${fmt(r.created_at)}${r.handled_by ? ' · ' + esc(r.handled_by) : ''}${r.note ? ' · ' + esc(r.note) : ''}</small></div>`).join('')}` : ''}
+    ${can('logins.users') ? `<div class="head-row" style="margin-top:18px"><div class="sec-t" style="margin:0">Thiết bị đang đăng nhập</div>${man ? '<button class="btn sm ghost dz" data-kick>Đăng xuất mọi thiết bị của khách</button>' : ''}</div><div id="usess"><div class="empty" style="padding:16px">Đang tải…</div></div>
+    <div class="sec-t">Lịch sử đăng nhập</div><div class="tw" id="ulog"><div class="empty" style="padding:16px">Đang tải…</div></div>` : ''}
     ${j.events.length ? `<div class="sec-t">Lịch sử thay đổi</div>${j.events.map(e => `<div class="ev"><span><b>${esc(EV[e.kind] || e.kind)}</b> · ${esc(e.detail)}</span><small>${fmt(e.at)} · ${esc(e.actor)}</small></div>`).join('')}` : ''}
-    <div class="row" style="margin-top:18px"><button class="btn ghost" data-x>Đóng</button></div>`);
-  d.firstElementChild.classList.add('wide');
-  $('[data-edit]', d).onclick = () => { d.remove(); userEdit(u, p, requestId); };
+    <div class="row" style="margin-top:18px"><button class="btn ghost" data-x>Đóng</button></div>`, { wide: true });
+  const ed = $('[data-edit]', d); if (ed) ed.onclick = () => { d.remove(); userEdit(u, p, requestId); };
   const ul = $('[data-unlock]', d); if (ul) ul.onclick = async () => { if (!(await confirmBox('Mở khoá thông tin cá nhân?', `${u.name} sẽ được tự sửa và lưu lại thông tin cá nhân thêm 1 lần, sau đó hồ sơ khoá lại.`, 'Mở khoá'))) return; try { await api('user', { id, action: 'unlock-profile' }); toast('Đã mở khoá.'); d.remove(); userDetail(id, requestId); } catch (e) { toast(e.message); } };
   const rn = $('[data-rename]', d); if (rn) rn.onclick = async () => { try { await api('user', { id, action: 'allow-rename' }); toast('Khách có thể tự đổi tên thêm 1 lần.'); d.remove(); userDetail(id, requestId); } catch (e) { toast(e.message); } };
+  if (!can('logins.users')) return;
+  const loadLogins = async () => {
+    let L; try { L = await api('logins?userId=' + id); } catch (e) { const x = $('#ulog', d); if (x) x.innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
+    const ss = $('#usess', d), lg = $('#ulog', d); if (!ss || !lg) return;
+    ss.innerHTML = sessionList(L.sessions, false); lg.innerHTML = loginTable(L.events, false);
+    const k = $('[data-kick]', d); if (k) k.disabled = !L.sessions.length;
+  };
+  const kick = $('[data-kick]', d);
+  if (kick) kick.onclick = async () => {
+    if (!(await confirmBox('Đăng xuất mọi thiết bị của khách?', `${u.name} sẽ bị đăng xuất khỏi mọi điện thoại, máy tính đang đăng nhập và phải đăng nhập lại.`, 'Đăng xuất tất cả', true))) return;
+    try { await api('sessions', { userId: id }); toast('Đã đăng xuất mọi thiết bị của khách.'); loadLogins(); } catch (e) { toast(e.message); }
+  };
+  loadLogins();
 }
 function userEdit(u, p, requestId) {
   const field = ([k, l, req, t]) => Array.isArray(t)
@@ -428,11 +944,11 @@ async function requests() {
   $$('.chip').forEach(c => c.onclick = () => { RQ = c.dataset.s; requests(); });
   let rows; try { rows = (await api('requests?status=' + RQ)).rows; } catch (e) { $('#qt').innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
   if (!rows.length) { $('#qt').innerHTML = `<div class="empty">${RQ === 'pending' ? 'Không có yêu cầu nào đang chờ.' : 'Chưa có yêu cầu đã xử lý.'}</div>`; return; }
-  $('#qt').innerHTML = `<table class="rsp"><thead><tr><th>Thời gian</th><th>Khách</th><th>Nội dung yêu cầu</th><th>${RQ === 'pending' ? 'Thao tác' : 'Kết quả'}</th></tr></thead><tbody>${rows.map(r => `<tr data-id="${r.id}" data-uid="${r.user_id}">
+  $('#qt').innerHTML = `<table class="rsp"><thead><tr><th>Thời gian</th><th>Khách</th><th>Nội dung yêu cầu</th><th>${RQ === 'pending' ? 'Thao tác' : 'Kết quả'}</th></tr></thead><tbody>${rows.map(r => `<tr data-id="${r.id}" data-uid="${r.user_id}"${r.topic === 'Cảnh báo đăng nhập lạ' ? ' class="alert"' : ''}>
     <td data-l="Thời gian"><span title="${fmt(r.created_at)}">${ago(r.created_at)}</span></td>
     <td data-l="Khách" class="who"><b>${esc(r.user_name || '—')}</b><span>${esc(r.user_email || '')}<br><a href="tel:${esc(r.user_phone || '')}">${esc(r.user_phone || '')}</a></span></td>
-    <td data-l="Nội dung"><b>${esc(r.topic)}</b><div class="req-msg">${esc(r.message)}</div></td>
-    <td data-l="${RQ === 'pending' ? 'Thao tác' : 'Kết quả'}">${RQ === 'pending' ? '<div class="acts"><button class="btn sm gold" data-open>Mở hồ sơ & cập nhật</button><button class="btn sm ghost" data-done>Đã xử lý</button><button class="btn sm ghost" data-reject>Từ chối</button></div>' : `<span class="tag t-${esc(r.status)}">${r.status === 'done' ? 'Đã xử lý' : 'Từ chối'}</span><div style="font-size:13px;color:var(--mut);margin-top:4px">${fmt(r.handled_at)} · ${esc(r.handled_by)}${r.note ? '<br>' + esc(r.note) : ''}</div>`}</td></tr>`).join('')}</tbody></table>`;
+    <td data-l="Nội dung">${r.topic === 'Cảnh báo đăng nhập lạ' ? '<span class="tag t-alert">⚠ Cảnh báo đăng nhập lạ</span>' : `<b>${esc(r.topic)}</b>`}<div class="req-msg">${esc(r.message)}</div></td>
+    <td data-l="${RQ === 'pending' ? 'Thao tác' : 'Kết quả'}">${RQ === 'pending' ? (can('requests.handle') ? '<div class="acts"><button class="btn sm gold" data-open>Mở hồ sơ & cập nhật</button><button class="btn sm ghost" data-done>Đã xử lý</button><button class="btn sm ghost" data-reject>Từ chối</button></div>' : `<div class="acts"><button class="btn sm" data-open>Xem hồ sơ</button><button class="btn sm ghost" disabled title="${NEED('Quản lý')} để xử lý yêu cầu">Xử lý</button></div>`) : `<span class="tag t-${esc(r.status)}">${r.status === 'done' ? 'Đã xử lý' : 'Từ chối'}</span><div style="font-size:13px;color:var(--mut);margin-top:4px">${fmt(r.handled_at)} · ${esc(r.handled_by)}${r.note ? '<br>' + esc(r.note) : ''}</div>`}</td></tr>`).join('')}</tbody></table>`;
   const close = async (b, status) => {
     const tr = b.closest('tr'); const dd = dialog(`<h3>${status === 'done' ? 'Đánh dấu đã xử lý' : 'Từ chối yêu cầu'}</h3><p>Ghi chú nội bộ (tuỳ chọn).</p><textarea class="in" id="rqn" rows="3" placeholder="${status === 'done' ? 'Ví dụ: đã gọi xác minh và cập nhật địa chỉ' : 'Lý do từ chối'}"></textarea><div class="row" style="margin-top:12px"><button class="btn ghost" data-x>Huỷ</button><button class="btn ${status === 'done' ? '' : 'danger'}" id="rqok">Xác nhận</button></div>`);
     $('#rqok', dd).onclick = async () => { try { await api('request', { id: +tr.dataset.id, status, note: $('#rqn', dd).value }); dd.remove(); toast('Đã cập nhật yêu cầu.'); refreshStats().then(() => shell()); } catch (e) { toast(e.message); } };
@@ -450,15 +966,35 @@ async function account() {
   <div class="grid2"><div class="card pad"><h3>Thông tin tài khoản</h3><p class="d">Tạo ngày ${fmt(me.created_at)} · đăng nhập gần nhất ${ago(me.last_login)}. Cần nhập mật khẩu hiện tại để lưu.</p>
     <form id="mf" novalidate><label class="f">Tên hiển thị<input class="in" name="name" value="${esc(me.name)}" autocomplete="name" required></label><label class="f">Email đăng nhập<input class="in" name="email" type="email" value="${esc(me.email)}" autocomplete="username" required></label><label class="f">Mật khẩu hiện tại<input class="in" name="pass" type="password" autocomplete="current-password" required></label><div class="err" id="me"></div><button class="btn" type="submit">Lưu thông tin</button></form></div>
   <div class="card pad"><h3>Đổi mật khẩu quản trị</h3><p class="d">Các phiên đăng nhập quản trị khác sẽ bị đăng xuất.</p>
-    <form id="pf" novalidate><label class="f">Mật khẩu hiện tại<input class="in" name="old" type="password" autocomplete="current-password" required></label><label class="f">Mật khẩu mới (tối thiểu 10 ký tự)<input class="in" name="pass" type="password" autocomplete="new-password" required></label><label class="f">Nhập lại mật khẩu mới<input class="in" name="pass2" type="password" autocomplete="new-password" required></label><div class="err" id="pe"></div><button class="btn" type="submit">Lưu mật khẩu mới</button></form></div></div>`;
+    <form id="pf" novalidate><label class="f">Mật khẩu hiện tại<input class="in" name="old" type="password" autocomplete="current-password" required></label><label class="f">Mật khẩu mới (tối thiểu 10 ký tự)<input class="in" name="pass" type="password" autocomplete="new-password" required></label><label class="f">Nhập lại mật khẩu mới<input class="in" name="pass2" type="password" autocomplete="new-password" required></label><div class="err" id="pe"></div><button class="btn" type="submit">Lưu mật khẩu mới</button></form></div>
+  <div class="card pad"><div class="head-row"><h3>Quyền của bạn</h3>${roleBadge(me.role, true)}</div><p class="d">${esc(ROLE_D[me.role] || '')}</p>
+    <ul class="perm">${PERM_L.map(([k, t]) => `<li class="${can(k) ? '' : 'no'}">${t}${can(k) ? '' : '<span class="vh"> — chưa có quyền</span>'}</li>`).join('')}</ul>
+    <p class="sm mut" style="margin:14px 0 0">${me.role === 'director' ? 'Bạn có toàn quyền quản trị.' : 'Cần thêm quyền? Liên hệ Giám đốc để được nâng vai trò.'}</p></div>
+  <div class="card pad" style="grid-column:1/-1"><div class="head-row"><div><h3>Thiết bị & lịch sử đăng nhập</h3><p class="d" style="margin:0">Thiết bị lạ? Đăng xuất ngay rồi đổi mật khẩu.</p></div><button class="btn sm ghost dz" id="kickOthers" hidden>Đăng xuất các thiết bị khác</button></div>
+    <div class="sec-t">Đang đăng nhập</div><div id="mysess"><div class="empty" style="padding:16px">Đang tải…</div></div>
+    <div class="sec-t">Lần đăng nhập gần đây</div><div class="tw" id="mylog"><div class="empty" style="padding:16px">Đang tải…</div></div></div></div>`;
   $('#mf').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); if (!d.pass) { $('#me').textContent = 'Vui lòng nhập mật khẩu hiện tại.'; return; } try { const j = await api('me', d); S.admin = j.admin; toast('Đã lưu thông tin tài khoản.'); shell(); } catch (err) { $('#me').textContent = err.message; } };
-  $('#pf').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); if (d.pass !== d.pass2) { $('#pe').textContent = 'Hai mật khẩu mới chưa khớp.'; return; } try { await api('password', { old: d.old, pass: d.pass }); e.target.reset(); $('#pe').textContent = ''; toast('Đã đổi mật khẩu quản trị.'); } catch (err) { $('#pe').textContent = err.message; } };
+  $('#pf').onsubmit = async e => { e.preventDefault(); const d = Object.fromEntries(new FormData(e.target)); if (d.pass !== d.pass2) { $('#pe').textContent = 'Hai mật khẩu mới chưa khớp.'; return; } try { await api('password', { old: d.old, pass: d.pass }); e.target.reset(); $('#pe').textContent = ''; toast('Đã đổi mật khẩu quản trị.'); loadMine(); } catch (err) { $('#pe').textContent = err.message; } };
+  const loadMine = async () => {
+    let L; try { L = await api('logins'); } catch (e) { const x = $('#mylog'); if (x) x.innerHTML = `<div class="empty">${esc(e.message)}</div>`; return; }
+    const ss = $('#mysess'), lg = $('#mylog'); if (!ss || !lg) return;
+    ss.innerHTML = sessionList(L.sessions, true); lg.innerHTML = loginTable((L.events || []).slice(0, 20), false);
+    const others = (L.sessions || []).filter(x => !x.current).length, k = $('#kickOthers'); k.hidden = !others;
+    const fails = (L.events || []).slice(0, 20).filter(x => !x.ok).length;
+    if (fails) lg.insertAdjacentHTML('afterbegin', `<div class="note" style="margin:0 0 10px;background:#fdeceb;color:#8a2a22">Có <b>${fails}</b> lần đăng nhập sai mật khẩu gần đây (dòng tô đỏ). Nếu không phải bạn, hãy đổi mật khẩu.</div>`);
+    $$('[data-sid]', ss).forEach(b => b.onclick = async () => { b.disabled = true; try { await api('sessions', { sid: b.dataset.sid }); toast('Đã đăng xuất thiết bị.'); loadMine(); } catch (e) { toast(e.message); b.disabled = false; } });
+  };
+  $('#kickOthers').onclick = async () => { if (!(await confirmBox('Đăng xuất các thiết bị khác?', 'Mọi phiên đăng nhập quản trị trên thiết bị khác sẽ kết thúc. Thiết bị này vẫn giữ đăng nhập.', 'Đăng xuất', true))) return; try { await api('sessions', { others: true }); toast('Đã đăng xuất các thiết bị khác.'); loadMine(); } catch (e) { toast(e.message); } };
+  loadMine();
 }
 
 /* ---------- cài đặt ---------- */
 function settings() {
   const m = $('#main');
-  m.innerHTML = `<div class="top"><div><h2>Cài đặt</h2><p>Gửi mã xác minh và email tự động.</p></div></div>
+  if (!can('settings')) { m.innerHTML = `<div class="top"><div><h2>Cài đặt</h2></div></div><div class="note">Mục Cài đặt chỉ dành cho <b>Giám đốc</b>. Bạn vẫn đổi được tên, email và mật khẩu của mình ở mục <b>Tài khoản của tôi</b>.</div>`; return; }
+  const on = b => b ? '<span class="tag t-active">Đã bật</span>' : '<span class="tag t-new">Chưa cấu hình</span>';
+  const cb = (id, url) => `<div class="cpy"><code id="${id}">${esc(url)}</code><button type="button" class="btn sm ghost" data-cp="${id}" aria-label="Sao chép địa chỉ">Sao chép</button></div>`;
+  m.innerHTML = `<div class="top"><div><h2>Cài đặt</h2><p>Gửi mã xác minh, email tự động và đăng nhập bằng mạng xã hội.</p></div></div>
   <div class="grid2"><div class="card pad"><h3>Tài khoản quản trị</h3><p class="d">Đổi tên, email đăng nhập và mật khẩu ở mục <b>Tài khoản của tôi</b>.</p><button class="btn ghost" data-go="account">Mở Tài khoản của tôi</button></div>
   <div class="card pad"><h3>Mã xác minh tự động</h3>
     <p class="d">SMS ${S.sms ? '<span class="tag t-active">Đang bật</span>' : '<span class="tag t-new">Chưa bật</span>'} · Email ${S.mail ? '<span class="tag t-active">Đang bật</span>' : '<span class="tag t-new">Chưa bật</span>'}</p>
@@ -469,14 +1005,27 @@ function settings() {
     <b>Email (miễn phí 300 thư/ngày với Brevo):</b><br>
     &nbsp;&nbsp;• <code>BREVO_API_KEY</code> — Brevo → SMTP &amp; API → API Keys<br>
     &nbsp;&nbsp;• <code>MAIL_FROM</code> — ví dụ <code>Hoàng Dũng Real Estate &lt;email-da-xac-minh@...&gt;</code><br>
-    &nbsp;&nbsp;• <code>NOTIFY_EMAIL</code> — email nhận thông báo yêu cầu tư vấn mới (tuỳ chọn)</div></div></div>`;
-  $$('[data-go]').forEach(b => b.onclick = () => { S.view = b.dataset.go; shell(); });
+    &nbsp;&nbsp;• <code>NOTIFY_EMAIL</code> — email nhận thông báo yêu cầu tư vấn mới (tuỳ chọn)</div></div>
+  <div class="card pad" style="grid-column:1/-1"><h3>Đăng nhập Google / Facebook</h3>
+    <p class="d">Google ${on(S.google)} · Facebook ${on(S.facebook)}</p>
+    <div class="grid2">
+      <div class="box-t"><b>Google</b><br>1. Vào <b>Google Cloud Console → APIs &amp; Services → Credentials</b>.<br>2. Tạo <b>OAuth client ID</b>, loại <b>Web application</b>.<br>3. Ở <b>Authorized redirect URIs</b>, dán địa chỉ:${cb('gcb', location.origin + '/api/auth/oauth/google/callback')}4. Sao chép Client ID và Client secret vào hai khoá <code>GOOGLE_CLIENT_ID</code>, <code>GOOGLE_CLIENT_SECRET</code>.</div>
+      <div class="box-t"><b>Facebook</b><br>1. Vào <b>developers.facebook.com → My Apps</b>, tạo ứng dụng và thêm sản phẩm <b>Facebook Login</b>.<br>2. Ở <b>Valid OAuth Redirect URIs</b>, dán địa chỉ:${cb('fcb', location.origin + '/api/auth/oauth/facebook/callback')}3. Sao chép App ID và App Secret vào hai khoá <code>FACEBOOK_APP_ID</code>, <code>FACEBOOK_APP_SECRET</code>.</div>
+    </div>
+    <p class="box-t" style="margin:12px 0 0">Các khoá đặt trong <b>Cloudflare → Workers &amp; Pages → hoangdung-realestate → Settings → Variables and Secrets</b> (chọn loại <b>Secret</b>), rồi bấm <b>Deploy</b>. Khi đổi tên miền, nhớ khai báo lại hai địa chỉ trên theo tên miền mới.</p></div></div>`;
+  $$('[data-cp]', m).forEach(b => b.onclick = () => copy($('#' + b.dataset.cp).textContent));
+  goLinks(m);
 }
 
 /* ---------- khởi động ---------- */
-function render() { if (!S.admin) gate(); else { shell(); refreshStats().then(() => { if (S.view !== 'home' && S.stats) { const b = $$('.nav .bd'); if (!b.length && (S.stats.leadsNew || S.stats.resets || S.stats.requests)) shell(); } }); } }
+function render() { if (!S.admin) gate(); else { shell(); refreshStats().then(() => { if (S.view !== 'home' && S.stats && $$('.nav .bd').length !== badgeCount()) syncBadges(); }); } }
+/* cập nhật số trên menu mà không vẽ lại trang đang mở (tránh mất dữ liệu đang nhập) */
+function syncBadges() {
+  const b = badgeMap();
+  $$('.nav button').forEach(btn => { const n = b[btn.dataset.v]; let el = $('.bd', btn); if (n) { if (!el) { el = document.createElement('span'); el.className = 'bd'; btn.appendChild(el); } el.textContent = n; el.setAttribute('aria-label', n + ' mục chờ'); } else if (el) el.remove(); });
+}
 (async () => {
-  try { const j = await (await fetch('/api/admin/state', { cache: 'no-store', credentials: 'same-origin' })).json(); S.setup = j.setup; S.admin = j.admin; S.mail = j.mail; S.sms = j.sms; }
+  try { const j = await (await fetch('/api/admin/state', { cache: 'no-store', credentials: 'same-origin' })).json(); S.setup = j.setup; S.admin = j.admin; S.mail = j.mail; S.sms = j.sms; S.google = !!j.google; S.facebook = !!j.facebook; }
   catch (e) { $('#root').innerHTML = '<div class="gate"><div class="gate-card"><h1>Không kết nối được máy chủ</h1><p class="lead">Vui lòng tải lại trang sau ít phút.</p></div></div>'; return; }
   render();
 })();

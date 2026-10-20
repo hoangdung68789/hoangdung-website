@@ -187,7 +187,7 @@ details[open] .msub>*:nth-child(4){animation-delay:.18s}
 .fcard{position:absolute;display:flex;gap:12px;align-items:center;padding:8px 16px 8px 8px;border-radius:16px;background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),0 30px 60px -20px rgba(0,0,0,.5);color:#fff;font-size:13.5px;line-height:1.35;will-change:transform}
 .fcard img{width:74px;height:74px;border-radius:10px;object-fit:cover}
 .fcard b{display:block;font-size:14px;font-weight:600}
-.fc1{left:5%;top:58%}.fc2{right:5%;top:44%}.fc3{left:20%;bottom:9%}
+.fc1{left:3%;top:66%}.fc2{right:3%;top:30%}.fc3{right:12%;bottom:7%}
 @media (max-width:760px){.fc3{display:none}.fc1{left:4%;top:auto;bottom:16%}.fc2{right:4%;top:auto;bottom:4%}.fcard img{width:54px;height:54px}}
 .hero-copy{position:absolute;left:0;right:0;top:22vh;text-align:center;z-index:3;padding-left:var(--gut);padding-right:var(--gut-r)}
 .hero-copy h1{font-size:clamp(40px,5.6vw,88px);font-weight:600;letter-spacing:-.05em;max-width:13ch;margin-inline:auto}
@@ -816,6 +816,129 @@ html[data-theme="dark"] .warnbox{background:#3d2b17;color:#f6cfa4}
 .legal-fine{font-size:14px;color:var(--ink-2);max-width:90ch}
 @media (max-width:980px){.legal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.legal-band{grid-template-columns:1fr}.legal-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.legal-head{grid-template-columns:1fr}.legal-grid{grid-template-columns:1fr}.legal-steps{grid-template-columns:1fr}}
+
+/* ================= v16: điểm tin trên ảnh đầu trang ================= */
+.fcard{cursor:pointer;pointer-events:auto;transition:opacity .38s ease,transform .45s var(--ease),box-shadow .3s,background .3s;color:#fff;max-width:min(300px,62vw)}
+.fcard:empty{display:none}
+.fcard span{min-width:0}
+.fcard b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
+.fcard:hover,.fcard:focus-visible{background:rgba(255,255,255,.26);box-shadow:inset 0 0 0 1px rgba(255,255,255,.5),0 18px 40px -16px rgba(0,0,0,.55)}
+.fcard .fc-go{font-style:normal;margin-left:2px;opacity:.75;transition:transform .3s var(--ease)}
+.fcard:hover .fc-go{transform:translateX(3px);opacity:1}
+.fcard.swap{opacity:0}
+.fcard img{flex:none}
+@media (max-width:760px){.fcard b{max-width:150px}}
+/* ảnh tin đăng */
+.pcount{position:absolute;right:12px;bottom:12px;z-index:2;padding:4px 10px;border-radius:999px;background:rgba(10,12,14,.62);color:#fff;font-size:13px;font-weight:500;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.badge.sold{background:#121417;color:#fff}
+.lg-main{position:relative}
+.lg-thumbs{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:thin}
+.lg-thumbs button{flex:none;width:76px;height:56px;border-radius:8px;overflow:hidden;opacity:.6;box-shadow:inset 0 0 0 2px transparent;transition:opacity .2s,box-shadow .2s;padding:0}
+.lg-thumbs button[aria-current="true"]{opacity:1;box-shadow:0 0 0 2px var(--ink)}
+.lg-thumbs img{width:100%;height:100%;object-fit:cover}
+.consent.commit{font-size:14px}
+.consent.commit a{text-decoration:underline;color:var(--ink)}
+.consent .err{display:block;color:#c0473e;font-size:13.5px;margin-top:4px}
+html[data-theme="dark"] .consent .err{color:#ff9a8f}
+.mini-modal{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:16px;background:rgba(10,12,14,.45);border-radius:inherit;animation:fade .25s both}
+.mini-in{width:min(460px,100%);background:var(--surface);color:var(--ink);border-radius:18px;padding:22px;box-shadow:0 30px 70px -20px rgba(0,0,0,.55);max-height:90%;overflow:auto}
+.mini-in h4{margin:0 0 10px;font-size:19px}
+.mini-in ul{margin:0 0 16px;padding-left:20px;display:grid;gap:8px;color:var(--ink-2);font-size:15px;line-height:1.5}
+/* đăng nhập nhanh */
+.soc-login{display:grid;gap:8px}
+.soc-btn{display:flex;align-items:center;justify-content:center;gap:10px;height:48px;border-radius:999px;font-size:15px;font-weight:500;background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line-2);transition:box-shadow .25s,transform .25s}
+.soc-btn:hover{box-shadow:inset 0 0 0 1.5px var(--ink);transform:translateY(-1px)}
+.soc-btn.busy{opacity:.6;pointer-events:none}
+.auth-note a{text-decoration:underline}
+.soc-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.soc-row .chip{margin-left:0;gap:6px}
+.soc-row .mini{display:inline-flex;align-items:center;gap:6px}
+.acct-ic{position:relative}
+.acct-ic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.acct-ic.creator::after{content:"★";position:absolute;right:-4px;bottom:-4px;width:15px;height:15px;border-radius:50%;background:linear-gradient(135deg,#ffe2b8,#e9a27a);color:#5a2d12;font-size:9px;line-height:15px;text-align:center;box-shadow:0 0 0 2px var(--paper)}
+.acc-col{display:grid;gap:16px;min-width:0}
+/* hoạt động đăng nhập & bảo vệ tài khoản */
+.act-h{margin:6px 0 10px;font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);font-weight:600}
+.act-list{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:6px}
+.act-list li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border-radius:12px;background:var(--paper)}
+.act-list b{font-weight:600;font-size:15px}
+.act-list small{display:block;color:var(--ink-2);font-size:13.5px;word-break:break-word}
+.act-list .cur{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:#e3f5ea;color:#1f6e47;font-size:12.5px;font-weight:600}
+.act-dot{width:10px;height:10px;border-radius:50%;background:#2f9e6b;box-shadow:0 0 0 4px rgba(47,158,107,.15)}
+.act-list li.bad{background:#fdeceb}
+.act-list li.bad .act-dot{background:#c0473e;box-shadow:0 0 0 4px rgba(192,71,62,.15)}
+html[data-theme="dark"] .act-list li.bad{background:#3a1d1b}
+@media (max-width:520px){.act-list li{grid-template-columns:auto minmax(0,1fr)}.act-list li .linkbtn{grid-column:2;justify-self:start}}
+.sec-steps{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:8px}
+.sec-steps li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:center;padding:12px 14px;border-radius:12px;background:var(--paper);opacity:.6;transition:opacity .3s}
+.sec-steps li.on,.sec-steps li.ok{opacity:1}
+.sec-steps li.on{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.sec-steps .n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--paper-2)}
+.sec-steps li.ok .n{background:#2f9e6b;color:#fff}
+.sec-steps b{display:block;font-weight:600}
+.sec-steps small{color:var(--ink-2);font-size:14px}
+.sec-act{display:grid;gap:12px}
+/* ================= Creator nổi bật ================= */
+.cr-head{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,60px);align-items:end;margin-bottom:clamp(26px,4vw,44px)}
+.cr-head h2{font-size:clamp(30px,3.9vw,58px)}
+.cr-head p{color:var(--ink-2);font-size:clamp(16px,1.3vw,18px);max-width:50ch}
+.cr-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px}
+.cr-card{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:var(--surface);box-shadow:0 0 0 1px var(--line);transition:transform .45s var(--ease),box-shadow .35s}
+.cr-card:hover{transform:translateY(-4px);box-shadow:0 0 0 1px var(--line-2),0 26px 50px -30px rgba(0,0,0,.4)}
+.cr-cover{position:relative;aspect-ratio:16/10;background:linear-gradient(135deg,#1b2330,#0b0d10 60%,#3a2618);overflow:hidden}
+.cr-cover img{width:100%;height:100%;object-fit:cover}
+.cr-art{position:absolute;inset:0;display:grid;place-items:center;font-size:72px;font-weight:900;color:transparent;background:linear-gradient(135deg,#ffe2b8,#e9a27a 45%,#8fbfe4);-webkit-background-clip:text;background-clip:text;letter-spacing:-.05em}
+.cr-badge{position:absolute;left:12px;top:12px;display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:999px;font-size:13px;font-weight:700;letter-spacing:.02em;color:#3d1f0c;background:linear-gradient(135deg,#ffe2b8,#e9a27a);box-shadow:0 6px 18px -6px rgba(233,162,122,.7)}
+.cr-hot{position:absolute;right:12px;top:12px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:600;color:#fff;background:rgba(10,12,14,.6);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.cr-body{display:flex;flex-direction:column;gap:12px;padding:18px;flex:1}
+.cr-who{display:flex;gap:12px;align-items:center}
+.cr-av{position:relative;width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:700;color:#fff;background:linear-gradient(135deg,#e9a27a,#b86a45);overflow:hidden}
+.cr-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cr-who b{display:block;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.cr-who small{color:var(--ink-2);font-size:14px}
+.cr-body p{color:var(--ink-2);font-size:15px;line-height:1.55;flex:1}
+.cr-links{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cr-links a{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--paper);color:var(--ink);transition:background .25s,color .25s}
+.cr-links a:hover{background:var(--ink);color:var(--on-ink)}
+.cr-links .cr-play{width:auto;padding:0 16px;border-radius:999px;font-size:14.5px;font-weight:600;margin-left:auto}
+.cr-join{background:linear-gradient(160deg,rgba(233,162,122,.18),rgba(143,191,228,.14)),var(--surface)}
+.cr-join h3{font-size:clamp(20px,1.8vw,24px);letter-spacing:-.02em;line-height:1.25}
+.cr-join .btn{align-self:flex-start}
+@media (max-width:760px){.cr-head{grid-template-columns:1fr}}
+/* chân trang: điều khoản */
+.legal-links{display:flex;gap:6px 16px;flex-wrap:wrap}
+.legal-links a,.legal-links button{color:var(--night-muted);font-size:inherit;transition:color .25s}
+.legal-links a:hover,.legal-links button:hover{color:var(--night-ink)}
+.ts{padding:16px 18px;border-radius:14px;background:var(--paper);margin-bottom:12px}
+.ts h4{margin:0 0 8px;font-size:17px}
+.ts ul{margin:0 0 8px;padding-left:20px;display:grid;gap:6px;color:var(--ink-2);font-size:15px;line-height:1.5}
+
+/* ================= Hiệu ứng chữ: chữ tĩnh trở nên sống động (tự tắt khi thiết bị bật "giảm chuyển động") ================= */
+html.motion .hero-copy h1{animation:none;text-shadow:none;perspective:900px}
+.hero-copy h1 .hw{display:inline-block;white-space:nowrap}
+html.motion .hero-copy h1 .hw{background:linear-gradient(105deg,#fff 0 40%,#ffe2b8 47%,#fff7ec 50%,#ffe2b8 53%,#fff 60% 100%);background-size:320% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:blur(0) drop-shadow(0 2px 22px rgba(0,0,0,.42));transform-origin:50% 80%;animation:hwIn 1.15s var(--ease) both,hwSheen 7.5s ease-in-out infinite;animation-delay:calc(.2s + var(--w) * .09s),calc(2s + var(--w) * .14s)}
+@keyframes hwIn{from{opacity:0;transform:translateY(.42em) rotateX(-70deg);filter:blur(10px) drop-shadow(0 2px 22px rgba(0,0,0,0))}}
+@keyframes hwSheen{0%,58%{background-position:100% 0}100%{background-position:0 0}}
+.hero-copy p b{position:relative;white-space:nowrap}
+html.motion .hero-copy p b::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:2px;border-radius:2px;background:linear-gradient(90deg,#ffe2b8,#e9a27a);transform:scaleX(0);transform-origin:0 50%;animation:ulIn 1s 1.3s var(--ease) forwards}
+@keyframes ulIn{to{transform:scaleX(1)}}
+.hero-eyebrow{position:relative;overflow:hidden;isolation:isolate}
+html.motion .hero-eyebrow::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.38) 50%,transparent 70%);transform:translateX(-120%);animation:pillShine 5.5s 1.4s ease-in-out infinite}
+@keyframes pillShine{0%,70%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+/* dòng chữ phụ màu xám trong tiêu đề: đổi sắc nhẹ, chậm */
+.soft{--soft:var(--muted)}
+.night .soft,.pano .soft{--soft:var(--night-muted)}
+html.motion h2 .soft{animation:softTint 9s ease-in-out infinite}
+@keyframes softTint{0%,100%{color:var(--soft)}50%{color:color-mix(in srgb,var(--soft) 58%,var(--sun))}}
+/* nhãn nhỏ đầu mục: vạch sáng chạy */
+.eyebrow{position:relative}
+html.motion .sec .eyebrow::before{content:"";display:inline-block;width:18px;height:2px;margin-right:10px;vertical-align:.3em;border-radius:2px;background:var(--sun);animation:ebPulse 3.2s ease-in-out infinite}
+@keyframes ebPulse{0%,100%{width:18px;opacity:.7}50%{width:30px;opacity:1}}
+/* số nổi bật: giá, khoản trả góp — nhấp nháy nhẹ khi đổi */
+.res .hl b{transition:color .3s}
+.res .hl b.tick{animation:tickPop .45s var(--ease)}
+@keyframes tickPop{40%{transform:scale(1.04);color:var(--sun)}}
+.res .hl b{display:inline-block;transform-origin:0 60%}
 </style>
 </head>
 <body>
@@ -890,10 +1013,10 @@ html[data-theme="dark"] .warnbox{background:#3d2b17;color:#f6cfa4}
       <p>Môi giới tận tâm. <b>Tư vấn thực chất.</b> Lộ trình rõ ràng cho bước tiếp theo của bạn.</p>
       <a href="#bat-dong-san" class="btn" data-scroll>Xem bất động sản <span class="arr">→</span></a>
     </div>
-    <div class="float-cards" aria-hidden="true">
-      <div class="fcard fc1" data-depth="70"><img data-img="starry" alt=""><span><b>Căn hộ trần sao</b>Bình Thạnh · cho thuê</span></div>
-      <div class="fcard fc2" data-depth="110"><img data-img="ocean" alt=""><span><b>Biệt thự biển</b>Cần Giờ · 120 tỷ</span></div>
-      <div class="fcard fc3" data-depth="45"><img data-img="penthouse" alt=""><span><b>Penthouse thông tầng</b>Quận 7 · 38 tỷ</span></div>
+    <div class="float-cards" aria-label="Bất động sản nổi bật">
+      <div class="fcard fc1" data-depth="70" role="button" tabindex="0"></div>
+      <div class="fcard fc2" data-depth="110" role="button" tabindex="0"></div>
+      <div class="fcard fc3" data-depth="45" role="button" tabindex="0"></div>
     </div>
     <div class="mask" aria-hidden="true">
       <div class="mask-3d" id="mask3d"><div class="mask-word" id="maskWord">HOÀNG DŨNG</div>
@@ -1022,6 +1145,15 @@ html[data-theme="dark"] .warnbox{background:#3d2b17;color:#f6cfa4}
 </section>
 
 <!-- ============ ĐÁNH GIÁ ============ -->
+<!-- ============ CREATOR NỔI BẬT ============ -->
+<section class="sec" style="padding-top:0" id="creator">
+  <div class="wrap">
+    <div class="cr-head"><div><div class="eyebrow">Creator nổi bật</div><h2 data-words style="margin-top:14px">Góc nhìn thật <span class="soft">từ những người làm nội dung nhà đất.</span></h2></div>
+      <p>Video review nhà, kinh nghiệm mua bán và pháp lý từ cộng đồng Creator được Hoàng Dũng chọn lọc. Bạn cũng làm nội dung bất động sản? Đăng ký để được giới thiệu tại đây.</p></div>
+    <ul class="cr-grid" id="crGrid"></ul>
+  </div>
+</section>
+
 <section class="sec" style="padding-top:0" id="danh-gia">
   <div class="wrap">
     <div class="tst-head"><h2 data-words>Lời cam kết <span class="soft">của Hoàng Dũng.</span></h2></div>
@@ -1183,7 +1315,7 @@ html[data-theme="dark"] .warnbox{background:#3d2b17;color:#f6cfa4}
       <div><h4>Liên hệ</h4><ul id="contactList"></ul></div>
     </div>
     <a class="giant-wrap" href="#top" data-scroll aria-label="Hoàng Dũng Real Estate – về đầu trang"><div class="giant" id="giant" aria-hidden="true"><span>H</span><span>O</span><span>À</span><span>N</span><span>G</span><span class="sp">&nbsp;</span><span>D</span><span>Ũ</span><span>N</span><span>G</span></div></a><a class="giant-sub" href="#gioi-thieu" data-scroll>Real Estate · Kiến tạo mái ấm gia đình Việt</a>
-    <div class="legal"><a href="#top" data-scroll class="legal-home">© 2026 Hoàng Dũng Real Estate · Kiến tạo mái ấm gia đình Việt</a><span id="socials"></span></div>
+    <div class="legal"><a href="#top" data-scroll class="legal-home">© 2026 Hoàng Dũng Real Estate · Kiến tạo mái ấm gia đình Việt</a><nav class="legal-links" aria-label="Điều khoản"><a href="/dieu-khoan">Điều khoản dịch vụ</a><a href="/chinh-sach-bao-mat">Chính sách bảo mật</a><a href="/cam-ket-nguon-hang">Cam kết nguồn hàng</a><button type="button" data-terms-sum>Tóm tắt</button></nav><span id="socials"></span></div>
   </div>
 </footer>
 
@@ -1224,7 +1356,7 @@ function lazyScenes(root = document) { root.querySelectorAll('img[data-img]:not(
 /* =========================================================
    2. DỮ LIỆU
    ========================================================= */
-const LISTINGS = [
+let LISTINGS = [
   { id: 1, type: 'ban', title: 'Biệt thự tân cổ điển, hồ phun nước', area: 'TP. Thủ Đức', price: 450000, size: 2400, dim: '40 × 60 m', beds: 8, floors: 4, img: 'mansion', legal: 'Sổ hồng riêng', note: 'Kiến trúc tân cổ điển, sân vườn và hồ phun nước nhiều tầng, lối vào riêng, hệ thống chiếu sáng cảnh quan toàn khuôn viên.' },
   { id: 2, type: 'ban', title: 'Penthouse thông tầng view toàn thành phố', area: 'Quận 7', price: 38000, size: 320, dim: '320 m²', beds: 4, floors: 2, img: 'penthouse', legal: 'Sổ hồng', note: 'Phòng khách thông tầng, kính cao từ sàn tới trần, cầu thang đèn LED, đón hoàng hôn trọn vẹn.' },
   { id: 3, type: 'thue', title: 'Căn hộ cao cấp trần sao, nội thất trọn gói', area: 'Bình Thạnh', price: 85, size: 160, dim: '160 m²', beds: 3, floors: 1, img: 'starry', legal: 'Hợp đồng 12 tháng', note: 'Trần sao lấp lánh, sàn đá marble, nội thất cao cấp, dọn vào ở ngay.' },
@@ -1280,15 +1412,15 @@ function scrollToEl(target) { const el = typeof target === 'string' ? $(target) 
 /* ---------- Modal ---------- */
 let lastFocus = null;
 function openModal(html, wide = false) {
-  lastFocus = document.activeElement;
+  lastFocus = document.activeElement; delete $('#modal').dataset.lock; const mx = $('#modalPanel .modal-x'); if (mx) mx.hidden = false;
   $('#modalBody').innerHTML = html; $('#modalPanel').classList.toggle('wide', wide); $('#modalPanel').classList.remove('auth');
   $('#modal').hidden = false; document.body.style.overflow = 'hidden';
   lazyScenes($('#modalBody')); if (document.documentElement.classList.contains('motion')) initTilt($('#modalBody'));
   setTimeout(() => { const f = $('#modalBody input,#modalBody select,#modalBody textarea,#modalBody button'); (f || $('.modal-x')).focus(); }, 60);
 }
-function closeModal() { $('#modal').hidden = true; document.body.style.overflow = ''; lastFocus && lastFocus.focus && lastFocus.focus(); }
+function closeModal() { if ($('#modal').dataset.lock) return; $('#modal').hidden = true; document.body.style.overflow = ''; lastFocus && lastFocus.focus && lastFocus.focus(); }
 $('#modal').addEventListener('click', e => { if (e.target.closest('[data-close]')) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (!$('#modal').hidden) closeModal(); closeDrops(); setMenu(false); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (!$('#modal').hidden && !$('.mini-modal')) closeModal(); else { const mm = $('.mini-modal'); if (mm) mm.remove(); } closeDrops(); setMenu(false); } });
 
 /* ---------- Biểu mẫu ---------- */
 const NEEDS = ['Mua nhà', 'Bán nhà', 'Thuê nhà', 'Vay mua nhà', 'Tư vấn pháp lý', 'Hợp tác', 'Câu hỏi cho chuyên gia', 'Khác'];
@@ -1308,7 +1440,8 @@ function validate(form) {
   $$('input[required]', form).forEach(inp => {
     const err = inp.parentElement.querySelector('.err'); let m = '';
     const v = inp.value.trim();
-    if (!v) m = 'Vui lòng nhập thông tin này.';
+    if (inp.type === 'checkbox') m = inp.checked ? '' : 'Vui lòng đọc và đánh dấu đồng ý cam kết để gửi yêu cầu.';
+    else if (!v) m = 'Vui lòng nhập thông tin này.';
     else if (inp.name === 'phone' && !/^(0|\+84)\d{9,10}$/.test(v.replace(/[\s.]/g, ''))) m = 'Số điện thoại chưa đúng, ví dụ 0901 234 567.';
     else if (inp.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) m = 'Email chưa đúng định dạng.';
     else if (inp.type === 'date' && new Date(v) < new Date(new Date().toDateString())) m = 'Vui lòng chọn ngày từ hôm nay trở đi.';
@@ -1317,10 +1450,10 @@ function validate(form) {
   return ok;
 }
 const FORM_NAME = { contact: 'Yêu cầu tư vấn', viewing: 'Đặt lịch xem nhà', join: 'Ứng tuyển môi giới' };
-const FIELD_NAME = { name: 'Họ tên', phone: 'Điện thoại', need: 'Nhu cầu', area: 'Khu vực', msg: 'Lời nhắn', date: 'Ngày xem', exp: 'Kinh nghiệm', listing: 'Bất động sản' };
+const FIELD_NAME = { camket: 'Cam kết nguồn hàng', name: 'Họ tên', phone: 'Điện thoại', need: 'Nhu cầu', area: 'Khu vực', msg: 'Lời nhắn', date: 'Ngày xem', exp: 'Kinh nghiệm', listing: 'Bất động sản' };
 function formText(f) {
   const lines = [`[${FORM_NAME[f.dataset.form] || 'Yêu cầu'}] – website Hoàng Dũng Real Estate`];
-  new FormData(f).forEach((v, k) => { v = String(v).trim(); if (v) lines.push(`${FIELD_NAME[k] || k}: ${k === 'date' ? v.split('-').reverse().join('/') : v}`); });
+  new FormData(f).forEach((v, k) => { v = String(v).trim(); if (k === 'camket') v = 'Đã đọc và đồng ý (phiên bản ' + COMMIT.v + ')'; if (v) lines.push(`${FIELD_NAME[k] || k}: ${k === 'date' ? v.split('-').reverse().join('/') : v}`); });
   return lines.join('\n');
 }
 function sendSheet(text) {
@@ -1433,7 +1566,8 @@ const KHU_VUC = {
   'Huyện': ['Bình Chánh', 'Cần Giờ', 'Củ Chi', 'Hóc Môn', 'Nhà Bè']
 };
 const AREA_LABEL = { 'TP. Thủ Đức': 'TP. Thủ Đức (Quận 2, Quận 9, Thủ Đức cũ)' };
-$('#fArea').insertAdjacentHTML('beforeend', Object.entries(KHU_VUC).map(([g, arr]) => `<optgroup label="${g}">${arr.map(a => { const n = LISTINGS.filter(l => l.area === a).length; return `<option value="${a}">${AREA_LABEL[a] || a}${n ? ` · ${n} tin` : ''}</option>`; }).join('')}</optgroup>`).join(''));
+function renderAreas() { const sel = $('#fArea'), cur = sel.value; $$('optgroup', sel).forEach(g => g.remove()); sel.insertAdjacentHTML('beforeend', Object.entries(KHU_VUC).map(([g, arr]) => `<optgroup label="${g}">${arr.map(a => { const n = LISTINGS.filter(l => l.area === a).length; return `<option value="${a}">${AREA_LABEL[a] || a}${n ? ` · ${n} tin` : ''}</option>`; }).join('')}</optgroup>`).join('')); sel.value = cur; }
+renderAreas();
 // Thanh kéo giá 1 tỷ → 1.000 tỷ (thang logarit để kéo mượt ở mọi mức giá)
 const toTy = v => Math.pow(10, 3 * v / 1000);
 const fmtTy = t => (t < 10 ? nf.format(Math.round(t * 10) / 10) : t < 100 ? nf.format(Math.round(t)) : nf.format(Math.round(t / 5) * 5)) + ' tỷ';
@@ -1471,13 +1605,13 @@ function setKnob(i, v) { v = Math.round(clamp(v, 0, 1000)); PR.v[i] = i === 0 ? 
 const heart = '<svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.3 5 6.9 5c2.1 0 3.6 1.2 5.1 3 1.5-1.8 3-3 5.1-3 3.6 0 5.7 3.6 4.4 6.8C19.5 16.4 12 21 12 21z"/></svg>';
 const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd');
 function renderGrid() {
-  let list = LISTINGS.filter(l => (state.type === 'all' || l.type === state.type) && (!state.area || l.area === state.area) && (l.type !== 'ban' || (l.price / 1000 >= state.pmin - .001 && l.price / 1000 <= state.pmax + .001)) && (!state.q || norm(`${l.title} ${l.area} ${l.note} ${l.dim}`).includes(norm(state.q))));
+  let list = LISTINGS.filter(l => (state.type === 'all' || l.type === state.type) && (!state.area || l.area === state.area) && (l.type !== 'ban' || ((PR.v[0] <= 0 || l.price / 1000 >= state.pmin - .001) && (PR.v[1] >= 1000 || l.price / 1000 <= state.pmax + .001))) && (!state.q || norm(`${l.title} ${l.area} ${l.note} ${l.dim}`).includes(norm(state.q))));
   if (state.sort === 'asc') list.sort((a, b) => a.price - b.price); else if (state.sort === 'desc') list.sort((a, b) => b.price - a.price); else if (state.sort === 'area') list.sort((a, b) => b.size - a.size);
   $('#count').textContent = `${list.length} bất động sản`;
   $('#grid').innerHTML = list.length ? list.map(l => `
     <article class="card" data-id="${l.id}" tabindex="0" aria-label="${esc(l.title)}">
-      <div class="ph tilt"><img data-img="${l.img}" alt="${esc(l.title)}">
-        <span class="badge">${l.type === 'ban' ? 'Đang bán' : 'Cho thuê'}</span>
+      <div class="ph tilt"><img ${lImg(l)}>
+        <span class="badge${l.sold ? ' sold' : ''}">${l.sold ? 'Đã giao dịch' : l.type === 'ban' ? 'Đang bán' : 'Cho thuê'}</span>${l.imgs && l.imgs.length > 1 ? `<span class="pcount">${l.imgs.length} ảnh</span>` : ''}
         <button type="button" class="fav" data-fav="${l.id}" aria-pressed="${favs.has(l.id)}" aria-label="Lưu tin">${heart}</button></div>
       <div class="card-top"><h3>${esc(l.title)}</h3><span class="price">${fmtPrice(l)}</span></div>
       <div class="meta"><span>${l.area}</span><span>${l.size} m²</span>${l.beds ? `<span>${l.beds} phòng ngủ</span>` : ''}${l.floors > 1 ? `<span>${l.floors} tầng</span>` : ''}</div>
@@ -1502,23 +1636,28 @@ document.addEventListener('click', e => {
 $('#grid').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.classList.contains('card')) openListing(+e.target.dataset.id); });
 function openListing(id) {
   const l = LISTINGS.find(x => x.id === id); if (!l) return;
-  const today = new Date().toISOString().slice(0, 10);
-  openModal(`<div class="detail"><div><div class="ph tilt"><img data-img="${l.img}" alt="${esc(l.title)}"></div>
-    <div class="spec"><div>Giá<b>${fmtPrice(l)}</b></div><div>Diện tích<b>${l.size} m² · ${l.dim}</b></div><div>${l.beds ? 'Phòng ngủ' : 'Loại'}<b>${l.beds || 'Văn phòng'}</b></div><div>Pháp lý<b>${l.legal}</b></div></div>
-    <p style="color:var(--ink-2)">${l.note}</p></div>
-    <div><span class="tag-note">${l.type === 'ban' ? 'Đang bán' : 'Cho thuê'} · ${l.area}</span><h3 style="margin:12px 0 18px">${esc(l.title)}</h3>
-    <form class="form" data-form="viewing" novalidate><input type="hidden" name="listing" value="${esc(l.title)} – ${esc(l.area)}">
+  trackEv('listing', l.id);
+  const today = new Date().toISOString().slice(0, 10), n = (l.imgs || []).length;
+  const thumbs = n > 1 ? `<div class="lg-thumbs" role="group" aria-label="Ảnh căn nhà">${l.imgs.map((u, i) => `<button type="button" data-gi="${i}" aria-current="${i === 0}" aria-label="Ảnh ${i + 1}"><img ${imgAttr(u, '')}></button>`).join('')}</div>` : '';
+  const form = l.sold ? `<div class="acc-callout"><span>Căn này đã giao dịch thành công. Dũng có thể giới thiệu những căn tương tự đang chào bán.</span><button type="button" class="btn" data-contact="${l.type === 'ban' ? 'Mua nhà' : 'Thuê nhà'}" data-msg="Tôi quan tâm căn tương tự: ${esc(l.title)} – ${esc(l.area)}.">Tìm căn tương tự <span class="arr">→</span></button></div>`
+    : `<form class="form" data-form="viewing" novalidate><input type="hidden" name="listing" value="${esc(l.title)} – ${esc(l.area)} (mã tin ${l.id})">
       <label>Họ và tên<input name="name" autocomplete="name" required><span class="err"></span></label>
       <label>Số điện thoại<input name="phone" type="tel" autocomplete="tel" required><span class="err"></span></label>
       <label>Ngày muốn xem nhà<input name="date" type="date" min="${today}" required><span class="err"></span></label>
+      <label class="consent commit"><input type="checkbox" name="camket" value="dong-y" required><span>Tôi đã đọc, hiểu rõ và đồng ý <a href="${COMMIT.url}" target="_blank" rel="noopener">Cam kết bảo mật thông tin nguồn hàng</a> (phiên bản ${COMMIT.v}): giữ bí mật thông tin căn nhà, không tự liên hệ hay giao dịch trực tiếp với chủ nhà hoặc khách do Hoàng Dũng giới thiệu. <button type="button" class="linkbtn" data-commit-sum>Xem tóm tắt</button><span class="err"></span></span></label>
       <button class="btn" type="submit">Đặt lịch xem nhà <span class="arr">→</span></button>
       <button class="btn ghost" type="button" data-fav="${l.id}" aria-pressed="${favs.has(l.id)}">${favs.has(l.id) ? 'Đã lưu' : 'Lưu tin này'}</button>
-    </form></div></div>`, true);
+    </form>`;
+  openModal(`<div class="detail"><div><div class="ph tilt lg-main"><img id="lgMain" data-lid="${l.id}" ${lImg(l)}>${n > 1 ? `<span class="pcount">${n} ảnh</span>` : ''}</div>${thumbs}
+    <div class="spec"><div>Giá<b>${fmtPrice(l)}</b></div><div>Diện tích<b>${l.size} m²${l.dim ? ' · ' + esc(l.dim) : ''}</b></div><div>${l.beds ? 'Phòng ngủ' : 'Loại'}<b>${l.beds || (l.type === 'thue' ? 'Mặt bằng / văn phòng' : 'Thương mại')}</b></div><div>Pháp lý<b>${esc(l.legal || '—')}</b></div></div>
+    <p style="color:var(--ink-2)">${esc(l.note)}</p></div>
+    <div><span class="tag-note">${l.sold ? 'Đã giao dịch' : l.type === 'ban' ? 'Đang bán' : 'Cho thuê'} · ${esc(l.area)}</span><h3 style="margin:12px 0 18px">${esc(l.title)}</h3>
+    ${form}</div></div>`, true);
 }
 function openSaved() {
   const items = LISTINGS.filter(l => favs.has(l.id));
   openModal(`<h3>Bất động sản đã lưu</h3><p class="lead">${items.length ? `Bạn đã lưu ${items.length} tin trên trình duyệt này.` : 'Chưa có tin nào. Bấm biểu tượng trái tim trên mỗi tin để lưu lại.'}</p>
-  <div class="saved-list">${items.map(l => `<div style="display:flex;gap:8px;align-items:center"><button type="button" class="saved-item" data-open="${l.id}"><span class="ph"><img data-img="${l.img}" alt=""></span><span><b style="font-weight:500">${esc(l.title)}</b><br><small style="color:var(--ink-2)">${l.area} · ${fmtPrice(l)}</small></span><span>→</span></button><button type="button" class="fav" style="position:static;flex:0 0 38px;background:var(--paper)" data-fav="${l.id}" aria-pressed="true" aria-label="Bỏ lưu">${heart}</button></div>`).join('')}</div>
+  <div class="saved-list">${items.map(l => `<div style="display:flex;gap:8px;align-items:center"><button type="button" class="saved-item" data-open="${l.id}"><span class="ph"><img ${lImg(l)}></span><span><b style="font-weight:500">${esc(l.title)}</b><br><small style="color:var(--ink-2)">${l.area} · ${fmtPrice(l)}</small></span><span>→</span></button><button type="button" class="fav" style="position:static;flex:0 0 38px;background:var(--paper)" data-fav="${l.id}" aria-pressed="true" aria-label="Bỏ lưu">${heart}</button></div>`).join('')}</div>
   ${items.length ? '' : '<p style="margin-top:18px"><a class="btn" href="#bat-dong-san" data-scroll>Xem bất động sản <span class="arr">→</span></a></p>'}`);
 }
 $('#savedBtn').onclick = openSaved;
@@ -1554,7 +1693,7 @@ function calc() {
   const P = price * ltv, A = rate ? P * rate / (1 - Math.pow(1 + rate, -n)) : P / n;
   $('#oPrice').textContent = nf.format(+C.price.value) + ' tỷ'; $('#oLtv').textContent = C.ltv.value + '%';
   $('#oRate').textContent = nf.format(+C.rate.value) + '%'; $('#oYears').textContent = C.years.value + ' năm';
-  $('#rMonthly').textContent = fmtVND(A); $('#rLoan').textContent = fmtVND(P); $('#rOwn').textContent = fmtVND(price - P);
+  { const m = $('#rMonthly'), v = fmtVND(A); if (m.textContent && m.textContent !== v) { m.classList.remove('tick'); void m.offsetWidth; m.classList.add('tick'); } m.textContent = v; } $('#rLoan').textContent = fmtVND(P); $('#rOwn').textContent = fmtVND(price - P);
   $('#rFirst').textContent = fmtVND(P / n + P * rate); $('#rInterest').textContent = fmtVND(A * n - P);
 }
 Object.values(C).forEach(i => i.addEventListener('input', calc)); calc();
@@ -1575,7 +1714,9 @@ document.addEventListener('click', e => {
 /* =========================================================
    6. HERO & CHUYỂN ĐỘNG
    ========================================================= */
+function splitHeroTitle() { const h = $('.hero-copy h1'); if (!h || h.querySelector('.hw')) return; const words = h.textContent.trim().split(/\s+/); h.setAttribute('aria-label', words.join(' ')); h.innerHTML = words.map((w, i) => `<span class="hw" style="--w:${i}" aria-hidden="true">${esc(w)}</span>`).join(' '); }
 function setupHero() {
+  splitHeroTitle();
   const sky = $('#sky');
   if (CAU_HINH.anh.bauTroi) { sky.onerror = () => { sky.onerror = null; sky.src = ANH.mansion; }; sky.src = CAU_HINH.anh.bauTroi; } else sky.src = ANH.mansion;
   $('#maskWord').style.backgroundImage = `url(${ANH.mansion})`;
@@ -2132,8 +2273,9 @@ function setUser(u, remember = true) {
   const was = ACC.user; ACC.user = u; if (ACC.mode === 'local') store.set('hd_session', u && remember ? u : null);
   if (ACC.mode === 'server' && u && (!was || was.email !== u.email)) syncFavs();
   const ic = $('#acctIc'), lb = $('#acctLbl');
-  if (u) { ic.textContent = (u.name || '?').trim().split(/\s+/).pop()[0].toUpperCase(); ic.classList.add('in'); lb.textContent = (u.name || '').split(/\s+/).pop(); }
-  else { ic.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>'; ic.classList.remove('in'); lb.textContent = 'Đăng nhập'; }
+  if (u) { ic.textContent = (u.name || '?').trim().split(/\s+/).pop()[0].toUpperCase(); if (u.avatar && /^https:\/\//.test(u.avatar)) { const im = new Image(); im.alt = ''; im.referrerPolicy = 'no-referrer'; im.onerror = () => im.remove(); im.src = u.avatar; ic.appendChild(im); } ic.classList.add('in'); ic.classList.toggle('creator', u.creator === 'approved'); lb.textContent = (u.name || '').split(/\s+/).pop();
+    if (store.get('hd_want_creator', 0) && !u.needsOnboarding) { store.set('hd_want_creator', 0); setTimeout(() => { if (!$('#modal').dataset.lock) openAccountS('creator'); }, 1800); } }
+  else { ic.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>'; ic.classList.remove('in', 'creator'); lb.textContent = 'Đăng nhập'; }
   const m = $('#mAcct .mt'), want = u ? 'Tài khoản' : 'Đăng nhập'; if (m && m.getAttribute('aria-label') !== want) splitText(m, want);
 }
 const EYE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
@@ -2187,10 +2329,12 @@ function authViewS(v) {
     <div class="auth-row"><label><input type="checkbox" name="remember" checked> Ghi nhớ đăng nhập</label><button type="button" class="linkbtn" data-goto="forgot">Quên mật khẩu?</button></div>
     <button class="btn auth-submit" type="submit"><span class="t">Đăng nhập</span><span class="sp"></span></button>
     ${any ? '<button type="button" class="btn ghost auth-code" data-goto="code">Đăng nhập bằng mã xác minh</button>' : ''}
+    ${socialButtons('login') ? '<div class="auth-or">hoặc đăng nhập nhanh</div>' + socialButtons('login') : ''}
     <div class="auth-or">hoặc</div>
-    <div class="auth-alt"><a href="https://zalo.me/0877781796" target="_blank" rel="noopener">Hỗ trợ qua Zalo</a><button type="button" data-goto="register">Tạo tài khoản</button></div>${note}</form></div>`;
+    <div class="auth-alt"><a href="https://zalo.me/0877781796" target="_blank" rel="noopener">Hỗ trợ qua Zalo</a><button type="button" data-goto="register">Tạo tài khoản</button></div>${termsLine('đăng nhập')}${note}</form></div>`;
   if (v === 'register') return `<div class="auth-view" data-v="register"><h3>Tạo tài khoản miễn phí</h3><p class="lead">Dành cho khách mua, chủ nhà và môi giới. ${any ? 'Chúng tôi sẽ gửi mã xác minh để bảo vệ tài khoản của bạn.' : 'Chỉ mất 30 giây.'}</p>
     <form class="auth-form" data-auth="register" novalidate>
+    ${socialButtons('register') ? socialButtons('register') + '<div class="auth-or">hoặc đăng ký bằng email</div>' : ''}
     <label class="fl"><select name="role">${ROLES.map(r => `<option>${r}</option>`).join('')}</select><span class="lb">Bạn là</span></label>
     ${fld('name', 'Họ và tên', 'text', 'autocomplete="name" required')}
     ${phoneField('phone', 'Số điện thoại')}
@@ -2198,6 +2342,7 @@ function authViewS(v) {
     ${fld('pass', 'Mật khẩu (ít nhất 8 ký tự)', 'password', 'autocomplete="new-password" required')}
     <div class="meter"><i></i></div><div class="meter-t" id="meterT">Độ mạnh mật khẩu</div>
     ${fld('pass2', 'Nhập lại mật khẩu', 'password', 'autocomplete="new-password" required')}
+    <label class="auth-row" style="justify-content:flex-start;align-items:flex-start;gap:10px"><input type="checkbox" name="terms" style="margin-top:3px"> <span style="color:var(--ink-2)">Tôi đã đọc và đồng ý <a href="/dieu-khoan" target="_blank" rel="noopener" style="text-decoration:underline">Điều khoản dịch vụ</a> và <a href="/chinh-sach-bao-mat" target="_blank" rel="noopener" style="text-decoration:underline">Chính sách bảo mật</a> <button type="button" class="linkbtn" data-terms-sum>(tóm tắt)</button></span></label>
     <label class="auth-row" style="justify-content:flex-start"><input type="checkbox" name="agree" checked> <span style="color:var(--ink-2)">Tôi đồng ý nhận tư vấn từ Hoàng Dũng Real Estate</span></label>
     <div class="err"></div>
     <button class="btn auth-submit" type="submit"><span class="t">Tạo tài khoản</span><span class="sp"></span></button>
@@ -2273,7 +2418,8 @@ document.addEventListener('submit', async e => {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email || '')) return bad('Vui lòng nhập địa chỉ email hợp lệ, ví dụ ten@gmail.com.');
       if ((d.pass || '').length < 8) return bad('Mật khẩu cần ít nhất 8 ký tự.');
       if (d.pass !== d.pass2) return bad('Hai mật khẩu chưa khớp nhau.');
-      go(); const r = await api('/auth/register', { name: d.name, email: d.email, phone: d.phone, cc: ccDial(d.ccIso), ccIso: d.ccIso, pass: d.pass, role: d.role, agree: !!d.agree });
+      if (!d.terms) return bad('Vui lòng đồng ý Điều khoản dịch vụ và Chính sách bảo mật để tạo tài khoản.');
+      go(); const r = await api('/auth/register', { name: d.name, email: d.email, phone: d.phone, cc: ccDial(d.ccIso), ccIso: d.ccIso, pass: d.pass, role: d.role, agree: !!d.agree, terms: true });
       if (r.need === 'otp') startOtp(r, 'register'); else authDone(r.user, 'Tạo tài khoản thành công');
     } else if (kind === 'forgot' || kind === 'codelogin') {
       if (!idOk()) return bad('Vui lòng nhập email hoặc số điện thoại hợp lệ.');
@@ -2431,8 +2577,9 @@ document.addEventListener('submit', async e => {
 function initAccount() {
   $('#acctBtn').onclick = () => openAuth('login');
   if (ACC.mode === 'server') {
-    api('/auth/me').then(j => j.user && setUser(j.user)).catch(() => { });
-    api('/auth/config').then(j => { ACC.cfg = j; }).catch(() => { });
+    const me = api('/auth/me').then(j => { if (j.user) setUser(j.user); }).catch(() => { });
+    const cf = api('/auth/config').then(j => { ACC.cfg = j; }).catch(() => { });
+    Promise.all([me, cf]).then(() => { const h = location.hash; handleAuthHash(); if (ACC.user && ACC.user.needsOnboarding && h !== '#onboard') setTimeout(openOnboard, 900); });
     const h = location.hash;
     if (h.startsWith('#reset=')) { ACC.resetToken = decodeURIComponent(h.slice(7)); setTimeout(() => { openAuth('login', true); gotoAuth('reset'); }, 600); }
     else if (h === '#verified') { history.replaceState(null, '', location.pathname); setTimeout(() => toast('Email của bạn đã được xác minh. Cảm ơn bạn!'), 800); }
@@ -2572,14 +2719,20 @@ async function acctLoad() {
   }
 }
 async function openAccountS(view = 'home', arg) {
+  if (ACC.user && ACC.user.needsOnboarding) return openOnboard();
   openModal('<div id="acctBody" class="acc"><p class="auth-note">Đang tải tài khoản…</p></div>', true);
-  if (await acctLoad()) acctGo(view, arg);
+  if (await acctLoad()) { if (ACCT.d.user.needsOnboarding) return openOnboard(); acctGo(view, arg); }
 }
 function acctShow(html) { const b = $('#acctBody'); if (!b) return; b.innerHTML = html; const p = $('#modalPanel'); if (p) p.scrollTop = 0; const f = b.querySelector('input:not([type=checkbox]):not([type=hidden]),textarea'); if (f && matchMedia('(hover:hover)').matches) f.focus({ preventScroll: true }); }
 const back = (to = 'home') => `<button type="button" class="acc-back" data-acc="${to}">← Quay lại tài khoản</button>`;
 function acctHome() {
-  const { user: u, profile: p, profileAt, requests = [], channels: ch = {} } = ACCT.d;
-  const ini = esc((u.name || '?').trim().split(/\s+/).pop()[0].toUpperCase());
+  const { user: u, profile: p, profileAt, requests = [], channels: ch = {}, identities = [], creator: cr } = ACCT.d;
+  const ini = u.avatar && /^https:\/\//.test(u.avatar) ? `<img src="${esc(u.avatar)}" alt="" referrerpolicy="no-referrer">` : esc((u.name || '?').trim().split(/\s+/).pop()[0].toUpperCase());
+  const linked = k => identities.some(i => i.provider === k);
+  const socRow = ['google', 'facebook'].filter(k => ch[k] || linked(k)).map(k => linked(k) ? `<span class="chip ok">${SOC_IC[k]} ${SOC_NAME[k]}</span><button type="button" class="mini" data-unlink="${k}">Gỡ</button>` : `<a class="mini" href="${CAU_HINH.api}/auth/oauth/${k}/start?link=1" data-soc="${k}">${SOC_IC[k]} Liên kết ${SOC_NAME[k]}</a>`).join('');
+  const crSt = cr ? cr.status : '';
+  const crCard = `<section class="acc-card cr-acc" aria-label="Creator"><h4>Creator nổi bật</h4>${crSt === 'approved' ? `<p class="acc-note"><span class="cr-badge" style="position:static">★ Creator</span> Kênh <b>${esc(cr.display_name)}</b> đang được giới thiệu trong mục <a href="#creator" data-scroll style="text-decoration:underline">Creator nổi bật</a>.</p>` : crSt === 'pending' ? `<p class="acc-note">⏳ Đơn đăng ký kênh <b>${esc(cr.display_name)}</b> đang chờ quản trị viên duyệt.</p>` : crSt === 'rejected' ? `<p class="acc-note">Đơn trước chưa được duyệt${cr.note ? ': ' + esc(cr.note) : ''}. Bạn có thể cập nhật và gửi lại.</p>` : '<p class="acc-note">Bạn làm video về nhà đất trên TikTok, YouTube hay Facebook? Đăng ký để được giới thiệu với danh hiệu Creator nổi bật trên trang chủ.</p>'}
+    <div class="row-btns" style="margin-top:8px"><button type="button" class="mini dark" data-acc="creator">${crSt ? 'Cập nhật thông tin kênh' : 'Đăng ký làm Creator'}</button>${crSt ? '<button type="button" class="mini" data-creator-withdraw>Rút khỏi chương trình</button>' : ''}</div></section>`;
   const pend = t => requests.some(r => r.topic === t);
   const nameAct = u.nameLocked ? `<span class="chip lock" title="Mỗi tài khoản chỉ tự đổi tên 1 lần">Đã đổi 1 lần</span><button type="button" class="mini" data-acc="request" data-topic="Đổi tên hiển thị"${pend('Đổi tên hiển thị') ? ' disabled' : ''}>${pend('Đổi tên hiển thị') ? 'Đã gửi yêu cầu' : 'Yêu cầu hỗ trợ'}</button>` : '<button type="button" class="mini" data-acc="name">Đổi tên</button>';
   const prof = p ? `<dl class="acc-dl">${PF.filter(f => p[f.k]).map(f => `<dt>${f.l}</dt><dd>${esc(f.type === 'date' ? fmtIsoDay(p[f.k]) : p[f.k])}</dd>`).join('')}</dl>
@@ -2587,16 +2740,18 @@ function acctHome() {
       <div class="row-btns" style="margin-top:10px"><button type="button" class="mini dark" data-acc="request" data-topic="Cập nhật thông tin cá nhân"${pend('Cập nhật thông tin cá nhân') ? ' disabled' : ''}>${pend('Cập nhật thông tin cá nhân') ? 'Đã gửi yêu cầu thay đổi' : 'Liên hệ yêu cầu thay đổi'}</button></div>`
     : `<div class="acc-callout"><span>Hoàn thiện hồ sơ (có thông tin CCCD) để Dũng chuẩn bị hợp đồng, hồ sơ vay và pháp lý cho bạn nhanh hơn.</span><span class="acc-note"><b>Lưu ý:</b> bạn chỉ tự lưu được <b>một lần</b>. Sau đó thông tin được khoá; muốn sửa cần gửi yêu cầu để quản trị viên hỗ trợ.</span><button type="button" class="btn" data-acc="profile">Cập nhật thông tin cá nhân <span class="arr">→</span></button></div>`;
   const reqs = requests.length ? requests.map(r => `<div class="acc-req"><b>⏳ ${esc(r.topic)}</b><span>Gửi ngày ${fmtDay(r.created_at)} · đang chờ quản trị viên xử lý</span></div>`).join('') : '';
-  acctShow(`<div class="acc-head"><span class="acct-ic in">${ini}</span><div><h3>${esc(u.name)}</h3><p>${esc(u.role || 'Thành viên Hoàng Dũng Real Estate')}</p></div></div>
+  acctShow(`<div class="acc-head"><span class="acct-ic in">${ini}</span><div><h3>${esc(u.name)}${crSt === 'approved' ? ' <span class="cr-badge" style="position:static;vertical-align:4px">★ Creator</span>' : ''}</h3><p>${esc(u.role || 'Thành viên Hoàng Dũng Real Estate')}</p></div></div>
     <div class="acc-grid">
       <section class="acc-card" aria-label="Thông tin đăng nhập"><h4>Thông tin đăng nhập</h4>
         <div class="acc-row"><span class="k">Tên hiển thị</span><span class="v">${esc(u.name)}</span><span class="act">${nameAct}</span></div>
         <div class="acc-row"><span class="k">Email</span><span class="v">${esc(u.email)} ${vChip(u.emailVerified)}</span><span class="act"><button type="button" class="mini" data-acc="email">Thay đổi</button></span></div>
         <div class="acc-row"><span class="k">Số điện thoại</span><span class="v">${esc(fmtPhoneV(u.phone))} ${u.phone ? vChip(u.phoneVerified) : ''}</span><span class="act"><button type="button" class="mini" data-acc="phone">Thay đổi</button></span></div>
-        <div class="acc-row"><span class="k">Mật khẩu</span><span class="v">••••••••</span><span class="act"><button type="button" class="mini" data-acc="password">Đổi mật khẩu</button><button type="button" class="mini" data-acc="recover">Khôi phục</button></span></div>
+        ${u.hasPass ? '<div class="acc-row"><span class="k">Mật khẩu</span><span class="v">••••••••</span><span class="act"><button type="button" class="mini" data-acc="password">Đổi mật khẩu</button><button type="button" class="mini" data-acc="recover">Khôi phục</button></span></div>' : '<div class="acc-row"><span class="k">Mật khẩu</span><span class="v">Chưa đặt <span class="chip warn">nên đặt</span></span><span class="act"><button type="button" class="mini dark" data-acc="setpw">Đặt mật khẩu</button></span></div>'}
+        ${socRow ? `<div class="acc-row"><span class="k">Đăng nhập nhanh</span><span class="v soc-row">${socRow}</span></div>` : ''}
+        <div class="acc-row"><span class="k">Thiết bị & hoạt động đăng nhập</span><span class="v" style="font-weight:400;font-size:15px;color:var(--ink-2)">Xem nơi đang đăng nhập, IP, thời gian; báo “Không phải tôi”</span><span class="act"><button type="button" class="mini" data-acc="activity">Xem</button></span></div>
         <div class="acc-row"><span class="k">Thiết bị đáng tin cậy</span><span class="v" style="font-weight:400;font-size:15px;color:var(--ink-2)">${ch.mail || ch.sms ? 'Đăng nhập không cần mã trên thiết bị đã chọn' : 'Dùng khi hệ thống bật gửi mã xác minh'}</span><span class="act"><button type="button" class="mini" data-acc="devices">Quản lý</button></span></div>
       </section>
-      <section class="acc-card" aria-label="Thông tin cá nhân"><h4>Thông tin cá nhân</h4>${prof}${reqs}</section>
+      <div class="acc-col"><section class="acc-card" aria-label="Thông tin cá nhân"><h4>Thông tin cá nhân</h4>${prof}${reqs}</section>${crCard}</div>
     </div>
     <div class="acc-links"><button type="button" id="accSaved">Tin đã lưu (${favs.size}) <span>→</span></button><button type="button" data-contact="Bán nhà">Ký gửi nhà cần bán <span>→</span></button><button type="button" data-contact="Mua nhà">Nhờ Dũng tìm nhà <span>→</span></button><a href="tel:0877781796">Gọi 087.778.1796 <span>→</span></a><button type="button" class="out" id="accOut">Đăng xuất <span>→</span></button></div>`);
   $('#accSaved').onclick = () => openSaved();
@@ -2609,6 +2764,22 @@ function acctGo(v, arg) {
   const sub = (t, txt) => `<button class="btn auth-submit" type="submit"><span class="t">${txt}</span><span class="sp"></span></button>`;
   if (v === 'home') return acctHome();
   if (v === 'devices') return openDevices();
+  if (v === 'activity') return acctActivity();
+  if (v === 'secure') return acctSecure(arg);
+  if (v === 'setpw') return acctShow(`<div class="acc-sub">${back()}<h3>Đặt mật khẩu</h3><p class="lead">Tài khoản của bạn đang đăng nhập bằng Google/Facebook. Đặt thêm mật khẩu để đăng nhập bằng email hoặc số điện thoại khi cần.</p>
+    <form class="auth-form" data-acct="setpw" novalidate>${fld('pass', 'Mật khẩu mới (ít nhất 8 ký tự)', 'password', 'autocomplete="new-password" required')}${fld('pass2', 'Nhập lại mật khẩu', 'password', 'autocomplete="new-password" required')}<div class="err"></div>${sub('', 'Lưu mật khẩu')}</form></div>`);
+  if (v === 'creator') {
+    const c = d.creator || {};
+    return acctShow(`<div class="acc-sub">${back()}<h3>Đăng ký Creator nổi bật</h3><p class="lead">Dành cho người làm video về bất động sản: review nhà, kinh nghiệm mua bán, pháp lý, phong thuỷ, thiết kế… Sau khi quản trị viên duyệt, kênh của bạn hiện ở mục <b>Creator nổi bật</b> trên trang chủ.</p>
+      <form class="form" data-acct="creator" novalidate>
+      <div class="two"><label><span>Tên kênh / nghệ danh<span class="req">*</span></span><input name="displayName" maxlength="60" required value="${esc(c.display_name || u.name)}"></label><label><span>Số người theo dõi</span><input name="followers" maxlength="40" placeholder="Ví dụ: 25 nghìn" value="${esc(c.followers || '')}"></label></div>
+      <label><span>Kênh TikTok</span><input name="tiktok" inputmode="url" placeholder="https://www.tiktok.com/@ten-kenh" value="${esc(c.tiktok || '')}"></label>
+      <div class="two"><label><span>Kênh YouTube</span><input name="youtube" inputmode="url" placeholder="https://www.youtube.com/@ten-kenh" value="${esc(c.youtube || '')}"></label><label><span>Trang Facebook</span><input name="facebook" inputmode="url" placeholder="https://www.facebook.com/ten-trang" value="${esc(c.facebook || '')}"></label></div>
+      <label><span>Video tiêu biểu</span><input name="video" inputmode="url" placeholder="Đường dẫn một video bạn tâm đắc nhất" value="${esc(c.video || '')}"></label>
+      <label><span>Giới thiệu ngắn<span class="req">*</span></span><textarea name="intro" maxlength="400" required placeholder="Bạn làm nội dung gì, cho ai, điều gì khiến video của bạn hữu ích…">${esc(c.intro || '')}</textarea></label>
+      <p class="acc-note">Cần ít nhất một kênh. Bằng việc gửi đơn, bạn đồng ý để Hoàng Dũng Real Estate hiển thị tên kênh, giới thiệu và đường dẫn trên website; bạn có thể rút khỏi chương trình bất kỳ lúc nào.</p>
+      <div class="err" style="color:#c0473e;font-size:14px;min-height:1.2em"></div><button class="btn" type="submit">${c.status ? 'Gửi lại để duyệt' : 'Gửi đơn đăng ký'} <span class="arr">→</span></button></form></div>`);
+  }
   if (v === 'name') return acctShow(`<div class="acc-sub">${back()}<h3>Đổi tên hiển thị</h3><p class="lead">Tên này hiển thị trên tài khoản và trong trao đổi với Hoàng Dũng.</p>
     <div class="warnbox">Bạn chỉ tự đổi tên được <b>1 lần</b>. Những lần sau cần gửi yêu cầu để quản trị viên hỗ trợ.</div>
     <form class="auth-form" data-acct="name" novalidate>${fld('name', 'Tên hiển thị mới', 'text', `autocomplete="name" required maxlength="80" value="${esc(u.name)}"`)}<div class="err"></div>${sub('', 'Lưu tên mới')}</form></div>`);
@@ -2669,6 +2840,9 @@ function acctGo(v, arg) {
 let cT;
 function cTimer(sec) { clearInterval(cT); let s = sec; const tick = () => { const b = $('[data-c-resend]'); if (!b) return clearInterval(cT); if (s <= 0) { b.disabled = false; b.textContent = 'Gửi lại mã'; clearInterval(cT); } else { b.disabled = true; b.textContent = `Gửi lại mã sau ${s}s`; s--; } }; tick(); cT = setInterval(tick, 1000); }
 document.addEventListener('click', async e => {
+  const ul = e.target.closest('[data-unlink]');
+  if (ul) { e.preventDefault(); if (!confirm(`Gỡ liên kết ${SOC_NAME[ul.dataset.unlink]}?`)) return; try { ACCT.d = await api('/auth/identity/unlink', { provider: ul.dataset.unlink }); acctHome(); toast('Đã gỡ liên kết.'); } catch (err) { toast(err.msg); } return; }
+  if (e.target.closest('[data-creator-withdraw]')) { e.preventDefault(); if (!confirm('Rút khỏi chương trình Creator? Kênh của bạn sẽ không còn hiển thị trên trang chủ.')) return; try { ACCT.d = await api('/creator/withdraw', {}); setUser(ACCT.d.user); acctHome(); toast('Đã rút khỏi chương trình Creator.'); } catch (err) { toast(err.msg); } return; }
   const a = e.target.closest('[data-acc]');
   if (a && $('#acctBody')) { e.preventDefault(); if (a.dataset.acc === 'home' && !ACCT.d) return openAccountS(); acctGo(a.dataset.acc, a.dataset.topic); return; }
   const r = e.target.closest('[data-c-resend]'); if (!r || !ACCT.flow) return;
@@ -2716,6 +2890,35 @@ document.addEventListener('submit', async e => {
     } else if (kind === 'profilesave') {
       busy(); const prof = {}; PF.forEach(x => { if (ACCT.draft[x.k]) prof[x.k] = ACCT.draft[x.k]; });
       ACCT.d = await api('/auth/profile', { profile: prof, consent: true }); ACCT.draft = {}; setUser(ACCT.d.user); acctGo('home'); toast('Đã lưu thông tin cá nhân.');
+    } else if (kind === 'onboard') {
+      if ((d.name || '').length < 2) return bad('Vui lòng nhập họ và tên.');
+      if (d.email !== undefined && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) return bad('Vui lòng nhập email hợp lệ, ví dụ ten@gmail.com.');
+      if ((d.phone || '').replace(/\D/g, '').length < 7) return bad('Vui lòng nhập số điện thoại hợp lệ.');
+      if (!d.terms) return bad('Vui lòng đồng ý Điều khoản dịch vụ và Chính sách bảo mật.');
+      busy(); const j = await api('/auth/onboard', { name: d.name, email: d.email, phone: d.phone, cc: ccDial(d.ccIso), ccIso: d.ccIso, role: d.role, agree: !!d.agree, terms: true });
+      delete $('#modal').dataset.lock; setUser(j.user); $('#modalBody').innerHTML = doneHTML('Hoàn tất!', `Chào mừng ${esc(j.user.name)} đến với Hoàng Dũng Real Estate.`) + '<p style="text-align:center"><button type="button" class="btn" id="onbAcc">Xem tài khoản của tôi</button></p>';
+      $('#onbAcc').onclick = () => openAccountS(); const x = $('#modalPanel .modal-x'); if (x) x.hidden = false;
+    } else if (kind === 'setpw') {
+      if ((d.pass || '').length < 8) return bad('Mật khẩu cần ít nhất 8 ký tự.');
+      if (d.pass !== d.pass2) return bad('Hai mật khẩu chưa khớp nhau.');
+      busy(); await api('/auth/password/set', { pass: d.pass }); await done('Đã đặt mật khẩu.');
+    } else if (kind === 'creator') {
+      if ((d.displayName || '').length < 2) return bad('Vui lòng nhập tên kênh / nghệ danh.');
+      if (!d.tiktok && !d.youtube && !d.facebook) return bad('Cần ít nhất một kênh TikTok, YouTube hoặc Facebook.');
+      if ((d.intro || '').length < 20) return bad('Giới thiệu ngắn cần ít nhất 20 ký tự.');
+      const b2 = f.querySelector('[type=submit]'); b2.disabled = true;
+      try { ACCT.d = await api('/creator/apply', d); setUser(ACCT.d.user); acctShow(doneHTML('Đã gửi đơn Creator', 'Quản trị viên sẽ xem kênh của bạn và phản hồi sớm. Khi được duyệt, danh hiệu Creator sẽ hiện trên tài khoản và trang chủ.') + `<p style="text-align:center"><button type="button" class="btn" data-acc="home">Về trang tài khoản</button></p>`); }
+      finally { b2.disabled = false; }
+    } else if (kind === 'secpw') {
+      if ((d.pass || '').length < 8) return bad('Mật khẩu mới cần ít nhất 8 ký tự.');
+      if (d.pass !== d.pass2) return bad('Hai mật khẩu chưa khớp nhau.');
+      busy();
+      if (ACCT.d.user.hasPass) await api('/auth/password', { old: d.old, pass: d.pass }); else await api('/auth/password/set', { pass: d.pass });
+      await acctLoad(); SEC.done.push('pw'); acctSecure(); toast('Đã đổi mật khẩu.');
+    } else if (kind === 'secreport') {
+      const b2 = f.querySelector('[type=submit]'); b2.disabled = true;
+      try { await api('/auth/security/report', { eventId: SEC.ev ? SEC.ev.id : 0, steps: SEC_STEPS.filter(x => SEC.done.includes(x.k)).map(x => x.t), note: d.note || '' }); SEC.done.push('report'); acctSecure(); }
+      finally { b2.disabled = false; }
     } else if (kind === 'request') {
       if ((d.message || '').length < 10) return bad('Vui lòng mô tả nội dung cần thay đổi (ít nhất 10 ký tự).');
       const b2 = f.querySelector('[type=submit]'); b2.disabled = true;
@@ -2724,6 +2927,176 @@ document.addEventListener('submit', async e => {
     }
   } catch (err) { bad(err.msg || 'Có lỗi xảy ra, vui lòng thử lại.'); }
 }, true);
+
+/* ---------- Tin đăng từ máy chủ (quản trị viên đăng & quản lý) ---------- */
+const lkey = u => ((u || '').match(/^\/img\/([a-z0-9_-]+)\.webp$/) || [])[1] || '';
+function imgAttr(u, alt = '') { const k = lkey(u); return k && ANH[k] ? `data-img="${k}" alt="${esc(alt)}"` : `src="${esc(u)}" alt="${esc(alt)}" loading="lazy" decoding="async"`; }
+function lImg(l, i = 0) { return l.imgs && l.imgs.length ? imgAttr(l.imgs[i] || l.imgs[0], l.title) : `data-img="${l.img}" alt="${esc(l.title)}"`; }
+function trackEv(e, id) {
+  if (!CAU_HINH.api) return;
+  try { fetch(CAU_HINH.api + '/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ e, id, p: location.pathname, r: e === 'view' ? document.referrer : '', w: innerWidth }) }).then(r => r.text()).catch(() => { }); } catch (err) { }
+}
+async function loadListings() {
+  if (!CAU_HINH.api) return fillHeroCards();
+  try {
+    const r = await fetch(CAU_HINH.api + '/listings', { credentials: 'same-origin' }); if (!r.ok) throw 0;
+    const j = await r.json();
+    if (j.rows && j.rows.length) { LISTINGS = j.rows.map(x => ({ ...x, imgs: x.images || [], img: lkey((x.images || [])[0]), sold: x.status === 'sold' })); renderAreas(); renderGrid(); }
+  } catch (e) { }
+  fillHeroCards();
+}
+/* Các "điểm" nổi trên ảnh đầu trang: chọn ngẫu nhiên từ nguồn hàng (ưu tiên tin được gắn ⭐ Đầu trang), bấm để xem chi tiết */
+const HC = { pool: [], shown: [], t: 0 };
+function hcPick(n) {
+  const live = LISTINGS.filter(l => !l.sold), feat = live.filter(l => l.featured), rest = live.filter(l => !l.featured);
+  const sh = a => a.map(v => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map(v => v[1]);
+  return [...sh(feat), ...sh(rest)].filter(l => !HC.shown.includes(l.id)).concat(sh(live)).filter((l, i, a) => a.findIndex(x => x.id === l.id) === i).slice(0, n);
+}
+function hcFill(el, l) {
+  el.dataset.open = l.id; el.setAttribute('aria-label', `Xem chi tiết: ${l.title}`);
+  el.innerHTML = `<img ${lImg(l)}><span><b>${esc(l.title)}</b>${esc(l.area)} · ${fmtPrice(l)}</span><i class="fc-go" aria-hidden="true">→</i>`;
+  lazyScenes(el);
+}
+function fillHeroCards() {
+  const cards = $$('.fcard'); if (!cards.length || !LISTINGS.length) return;
+  const pick = hcPick(cards.length); HC.shown = pick.map(l => l.id);
+  cards.forEach((c, i) => pick[i] && hcFill(c, pick[i]));
+  clearInterval(HC.t);
+  if (LISTINGS.length > cards.length && !matchMedia('(prefers-reduced-motion: reduce)').matches) HC.t = setInterval(() => {
+    if (document.hidden || scrollY > innerHeight * 1.5) return;
+    const c = cards[Math.floor(Math.random() * cards.length)]; if (c.matches(':hover,:focus-visible') || getComputedStyle(c).display === 'none') return;
+    const next = hcPick(1)[0]; if (!next) return;
+    c.classList.add('swap'); setTimeout(() => { const old = +c.dataset.open; HC.shown = HC.shown.filter(x => x !== old).concat(next.id); hcFill(c, next); c.classList.remove('swap'); }, 380);
+  }, 6500);
+}
+document.addEventListener('keydown', e => { const c = e.target.closest && e.target.closest('.fcard[data-open]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openListing(+c.dataset.open); } });
+function openGallery(i) { const l = LISTINGS.find(x => x.id === +$('#lgMain').dataset.lid); if (!l || !l.imgs) return; const m = $('#lgMain'); m.removeAttribute('data-done'); m.outerHTML = `<img id="lgMain" data-lid="${l.id}" ${lImg(l, i)}>`; lazyScenes($('#modal')); $$('[data-gi]').forEach(b => b.setAttribute('aria-current', String(+b.dataset.gi === i))); }
+document.addEventListener('click', e => { const g = e.target.closest('[data-gi]'); if (g) openGallery(+g.dataset.gi); });
+const COMMIT = { v: '1.1', url: '/cam-ket-nguon-hang', get bullets() { return TERMS_SUM.listing.bullets; } };
+function openCommitSummary() {
+  const box = document.createElement('div'); box.className = 'mini-modal'; box.innerHTML = `<div class="mini-in" role="dialog" aria-modal="true" aria-label="Tóm tắt cam kết"><h4>Tóm tắt cam kết nguồn hàng</h4><ul>${COMMIT.bullets.map(b => `<li>${b}</li>`).join('')}</ul><div class="row-btns"><a class="btn ghost" href="${COMMIT.url}" target="_blank" rel="noopener" style="color:var(--ink)">Đọc toàn văn</a><button type="button" class="btn" data-mini-ok>Tôi đã hiểu</button></div></div>`;
+  $('#modalPanel').appendChild(box); box.querySelector('[data-mini-ok]').focus();
+  box.addEventListener('click', e => { if (e.target === box || e.target.closest('[data-mini-ok]')) { const cb = $('#modal [name=camket]'); if (cb && e.target.closest('[data-mini-ok]')) cb.checked = true; box.remove(); } });
+}
+document.addEventListener('click', e => { if (e.target.closest('[data-commit-sum]')) { e.preventDefault(); openCommitSummary(); } });
+
+/* ---------- Đăng nhập Google / Facebook ---------- */
+const SOC_IC = { google: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.7z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9h-4v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.4 14.4a7.2 7.2 0 0 1 0-4.7V6.6h-4a12 12 0 0 0 0 10.9z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.8l3.4-3.4A12 12 0 0 0 1.4 6.6l4 3.1C6.3 6.9 8.9 4.8 12 4.8z"/></svg>', facebook: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#1877F2" d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg>' };
+const SOC_NAME = { google: 'Google', facebook: 'Facebook' };
+function socialButtons(mode = 'login') {
+  const c = ACC.cfg || {}, list = ['google', 'facebook'].filter(p => c[p]);
+  if (!list.length) return '';
+  return `<div class="soc-login">${list.map(p => `<a class="soc-btn" href="${CAU_HINH.api}/auth/oauth/${p}/start" data-soc="${p}">${SOC_IC[p]}<span>${mode === 'register' ? 'Đăng ký' : 'Tiếp tục'} với ${SOC_NAME[p]}</span></a>`).join('')}</div>`;
+}
+document.addEventListener('click', e => { const s = e.target.closest('[data-soc]'); if (s) { s.classList.add('busy'); store.set('hd_after_login', location.hash || ''); } });
+const termsLine = (verb = 'tiếp tục') => `<p class="auth-note">Khi ${verb}, bạn đồng ý với <a href="/dieu-khoan" target="_blank" rel="noopener">Điều khoản dịch vụ</a> và <a href="/chinh-sach-bao-mat" target="_blank" rel="noopener">Chính sách bảo mật</a> của Hoàng Dũng Real Estate.</p>`;
+const OAUTH_ERR = { 'chua-bat': 'Đăng nhập bằng Google/Facebook chưa được bật.', 'huy': 'Bạn đã huỷ đăng nhập.', 'phien': 'Phiên đăng nhập đã hết hạn, vui lòng thử lại.', 'email-ton-tai': 'Email của tài khoản Facebook này đã được đăng ký. Hãy đăng nhập bằng email và mật khẩu, sau đó liên kết Facebook trong trang Tài khoản.', 'da-lien-ket': 'Tài khoản Google/Facebook này đã liên kết với một tài khoản khác.', 'khoa': 'Tài khoản đang tạm khoá. Vui lòng liên hệ 087.778.1796.', 'qua-nhieu': 'Bạn thao tác quá nhiều lần, vui lòng đợi ít phút.', 'loi': 'Chưa đăng nhập được, vui lòng thử lại hoặc dùng email.' };
+/* Bổ sung thông tin bắt buộc sau lần đầu đăng nhập bằng Google/Facebook (không đóng được cho tới khi hoàn tất) */
+function openOnboard() {
+  const u = ACC.user; if (!u) return;
+  openModal(`<div class="onb"><div class="acc-head" style="padding-right:0"><span class="acct-ic in">${u.avatar ? `<img src="${esc(u.avatar)}" alt="" referrerpolicy="no-referrer">` : esc((u.name || '?').trim().split(/\s+/).pop()[0].toUpperCase())}</span><div><h3>Hoàn tất tài khoản</h3><p>Chỉ một bước nữa để Dũng hỗ trợ bạn tốt nhất.</p></div></div>
+    <form class="auth-form" data-acct="onboard" novalidate style="margin-top:18px">
+    <label class="fl"><select name="role">${ROLES.map(r => `<option${r === u.role ? ' selected' : ''}>${r}</option>`).join('')}</select><span class="lb">Bạn là</span></label>
+    ${fld('name', 'Họ và tên', 'text', `autocomplete="name" required value="${esc(u.name || '')}"`)}
+    ${u.emailMissing ? fld('email', 'Địa chỉ email', 'email', 'autocomplete="email" required') : `<p class="acc-note">Email: <b>${esc(u.email)}</b></p>`}
+    ${phoneField('phone', 'Số điện thoại')}
+    <label class="auth-row" style="justify-content:flex-start;align-items:flex-start;gap:10px"><input type="checkbox" name="terms" style="margin-top:3px"> <span style="color:var(--ink-2)">Tôi đồng ý <a href="/dieu-khoan" target="_blank" rel="noopener" style="text-decoration:underline">Điều khoản dịch vụ</a> và <a href="/chinh-sach-bao-mat" target="_blank" rel="noopener" style="text-decoration:underline">Chính sách bảo mật</a></span></label>
+    <label class="auth-row" style="justify-content:flex-start"><input type="checkbox" name="agree" checked> <span style="color:var(--ink-2)">Nhận tư vấn và giỏ hàng mới từ Hoàng Dũng</span></label>
+    <div class="err"></div><button class="btn auth-submit" type="submit"><span class="t">Hoàn tất</span><span class="sp"></span></button>
+    <div class="auth-row" style="justify-content:center"><button type="button" class="linkbtn" id="onbOut">Đăng xuất</button></div></form></div>`);
+  const x = $('#modalPanel .modal-x'); if (x) x.hidden = true; $('#modal').dataset.lock = '1';
+  $('#onbOut').onclick = async () => { delete $('#modal').dataset.lock; await AUTH.logout(); closeModal(); toast('Đã đăng xuất.'); };
+}
+function handleAuthHash() {
+  const h = location.hash; if (!h) return;
+  const clear = () => history.replaceState(null, '', location.pathname + location.search);
+  if (h === '#onboard') { clear(); setTimeout(() => ACC.user ? (ACC.user.needsOnboarding ? openOnboard() : toast('Đăng nhập thành công.')) : null, 700); }
+  else if (h === '#welcome') { clear(); setTimeout(() => toast(`Đăng nhập thành công${ACC.user ? ', chào ' + ACC.user.name : ''}.`), 700); }
+  else if (h.startsWith('#oauth-error=')) { const c = h.slice(13); clear(); setTimeout(() => toast(OAUTH_ERR[c] || OAUTH_ERR.loi), 500); }
+  else if (h.startsWith('#oauth-linked=')) { const p = h.slice(14); clear(); setTimeout(() => { toast(`Đã liên kết ${SOC_NAME[p] || ''}. Lần sau bạn có thể đăng nhập nhanh bằng ${SOC_NAME[p] || 'tài khoản này'}.`); openAccountS(); }, 700); }
+}
+
+/* ---------- Creator nổi bật ---------- */
+const CR_IC = { tiktok: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M16.6 3c.4 2.3 1.9 3.9 4.2 4.1v3.1c-1.5.1-2.9-.4-4.1-1.2v6.1c0 3.9-3.4 6.4-6.9 5.6-4.2-.9-5.3-6.4-1.9-8.9 1.1-.8 2.4-1.1 3.8-1v3.2c-.5-.1-1-.1-1.5 0-2 .5-1.9 3.6.4 3.8 1.5.1 2.6-.9 2.6-2.5V3z"/></svg>', youtube: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.5-3.2.5-4.8s-.1-3.2-.5-4.8zM9.7 15V9l5.8 3z"/></svg>', facebook: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V10H7v4h2.5v7h4v-7H16l.5-4h-3V8.8c0-.5.3-.8.5-.8z"/></svg>' };
+function creatorCTA() {
+  if (ACC.mode !== 'server') return openModal(contactHTML('Hợp tác', ' Chúng tôi sẽ liên hệ để mời bạn tham gia chương trình Creator.'));
+  if (!ACC.user) { toast('Đăng nhập hoặc tạo tài khoản để đăng ký làm Creator.'); store.set('hd_want_creator', 1); return openAuth('register'); }
+  openAccountS('creator');
+}
+async function loadCreators() {
+  const box = $('#crGrid'); if (!box) return;
+  let rows = [];
+  if (CAU_HINH.api) { try { const r = await fetch(CAU_HINH.api + '/creators'); if (r.ok) rows = (await r.json()).rows || []; } catch (e) { } }
+  const card = c => {
+    const ch = ['tiktok', 'youtube', 'facebook'].filter(k => c[k]);
+    const cover = c.cover ? `<img ${imgAttr(c.cover, c.display_name)}>` : `<span class="cr-art" aria-hidden="true">${esc((c.display_name || '?').trim()[0].toUpperCase())}</span>`;
+    return `<li class="cr-card rv"><div class="cr-cover">${cover}<span class="cr-badge">★ Creator</span>${c.featured ? '<span class="cr-hot">Nổi bật</span>' : ''}</div>
+      <div class="cr-body"><div class="cr-who"><span class="cr-av">${c.avatar ? `<img src="${esc(c.avatar)}" alt="" referrerpolicy="no-referrer" loading="lazy">` : esc((c.display_name || '?').trim()[0].toUpperCase())}</span><span><b>${esc(c.display_name)}</b>${c.followers ? `<small>${esc(c.followers)} người theo dõi</small>` : '<small>Creator bất động sản</small>'}</span></div>
+      <p>${esc(c.intro)}</p>
+      <div class="cr-links">${ch.map(k => `<a href="${esc(c[k])}" target="_blank" rel="noopener nofollow" aria-label="${esc(c.display_name)} trên ${k === 'tiktok' ? 'TikTok' : k === 'youtube' ? 'YouTube' : 'Facebook'}">${CR_IC[k]}</a>`).join('')}${c.video ? `<a class="cr-play" href="${esc(c.video)}" target="_blank" rel="noopener nofollow">▶ Xem video</a>` : ''}</div></div></li>`;
+  };
+  const join = `<li class="cr-card cr-join rv"><div class="cr-body"><span class="cr-badge" style="position:static;align-self:flex-start">★ Creator</span><h3>${rows.length ? 'Bạn cũng làm video về nhà đất?' : 'Trở thành Creator đầu tiên'}</h3><p>Chia sẻ video review nhà, kinh nghiệm mua bán, pháp lý… Sau khi được duyệt, kênh của bạn xuất hiện tại đây với danh hiệu Creator nổi bật.</p><button type="button" class="btn" data-creator-cta>Đăng ký làm Creator <span class="arr">→</span></button></div></li>`;
+  box.innerHTML = rows.map(card).join('') + join;
+  lazyScenes(box); if (document.documentElement.classList.contains('motion')) reveal('#crGrid .cr-card', .08);
+}
+document.addEventListener('click', e => { if (e.target.closest('[data-creator-cta]')) { e.preventDefault(); creatorCTA(); } });
+
+/* ---------- Hoạt động đăng nhập & "Không phải tôi" ---------- */
+const METHOD_T = { password: 'Mật khẩu', trusted: 'Mật khẩu · thiết bị tin cậy', email: 'Mật khẩu + mã email', sms: 'Mật khẩu + mã SMS', register: 'Tạo tài khoản', google: 'Google', facebook: 'Facebook', code: 'Mã xác minh' };
+const fmtDT = ms => new Date(ms).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
+async function acctActivity() {
+  acctShow(`<div class="acc-sub">${back()}<h3>Thiết bị & hoạt động đăng nhập</h3><p class="lead">Kiểm tra nơi tài khoản của bạn đang đăng nhập. Vị trí là gần đúng, dựa trên mạng Internet.</p><div id="actBody"><p class="auth-note">Đang tải…</p></div></div>`);
+  let j; try { j = await api('/auth/sessions'); } catch (err) { $('#actBody').innerHTML = `<p class="lead">${esc(err.msg)}</p>`; return; }
+  ACCT.events = j.events;
+  const others = j.sessions.filter(s => !s.current).length;
+  $('#actBody').innerHTML = `<h4 class="act-h">Đang đăng nhập (${j.sessions.length})</h4><div class="dev-list">${j.sessions.map(s => `<div class="dev"><span><b>${esc(s.label || 'Thiết bị')}${s.current ? '<span class="cur">Thiết bị này</span>' : ''}</b><small>${esc(s.loc || 'Không rõ vị trí')} · IP ${esc(s.ip || '—')}<br>Đăng nhập ${fmtDT(s.created_at)}${s.last_seen ? ' · hoạt động ' + fmtDT(s.last_seen) : ''}</small></span>${s.current ? '' : `<button type="button" data-sess="${esc(s.sid)}">Đăng xuất</button>`}</div>`).join('')}</div>
+    ${others ? '<div class="send-row" style="margin-bottom:22px"><button type="button" class="btn ghost" id="sessOthers" style="color:var(--ink)">Đăng xuất tất cả thiết bị khác</button></div>' : ''}
+    <h4 class="act-h">Lịch sử đăng nhập gần đây</h4><ul class="act-list">${j.events.map(e => `<li class="${e.ok ? '' : 'bad'}"><span class="act-dot" aria-hidden="true"></span><span><b>${e.ok ? (METHOD_T[e.method] || 'Đăng nhập') : 'Đăng nhập sai mật khẩu'}</b>${e.current ? '<span class="cur">Phiên này</span>' : ''}<small>${fmtDT(e.at)} · ${esc(e.label || '')} · ${esc(e.loc || 'Không rõ vị trí')} · IP ${esc(e.ip || '—')}</small></span>${e.current ? '' : `<button type="button" class="linkbtn" data-notme="${e.id}">Không phải tôi?</button>`}</li>`).join('') || '<li><span>Chưa có dữ liệu.</span></li>'}</ul>`;
+  const o = $('#sessOthers'); if (o) o.onclick = async () => { try { await api('/auth/sessions', { others: true }); toast('Đã đăng xuất các thiết bị khác.'); acctActivity(); } catch (err) { toast(err.msg); } };
+  $$('[data-sess]').forEach(b => b.onclick = async () => { try { await api('/auth/sessions', { sid: b.dataset.sess }); toast('Đã đăng xuất thiết bị.'); acctActivity(); } catch (err) { toast(err.msg); } });
+}
+/* Trình tự bảo vệ tài khoản khi phát hiện đăng nhập lạ */
+const SEC = { ev: null, done: [] };
+const SEC_STEPS = [
+  { k: 'out', t: 'Đăng xuất mọi thiết bị khác', d: 'Ngắt ngay các phiên đăng nhập không phải của bạn.' },
+  { k: 'dev', t: 'Gỡ mọi thiết bị đáng tin cậy', d: 'Lần đăng nhập sau trên mọi thiết bị sẽ phải nhập mã xác minh.' },
+  { k: 'pw', t: 'Đổi mật khẩu mới', d: 'Dùng mật khẩu mạnh, chưa dùng ở nơi khác.' },
+  { k: 'contact', t: 'Kiểm tra email & số điện thoại', d: 'Đảm bảo mã xác minh được gửi tới đúng bạn.' },
+  { k: 'report', t: 'Báo cho Hoàng Dũng', d: 'Quản trị viên được thông báo để theo dõi và hỗ trợ.' },
+];
+function acctSecure(evId) {
+  if (evId !== undefined) SEC.ev = (ACCT.events || []).find(e => e.id === +evId) || null, SEC.done = [];
+  const u = ACCT.d.user, step = SEC_STEPS.findIndex(s => !SEC.done.includes(s.k)), ev = SEC.ev;
+  const cur = SEC_STEPS[step];
+  const body = !cur ? `${doneHTML('Tài khoản đã được bảo vệ', 'Bạn đã hoàn tất các bước. Hoàng Dũng sẽ liên hệ nếu cần thêm thông tin.')}<p style="text-align:center"><button type="button" class="btn" data-acc="home">Về trang tài khoản</button></p>`
+    : cur.k === 'pw' ? `<form class="auth-form" data-acct="secpw" novalidate>${u.hasPass ? fld('old', 'Mật khẩu hiện tại', 'password', 'autocomplete="current-password" required') : ''}${fld('pass', 'Mật khẩu mới (ít nhất 8 ký tự)', 'password', 'autocomplete="new-password" required')}${fld('pass2', 'Nhập lại mật khẩu mới', 'password', 'autocomplete="new-password" required')}<div class="err"></div><div class="row-btns"><button class="btn auth-submit" type="submit"><span class="t">Lưu mật khẩu mới</span><span class="sp"></span></button>${u.hasPass ? '<button type="button" class="linkbtn" data-sec-recover>Quên mật khẩu hiện tại?</button>' : ''}</div></form>`
+    : cur.k === 'contact' ? `<div class="acc-card" style="margin-bottom:14px"><div class="acc-row"><span class="k">Email</span><span class="v">${esc(u.email)}</span><span class="act"><button type="button" class="mini" data-acc="email">Thay đổi</button></span></div><div class="acc-row"><span class="k">Số điện thoại</span><span class="v">${esc(fmtPhoneV(u.phone))}</span><span class="act"><button type="button" class="mini" data-acc="phone">Thay đổi</button></span></div></div><button type="button" class="btn" data-sec-next="contact">Thông tin đúng, tiếp tục <span class="arr">→</span></button>`
+    : cur.k === 'report' ? `<form class="form" data-acct="secreport" novalidate><label>Ghi chú cho Hoàng Dũng (không bắt buộc)<textarea name="note" maxlength="800" placeholder="Ví dụ: tôi không đăng nhập vào thời điểm này, đang ở TP.HCM…"></textarea></label><div class="err" style="color:#c0473e;font-size:14px;min-height:1.2em"></div><div class="row-btns"><button class="btn" type="submit">Gửi báo cáo & hoàn tất <span class="arr">→</span></button></div></form>`
+    : `<button type="button" class="btn" data-sec-do="${cur.k}">${cur.t} <span class="arr">→</span></button>`;
+  acctShow(`<div class="acc-sub">${back('activity')}<h3>Bảo vệ tài khoản</h3>
+    ${ev ? `<div class="warnbox">Lần đăng nhập bạn không nhận ra: <b>${fmtDT(ev.at)}</b> · ${esc(ev.label || '')} · ${esc(ev.loc || 'không rõ vị trí')} · IP ${esc(ev.ip || '—')}</div>` : ''}
+    <ol class="sec-steps">${SEC_STEPS.map((s, i) => `<li class="${SEC.done.includes(s.k) ? 'ok' : i === step ? 'on' : ''}"><span class="n">${SEC.done.includes(s.k) ? '✓' : i + 1}</span><span><b>${s.t}</b><small>${s.d}</small></span></li>`).join('')}</ol>
+    <div class="sec-act">${body}</div></div>`);
+}
+document.addEventListener('click', async e => {
+  const n = e.target.closest('[data-notme]'); if (n) { e.preventDefault(); return acctSecure(n.dataset.notme); }
+  const nx = e.target.closest('[data-sec-next]'); if (nx) { SEC.done.push(nx.dataset.secNext); return acctSecure(); }
+  if (e.target.closest('[data-sec-recover]')) { e.preventDefault(); return acctGo('recover'); }
+  const d = e.target.closest('[data-sec-do]'); if (!d) return;
+  d.disabled = true;
+  try {
+    if (d.dataset.secDo === 'out') await api('/auth/sessions', { others: true });
+    if (d.dataset.secDo === 'dev') await api('/auth/devices', { id: 'all' });
+    SEC.done.push(d.dataset.secDo); acctSecure();
+  } catch (err) { d.disabled = false; toast(err.msg); }
+});
+
+const TERMS_SUM = {"terms": {"title": "Điều khoản dịch vụ", "bullets": ["Khi dùng website Hoàng Dũng Real Estate, bạn đồng ý với các điều khoản này. Bạn cần đủ 18 tuổi, hoặc có cha mẹ/người giám hộ đồng ý.", "Giá, tình trạng nhà, kết quả tính khoản vay và thông tin pháp lý trên website chỉ để tham khảo. Điều khoản giao dịch cuối cùng là hợp đồng các bên ký kết.", "Mỗi người một tài khoản, thông tin phải trung thực. Hãy tự giữ mật khẩu và mã xác thực – chúng tôi không bao giờ hỏi các thông tin này.", "Nghiêm cấm đăng thông tin sai sự thật, mạo danh, lừa đảo tiền cọc, spam hoặc tấn công, thu thập dữ liệu trái phép từ website.", "Creator phải dùng nội dung của chính mình và không quảng cáo bất động sản gây hiểu lầm. Chúng tôi có quyền duyệt hoặc thu hồi tư cách Creator.", "Chúng tôi có thể tạm khóa tài khoản vi phạm. Tranh chấp được thương lượng trước; nếu không thành sẽ do Tòa án có thẩm quyền tại TP. Hồ Chí Minh giải quyết theo pháp luật Việt Nam.", "Cần hỏi thêm? Gọi 087.778.1796 (Dũng) hoặc email hoangdung68789@gmail.com."]}, "privacy": {"title": "Chính sách bảo mật", "bullets": ["Chúng tôi chỉ thu thập thông tin cần cho việc tư vấn, quản lý tài khoản và giao dịch bất động sản – và không bao giờ bán dữ liệu của bạn.", "Mật khẩu được băm một chiều, chúng tôi không thể xem. Đăng nhập có thể kèm mã một lần qua SMS hoặc email.", "Số CCCD/Căn cước chỉ được lưu khi bạn đồng ý, hiển thị che bớt với bạn, chỉ quản trị viên được xem đầy đủ. Chúng tôi không thu ảnh giấy tờ.", "Lịch sử đăng nhập (thời gian, IP, vị trí ước lượng, thiết bị) giúp bảo vệ tài khoản – bạn tự xem được và đăng xuất phiên lạ.", "Thống kê truy cập là ẩn danh. Website chỉ dùng cookie cần thiết, không dùng cookie quảng cáo hay theo dõi.", "Dữ liệu lưu trên hạ tầng Cloudflare; Twilio, Brevo, Google, Facebook chỉ nhận phần dữ liệu cần cho dịch vụ của họ.", "Bạn có quyền xem, sửa, xóa, rút lại đồng ý, phản đối xử lý… qua trang tài khoản, hotline 087.778.1796 hoặc email."]}, "listing": {"title": "Cam kết bảo mật thông tin nguồn hàng", "bullets": ["Cam kết ràng buộc cả hai phía: khách hàng (tick đồng ý trước khi yêu cầu thông tin hoặc đặt lịch xem) và chủ nhà (khi ký gửi bất động sản hoặc nhận khách do Hoàng Dũng Real Estate giới thiệu).", "Giữ bí mật thông tin nguồn hàng và thông tin khách (địa chỉ, chủ nhà, giá thương lượng, giấy tờ pháp lý, hình ảnh, lịch xem) – không chia sẻ cho bên thứ ba.", "Dù ở bất kỳ trường hợp nào, khách hàng/chủ nhà tự ý bỏ qua môi giới để giao dịch riêng đều sẽ vi phạm hợp đồng. Không có ngoại lệ – kể cả khi giao dịch qua người thân, môi giới khác hay bất kỳ trung gian nào.", "Thời hạn cam kết: 12 tháng kể từ lần đầu nhận thông tin bất động sản (khách hàng) hoặc lần đầu được giới thiệu khách (chủ nhà).", "Vi phạm được xử lý theo pháp luật Việt Nam; bên vi phạm đền bù cho môi giới 5% tiền hoa hồng nhằm đền bù thiệt hại và tổn thất, và chúng tôi có thể ngừng phục vụ.", "Chúng tôi cung cấp thông tin trung thực, bảo vệ dữ liệu cá nhân của bạn và hỗ trợ đến khi hoàn tất giao dịch.", "Tick và gửi yêu cầu là xác nhận điện tử; website lưu thời điểm, tin đăng và thông tin kỹ thuật (IP, thiết bị) làm bằng chứng."]}};
+function openTermsSummary() {
+  const sec = (k, url) => `<section class="ts"><h4>${esc(TERMS_SUM[k].title)}</h4><ul>${TERMS_SUM[k].bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul><a class="linkbtn" href="${url}" target="_blank" rel="noopener">Đọc toàn văn →</a></section>`;
+  openModal(`<h3>Điều khoản & chính sách</h3><p class="lead">Tóm tắt dễ hiểu những điều quan trọng nhất. Toàn văn có giá trị áp dụng.</p>${sec('terms', '/dieu-khoan')}${sec('privacy', '/chinh-sach-bao-mat')}${sec('listing', '/cam-ket-nguon-hang')}`, true);
+}
+document.addEventListener('click', e => { if (e.target.closest('[data-terms-sum]')) { e.preventDefault(); openTermsSummary(); } });
 
 /* ---------- Khởi động ---------- */
 initTheme();
@@ -2734,6 +3107,7 @@ renderGrid();
 lazyScenes();
 initMotion();
 onScroll();
+loadListings(); loadCreators(); trackEv('view');
 fitGiant(); (document.fonts && document.fonts.ready || Promise.resolve()).then(fitGiant);
 let fitT; addEventListener('resize', () => { clearTimeout(fitT); fitT = setTimeout(fitGiant, 120); });
 </script>
